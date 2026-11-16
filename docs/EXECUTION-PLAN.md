@@ -16,12 +16,12 @@ disclosure.
 
 | Dates (IST) | Phase | Done when |
 |---|---|---|
-| **Nov 16** | Setup | Repo public on GitHub with MIT licence visible in About; `.kiro/` committed; credits redeemed; patient repo chosen and pinned; provider account created with spend cap |
+| **Nov 16** | Setup | Repo public on GitHub with MIT licence visible in About; `.kiro/` committed; credits redeemed; patient repo chosen and pinned |
 | **Nov 17–18** | Skeleton spec | `.kiro/specs/skeleton/` has requirements, design, tasks — reviewed and edited by hand, not accepted as generated |
 | **Nov 19–23** | Skeleton build | ingest → signals (3 analyzers) → verify → persona loader → MCP server, each committed separately, Hypothesis tests green |
 | **Nov 24–26** | The Medium | Interview loop works end to end against the patient; file tree highlights on cite; resurrection plan emits |
 | **Nov 27–29** | The Debt Collector | Debt itemisation with interest, escalating notices, debt meter, ranked repayment plan |
-| **Nov 30–Dec 1** | Polish + deploy | Both apps live on public URLs; cached demo runs committed; banishment moment visibly working |
+| **Nov 30–Dec 1** | Polish + deploy | Provider key and spend cap in place; both apps live on public URLs; cached demo runs committed; banishment moment visibly working |
 | **Dec 2** | Presentation | Video recorded and uploaded to YouTube (public, under 3:00); Kiro write-up finished; blog post published; social post up |
 | **Dec 3** | Submit | Devpost submission complete and **submitted**, not drafted |
 | **Dec 4** | Contingency | Spare |
