@@ -202,7 +202,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.21, 4.10, 4.11_
 
-  - [ ] 1.10 Answer parser
+  - [x] 1.10 Answer parser
     - Subsystem: verify. Files (2): `skeleton/verify/parse.py`, `tests/verify/test_parse.py`.
     - `parse_answer(text) -> list[object] | ParseFailure`. Strip one surrounding code fence, `json.loads`, require an object with a `claims` list. Non-JSON, wrong top-level shape and an **empty claims list** are `unparseable`. List items are returned raw so a non-dict item becomes a `malformed` banishment later instead of discarding the others.
     - Tests: fenced and unfenced JSON; trailing prose; nested fence; non-object top level; `claims` not a list; empty list; non-dict items preserved.

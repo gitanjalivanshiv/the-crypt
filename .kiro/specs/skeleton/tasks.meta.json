@@ -108,6 +108,18 @@
         "chatSessionId": "sess_1dd8eabb-d2c9-432b-b0f9-d5b66d72b624",
         "timestamp": 1794854915769
       }
+    ],
+    "1.10 Answer parser": [
+      {
+        "executionId": "f63ce11b-c6ef-4aa2-b9d3-2ef58b09b266",
+        "chatSessionId": "sess_7418af63-be94-4c74-8c5f-58abcc8e037f",
+        "timestamp": 1794854960087
+      },
+      {
+        "executionId": "f63ce11b-c6ef-4aa2-b9d3-2ef58b09b266",
+        "chatSessionId": "sess_7418af63-be94-4c74-8c5f-58abcc8e037f",
+        "timestamp": 1794855013151
+      }
     ]
   }
 }
