@@ -2,14 +2,21 @@
   "mcpServers": {
     "crypt-signals": {
       "command": "uv",
-      "args": ["run", "python", "-m", "skeleton.mcp.server"],
+      "args": [
+        "run",
+        "python",
+        "-m",
+        "skeleton.mcp.server",
+        "--snapshot",
+        "demo/snapshots/setuptools"
+      ],
       "env": {},
       "disabled": false,
       "autoApprove": [
+        "get_snapshot",
         "list_findings",
-        "get_finding",
-        "read_lines",
-        "repo_summary"
+        "get_file_facts",
+        "read_lines"
       ]
     }
   }
