@@ -36,6 +36,18 @@
         "chatSessionId": "sess_f740c9fd-d220-48f2-93e2-7ed42186d759",
         "timestamp": 1794854131191
       }
+    ],
+    "1.4 Citation verifier": [
+      {
+        "executionId": "3ceb62ea-beb3-4ed5-96bd-269af5df7ce1",
+        "chatSessionId": "sess_a44abcc7-e626-4078-ba02-a36ab36c8ff0",
+        "timestamp": 1794854199366
+      },
+      {
+        "executionId": "3ceb62ea-beb3-4ed5-96bd-269af5df7ce1",
+        "chatSessionId": "sess_a44abcc7-e626-4078-ba02-a36ab36c8ff0",
+        "timestamp": 1794854321060
+      }
     ]
   }
 }

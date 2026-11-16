@@ -157,7 +157,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.23, 4.21_
 
-  - [ ] 1.4 Citation verifier
+  - [x] 1.4 Citation verifier
     - Subsystem: verify. Files (2): `skeleton/verify/citation.py`, `tests/verify/test_citation.py`.
     - `verify_citation(view, raw) -> CitationOk | Rejection`, the eight ordered checks of design §6.2 including the **D1** order (symlink resolution before `file_not_found`). No `try/except` for control flow, no `pragma: no cover`. It must never raise.
     - Tests: one named test per reason code; `(5, 2)` on a 3-line file is `range_invalid`; every valid range on an empty file is `range_out_of_bounds`; `True` as a line number is `malformed`; `quote: null` and a missing quote are both "no quote"; extra keys are ignored; non-UTF-8 file with and without quote; D1 case `linkdir/a.py`; CRLF quote against LF file passes.
