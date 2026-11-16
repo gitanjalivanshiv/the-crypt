@@ -48,6 +48,18 @@
         "chatSessionId": "sess_a44abcc7-e626-4078-ba02-a36ab36c8ff0",
         "timestamp": 1794854321060
       }
+    ],
+    "1.5 Citation fuzz table": [
+      {
+        "executionId": "b906cc91-a72a-4d95-a44c-333c5b1443ea",
+        "chatSessionId": "sess_da7887bb-6bbf-4f00-adec-9035842d8870",
+        "timestamp": 1794854398577
+      },
+      {
+        "executionId": "b906cc91-a72a-4d95-a44c-333c5b1443ea",
+        "chatSessionId": "sess_da7887bb-6bbf-4f00-adec-9035842d8870",
+        "timestamp": 1794854459493
+      }
     ]
   }
 }

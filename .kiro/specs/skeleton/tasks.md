@@ -165,7 +165,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: **Opus** (verifier semantics).
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
-  - [ ] 1.5 Citation fuzz table
+  - [x] 1.5 Citation fuzz table
     - Subsystem: verify. Files (1): `tests/verify/test_citation_fuzz.py`.
     - One named `parametrize` case per item in design §12.2 (fabricated path, `../etc/passwd`, `a/../b`, absolute path, `C:\x`, NUL byte, backslash, file symlink, directory-symlink ancestor, dangling symlink, `(0,1)`, `(3,2)`, `(1,n+1)`, `(n,n)` accepted, `(n+1,n+1)`, one-character quote change, leading-space quote, NFD quote against NFC file, Cyrillic homoglyph, CRLF and lone-`\r` variants accepted, empty file, `True` as line number, missing `file`, `quote: 123`). Each asserts the **specific** reason code, or acceptance where stated. Symlink cases run against `RealDirView`.
     - Done when: `uv run pytest tests/verify/test_citation_fuzz.py` is green, and a deliberate mutation of `citation.py` (swap two checks) makes it fail.
