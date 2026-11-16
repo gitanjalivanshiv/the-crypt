@@ -21,3 +21,8 @@ only while Kiro is open. Install it with `./scripts/install-git-hooks.sh`.
 
 Trigger names and JSON shape follow Kiro's current hooks documentation; verify against your
 installed Kiro version before relying on them.
+
+Test hooks call `scripts/run-tests.sh`, which exits 0 with a `skip:` line when the test
+directory does not exist yet or `uv` is missing. Hooks fire from the very first save, long
+before `tests/` exists; a hook that fails noisily on every save gets switched off, which is
+how a project ends up with no automated checks at all.

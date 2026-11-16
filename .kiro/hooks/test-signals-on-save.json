@@ -4,6 +4,6 @@
     "name": "Test signals on save",
     "trigger": "PostFileSave",
     "matcher": "^skeleton/signals/.*\\.py$",
-    "action": { "type": "command", "command": "uv run pytest tests/signals -q" }
+    "action": { "type": "command", "command": "./scripts/run-tests.sh tests/signals" }
   }]
 }

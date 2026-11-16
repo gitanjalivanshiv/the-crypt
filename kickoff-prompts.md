@@ -114,7 +114,7 @@ is a credit spent on four lines of config:
     "name": "Test signals on save",
     "trigger": "PostFileSave",
     "matcher": "^skeleton/signals/.*\\.py$",
-    "action": { "type": "command", "command": "uv run pytest tests/signals -q" }
+    "action": { "type": "command", "command": "./scripts/run-tests.sh tests/signals" }
   }]
 }
 ```
@@ -127,7 +127,7 @@ is a credit spent on four lines of config:
     "name": "Verify citations when a persona changes",
     "trigger": "PostFileSave",
     "matcher": "personas/.*\\.toml$",
-    "action": { "type": "command", "command": "uv run pytest tests/verify -q" }
+    "action": { "type": "command", "command": "./scripts/run-tests.sh tests/verify" }
   }]
 }
 ```
