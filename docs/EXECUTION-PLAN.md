@@ -45,9 +45,7 @@ them without discussion if Nov 23 arrives with the skeleton incomplete.
 4. Commit `.kiro/` and confirm `.gitignore` does **not** mention `.kiro` — this is an
    explicit disqualification risk. `scripts/check-kiro-committed.sh` enforces it.
 5. Choose the patient repo per `#demo-patient`, pin its SHA into `demo/patient.json`.
-6. Create the Anthropic API account and set the hard monthly spend cap before writing any
-   runtime code.
-7. Confirm whether anyone on the team registered for **Kiroween 2025** — if so, the Best
+6. Confirm whether anyone on the team registered for **Kiroween 2025** — if so, the Best
    Ghost of Kiroween Past bonus ($2,000) costs one checkbox.
 
 ---
@@ -95,3 +93,25 @@ Five equally weighted criteria, 10 points each.
 | 2:45–3:00 | What was built with Kiro, and where to find `/.kiro` |
 
 Record it on Dec 2. Not on Dec 3, and never on Dec 4.
+
+---
+
+## Provider setup — deploy day, not day one
+
+The deployed demo calls an LLM provider at runtime, billed to a **separate account**. Kiro
+credits do not cover it; they pay for building in the IDE and expire 2026-12-31 anyway,
+four weeks before judging ends.
+
+Build against a **stub `LLMClient`** locally. No key is needed until deploy day
+(~Nov 30), which also defers the Bedrock-vs-Anthropic decision until it actually matters.
+
+Before the demo goes public, and not after:
+
+1. Hard monthly spend cap at the provider.
+2. Per-session and per-IP rate limits.
+3. Cached runs as the **default** path, so the common judge journey costs nothing live.
+
+The risk being managed is not your own usage — a few hundred judge queries is pennies. It
+is that the rules require the demo to be free, unrestricted and login-free until
+**2027-01-29**: a public endpoint holding your key, reachable by anyone with the URL, for
+ten unattended weeks. The cap is abuse insurance, not a budget.
