@@ -1,0 +1,16 @@
+[project]
+name = "skeleton"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2"]
+
+[dependency-groups]
+dev = ["pytest", "hypothesis", "pytest-cov", "ruff"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"
+pythonpath = ["."]
+
+[tool.coverage.run]
+branch = true

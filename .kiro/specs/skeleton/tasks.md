@@ -132,7 +132,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 1. Verify (not cuttable, no dependencies on other subsystems)
 
-  - [ ] 1.1 Text normalisation and project toolchain
+  - [x] 1.1 Text normalisation and project toolchain
     - Subsystem: verify. Files (3): `pyproject.toml`, `skeleton/verify/textnorm.py`, `tests/verify/test_textnorm.py`.
     - `pyproject.toml`: Python >=3.12, `uv` project, runtime dep `pydantic>=2`, dev group `pytest`, `hypothesis`, `pytest-cov`, `ruff`. pytest config: `testpaths = ["tests"]`, `--import-mode=importlib`, `pythonpath = ["."]`. Coverage config: `branch = true`. Later subsystems add their own dependencies in their first task.
     - `textnorm.py`: `split_lines(bytes)` using a regex on bytes (never `splitlines`), `normalise_line` (`rstrip(" \t\f\v")` only), `normalised_lines(bytes)`, `normalise_quote(str)`, per design §3.
