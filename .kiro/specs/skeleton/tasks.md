@@ -149,7 +149,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku (boilerplate).
     - _Requirements: 4.18, 4.20, 4.17_
 
-  - [ ] 1.3 Verify test infrastructure
+  - [x] 1.3 Verify test infrastructure
     - Subsystem: verify. Files (3): `tests/verify/fake_view.py`, `tests/verify/strategies.py`, `tests/verify/test_fake_view.py`.
     - `FakeView`: an in-memory `SnapshotView` (files, symlink entries, symlinked directories, findings with metrics). `RealDirView`: builds a real temp directory including file and directory symlinks and implements the same protocol with `lstat`, so symlink cases are tested against the real filesystem. `strategies.py`: `file_contents()` over the full Unicode range with mixed terminators and trailing whitespace including empty files, `file_trees()`, `valid_citation(tree)`, `valid_figure(findings)`, `answer(tree)`.
     - Tests: both views agree on a shared set of cases (regular file, symlink, symlinked parent, missing file, directory), and strategies only produce in-range citations.
