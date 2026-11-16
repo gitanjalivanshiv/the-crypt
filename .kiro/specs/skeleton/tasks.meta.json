@@ -60,6 +60,18 @@
         "chatSessionId": "sess_da7887bb-6bbf-4f00-adec-9035842d8870",
         "timestamp": 1794854459493
       }
+    ],
+    "1.6 Citation property tests": [
+      {
+        "executionId": "5e156abb-bc9c-407e-8609-fa4659d2c36b",
+        "chatSessionId": "sess_e87e5086-7a65-42e6-8b84-0c7a085c1e6d",
+        "timestamp": 1794854492778
+      },
+      {
+        "executionId": "5e156abb-bc9c-407e-8609-fa4659d2c36b",
+        "chatSessionId": "sess_e87e5086-7a65-42e6-8b84-0c7a085c1e6d",
+        "timestamp": 1794854600328
+      }
     ]
   }
 }

@@ -172,7 +172,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.23_
 
-  - [ ] 1.6 Citation property tests
+  - [x] 1.6 Citation property tests
     - Subsystem: verify. Files (1): `tests/verify/test_citation_properties.py`.
     - Hypothesis properties **P2** (each mutation of a valid citation is rejected with the expected code), **P3** (never raises for arbitrary JSON-shaped input, using a recursive strategy), **P4** (terminator and trailing-whitespace variants never change the verdict; leading/interior whitespace, case and Unicode normal form always flip it to `quote_mismatch`).
     - Done when: `uv run pytest tests/verify/test_citation_properties.py` is green with at least 200 examples per property.
