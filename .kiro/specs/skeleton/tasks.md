@@ -210,7 +210,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.15_
 
-  - [ ] 1.11 Reject-and-regenerate-once flow
+  - [x] 1.11 Reject-and-regenerate-once flow
     - Subsystem: verify. Files (2): `skeleton/verify/flow.py`, `tests/verify/test_flow.py`.
     - `run_grounded_turn(view, generate, *, decline_line, cfg) -> AnswerResult` per design §6.5, with the `classify_attempt` seam isolated in one function (watch item 1). Generator raising, unparseable text, and any banishment each fail an attempt. Second failure returns `status="declined"`, `claims=[]` (**D7**), `decline_line` set, banishments from both attempts. Attempt-1 banishments survive an attempt-2 success. `snapshot_id` is set on every path. The flow never raises.
     - Tests: first-try success; fail then succeed (attempt-1 banishments preserved, attempt-1 good claims **not** rendered); fail then fail (decline); generator that always fails with a call counter asserting at most 2 calls; generator that raises; generator that returns junk; mixed good and bad claims; feedback passed to attempt 2 is the structured banishments.

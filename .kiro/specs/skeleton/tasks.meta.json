@@ -120,6 +120,18 @@
         "chatSessionId": "sess_7418af63-be94-4c74-8c5f-58abcc8e037f",
         "timestamp": 1794855013151
       }
+    ],
+    "1.11 Reject-and-regenerate-once flow": [
+      {
+        "executionId": "d00197b0-937b-4bb2-be3b-41b2334ffe8d",
+        "chatSessionId": "sess_bd6663a5-77b7-4b4f-9a90-51d96cc0785d",
+        "timestamp": 1794855092633
+      },
+      {
+        "executionId": "d00197b0-937b-4bb2-be3b-41b2334ffe8d",
+        "chatSessionId": "sess_bd6663a5-77b7-4b4f-9a90-51d96cc0785d",
+        "timestamp": 1794855183156
+      }
     ]
   }
 }
