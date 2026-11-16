@@ -187,7 +187,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.7, 4.8, 4.9, 4.10, 4.11, 4.18_
 
-  - [ ] 1.8 Prose digit scan
+  - [x] 1.8 Prose digit scan
     - Subsystem: verify. Files (2): `skeleton/verify/claim.py`, `tests/verify/test_numbers.py`.
     - Implement design §6.4 in `claim.py`: delimited-span exemption (`"…"`, `“…”`, backticks, content must be a substring of a verified quote line), Snapshot ID removal (full and 7-character), thousands-separator collapse, the identifier-bounded tokeniser `(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?![A-Za-z0-9_])`, allowed tokens (figure values, citation line numbers, `cfg.allowed_numbers`), first unbacked token gives `unbacked_number` with `target.token`.
     - Tests: the verified regex table from the design, empty for `utf8`, `sha256`, `base64`, `python3`, `oauth2`, `s3`, `log4j`, `md5`, `12abc`, `a1b2c3`, and matching for `847`, `3.12`, `42`, `1200`, `0`, `0.85`; `utf-8` bare is banished and backticked is accepted; `1,200` equals figure 1200; Arabic-Indic digits are tokenised; a plausible but unbacked number written into prose is rejected with `unbacked_number` (the R4.11c case); a bare number inside no delimiter but present in the quote is still banished.

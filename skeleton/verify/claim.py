@@ -1,7 +1,10 @@
 """Claim verification, steps 1 to 5 of design 6.3. Never raises."""
 
+import re
+
 from skeleton.verify.citation import CitationOk, verify_citation
 from skeleton.verify.codes import ReasonCode, render_message
+from skeleton.verify.textnorm import normalise_line, normalise_quote
 from skeleton.verify.models import (
     Banishment,
     BanishmentTarget,
@@ -9,6 +12,7 @@ from skeleton.verify.models import (
     CitationTarget,
     Figure,
     FigureTarget,
+    NumberTarget,
     SnapshotView,
     VerifiedClaim,
     VerifyConfig,
@@ -45,6 +49,56 @@ def _parse_figure(item: object) -> Figure | None:
     if not isinstance(fid, str) or not isinstance(key, str) or not _is_number(value):
         return None
     return Figure(finding_id=fid, key=key, value=value)  # type: ignore[arg-type]
+
+
+_SPANS = re.compile(r'"[^"]*"|“[^”]*”|`[^`]*`')
+_THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}(?!\d))")
+_TOKEN = re.compile(r"(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?![A-Za-z0-9_])")
+
+
+def _figure_tokens(value: int | float) -> set[str]:
+    if isinstance(value, int):
+        return {str(value)}
+    tokens = {repr(value)}
+    if value.is_integer():
+        tokens.add(str(int(value)))
+    return tokens
+
+
+def _first_unbacked_token(
+    view: SnapshotView,
+    text: str,
+    citations: list[Citation],
+    figures: list[Figure],
+    cfg: VerifyConfig,
+) -> str | None:
+    quote_lines = [
+        line for c in citations if c.quote is not None for line in normalise_quote(c.quote)
+    ]
+
+    def blank_exempt(match: re.Match[str]) -> str:
+        content = normalise_line(match.group(0)[1:-1])
+        if any(content in line for line in quote_lines):
+            return " "
+        return match.group(0)
+
+    scanned = _SPANS.sub(blank_exempt, text)
+    sid = view.snapshot_id
+    if sid:
+        scanned = scanned.replace(sid, " ")
+        if len(sid) >= 7:
+            scanned = scanned.replace(sid[:7], " ")
+    scanned = _THOUSANDS.sub("", scanned)
+
+    allowed: set[str] = set(cfg.allowed_numbers)
+    for fig in figures:
+        allowed |= _figure_tokens(fig.value)
+    for c in citations:
+        allowed |= {str(c.line_start), str(c.line_end)}
+    for m in _TOKEN.finditer(scanned):
+        if m.group(0) not in allowed:
+            return m.group(0)
+    return None
 
 
 def verify_claim(
@@ -122,9 +176,17 @@ def verify_claim(
                 view, text, attempt, ReasonCode.FIGURE_NOT_CITED, found[0], fig_target
             )
 
-    # 6. prose digit scan: TODO(task 1.8) call the scan here and return an
-    # unbacked_number Banishment for the first unbacked token. `cfg` is used there.
-    _ = cfg
+    # 6. prose digit scan
+    token = _first_unbacked_token(view, text, citations, figures, cfg)
+    if token is not None:
+        return _ban(
+            view,
+            text,
+            attempt,
+            ReasonCode.UNBACKED_NUMBER,
+            token,
+            NumberTarget(token=token),
+        )
 
     return VerifiedClaim(
         kind="guess" if guess else "fact",
