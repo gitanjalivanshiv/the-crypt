@@ -88,21 +88,21 @@ Baseline: every line on Auto unless marked.
 | Spec: skeleton | requirements + design + tasks, 2 review rounds (~6 generations) | 60 |
 | Spec: medium | 4 generations | 40 |
 | Spec: debt-collector | 4 generations | 40 |
-| Build: skeleton | ~35 tasks × 5 | 175 |
+| Build: skeleton | **71 tasks** × 5 (counted, not estimated) | 355 |
 | Build: medium | ~20 tasks × 5 | 100 |
 | Build: debt-collector | ~18 tasks × 5 | 90 |
 | Boilerplate pass | ~40 prompts on **Haiku 5.5** @ 0.06x | 3 |
 | Debugging and iteration | ~150 chat turns × 1 | 150 |
 | Hard problems | 15 prompts on **Opus 5.5** @ 2.0x | 60 |
 | Agent hooks | capped at 60 fires × 1.5 | 90 |
-| **Subtotal** | | **~810** |
-| Rework at 50% | Specs that miss, tasks re-run once | ~405 |
-| **Planned total** | | **~1,215** |
-| **Reserve** | unallocated | **~2,785** |
+| **Subtotal** | | **~990** |
+| Rework at 50% | Specs that miss, tasks re-run once | ~495 |
+| **Planned total** | | **~1,485** |
+| **Reserve** | unallocated | **~2,515** |
 
 ### Reading this honestly
 
-The build is not credit-constrained. At ~1,215 planned against 4,000 there is roughly **3x
+The build is not credit-constrained. At ~1,485 planned against 4,000 there is roughly **2.7x
 headroom** — even if every estimate above is off by 100%, the project finishes with credits
 to spare.
 
@@ -136,7 +136,7 @@ must *write code*, and no hook in this project does.
 
 ### 4.2 Expensive models by default — 2x to 6x on everything
 
-Running the whole build on Opus 5.5 turns ~1,215 into ~2,430. On Fable 5.1 it is ~7,290 —
+Running the whole build on Opus 5.5 turns ~1,485 into ~2,970. On Fable 5.1 it is ~8,900 —
 over budget before any rework. Model choice is set per request and is easy to leave on the
 wrong value for days. Check it at the start of each session.
 
@@ -185,6 +185,17 @@ executions**, record actuals here and recompute §3.
 | # | Date | What it was needed for | Credits |
 |---|---|---|---|
 | 1 | | | |
+
+### What the task list changed
+
+The skeleton spec came back with **71 tasks**, not the ~35 estimated here, so the skeleton
+row above is now a count rather than a guess. The conclusion is unchanged and in fact
+firmer: credits are not the binding constraint on this project, the calendar is. 71 tasks
+executed one at a time, with the diff read and a commit between each, is more than the
+Nov 19 to Nov 23 window in `docs/EXECUTION-PLAN.md` — and the two app specs still follow.
+
+The response is the cut order (R8.5), not slower spending. Nothing is saved by finishing
+2026-12-04 with 2,500 unused credits and an unsubmitted project.
 
 ### Checkpoints
 
