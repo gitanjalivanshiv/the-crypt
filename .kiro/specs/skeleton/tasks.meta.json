@@ -96,6 +96,18 @@
         "chatSessionId": "sess_f0889e9b-60dd-4092-8199-5557d5cf0eac",
         "timestamp": 1794854779369
       }
+    ],
+    "1.9 Claim property tests": [
+      {
+        "executionId": "7ca1c6d3-e176-4ecd-b0c2-fb6c9409344f",
+        "chatSessionId": "sess_1dd8eabb-d2c9-432b-b0f9-d5b66d72b624",
+        "timestamp": 1794854828928
+      },
+      {
+        "executionId": "7ca1c6d3-e176-4ecd-b0c2-fb6c9409344f",
+        "chatSessionId": "sess_1dd8eabb-d2c9-432b-b0f9-d5b66d72b624",
+        "timestamp": 1794854915769
+      }
     ]
   }
 }

@@ -195,7 +195,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: **Opus** (verifier semantics).
     - _Requirements: 4.11, 4.9_
 
-  - [ ] 1.9 Claim property tests
+  - [x] 1.9 Claim property tests
     - Subsystem: verify. Files (1): `tests/verify/test_claim_properties.py`.
     - **P1** (any generated answer from valid parts verifies, and every returned citation resolves with its quote equal to the file after only the allowed normalisation), **P6** (a figure off by any amount, including `1e-9`, is `figure_not_in_metrics`), **P7** (a digit token not backed by a figure, citation line, Snapshot ID, allow-list or delimited verified quote is `unbacked_number`; moving the same number into a verified figure passes).
     - Done when: `uv run pytest tests/verify/test_claim_properties.py` is green.
