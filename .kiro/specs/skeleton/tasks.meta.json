@@ -12,6 +12,18 @@
         "chatSessionId": "sess_1ef1e387-e504-4d33-9198-0f6d31c586f6",
         "timestamp": 1794853374440
       }
+    ],
+    "1.2 Reason codes and result models": [
+      {
+        "executionId": "d7d835a1-36cb-467c-a092-94f9fcf5ae79",
+        "chatSessionId": "sess_daa53896-e421-412b-b270-313d72944a96",
+        "timestamp": 1794853843295
+      },
+      {
+        "executionId": "d7d835a1-36cb-467c-a092-94f9fcf5ae79",
+        "chatSessionId": "sess_daa53896-e421-412b-b270-313d72944a96",
+        "timestamp": 1794853897955
+      }
     ]
   }
 }

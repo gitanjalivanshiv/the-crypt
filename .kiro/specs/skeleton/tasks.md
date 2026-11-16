@@ -141,7 +141,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.4, 4.2_
 
-  - [ ] 1.2 Reason codes and result models
+  - [x] 1.2 Reason codes and result models
     - Subsystem: verify. Files (3): `skeleton/verify/codes.py`, `skeleton/verify/models.py`, `tests/verify/test_codes.py`.
     - `ReasonCode` as a `StrEnum` with exactly the 12 members in design §6.3, and a `MESSAGES` template table. `models.py`: `Citation`, `Figure`, `VerifiedClaim` (`kind` fact or guess), `Banishment` (`target` as a tagged union: citation, figure, number, or none), `AttemptRecord`, `AnswerResult`, `VerifyConfig` (`allowed_numbers` default empty), and the `SnapshotView` protocol (four methods). All frozen, `extra="forbid"`.
     - Tests: every `ReasonCode` has a `MESSAGES` entry and every entry has a member; messages interpolate only the failing value; `AnswerResult` round-trips through JSON; models reject unknown fields.
