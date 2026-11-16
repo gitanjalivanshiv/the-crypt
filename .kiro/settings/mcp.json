@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "crypt-signals": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "skeleton.mcp.server"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "list_findings",
+        "get_finding",
+        "read_lines",
+        "repo_summary"
+      ]
+    }
+  }
+}

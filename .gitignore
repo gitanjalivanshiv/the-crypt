@@ -1,0 +1,19 @@
+# NEVER add .kiro or any sub-folder of it to this file.
+# Kiroween 2026 rules: doing so could disqualify the submission.
+# Enforced by scripts/check-kiro-committed.sh (Kiro hook + git pre-commit + CI).
+
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.hypothesis/
+node_modules/
+dist/
+build/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Cloned patient repos are working data; the cached runs under demo/ are committed.
+.cache/patients/

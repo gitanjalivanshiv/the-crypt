@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "hooks": [{
+    "name": "Guard: .kiro must never be gitignored",
+    "trigger": "PostFileSave",
+    "matcher": "^\\.gitignore$",
+    "action": { "type": "command", "command": "./scripts/check-kiro-committed.sh" }
+  }]
+}
