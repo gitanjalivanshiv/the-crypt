@@ -45,7 +45,7 @@ Out of scope for this spec:
 **Sources**
 
 1. WHEN given a public git repo URL, THE Ingest SHALL clone it and produce a snapshot.
-2. WHEN given an uploaded archive, THE Ingest SHALL unpack it and produce a snapshot. Supported formats are `.zip`, `.tar.gz` and `.tgz`.
+2. WHEN given an uploaded archive, THE Ingest SHALL unpack it and produce a snapshot. Supported formats are `.zip`, `.tar.gz` and `.tgz`. **Cuttable, position 2 in R8.5:** the demo patient is a pinned URL and never exercises this path, while the path carries its own security surface.
 3. THE Ingest SHALL accept only `https://` repo URLs. IF the URL uses another scheme, is a local path, or resolves to a loopback, link-local or private address, THEN THE Ingest SHALL reject it with the failure code `invalid_source` before any network or filesystem access.
 4. IF the archive is of an unsupported format, THEN THE Ingest SHALL reject it with `invalid_source`.
 
@@ -133,7 +133,8 @@ Out of scope for this spec:
 **todo_age**
 
 18. THE `todo_age` analyzer SHALL find comments containing the markers `TODO`, `FIXME`, `HACK` or `XXX`, using tree-sitter comment nodes, so a marker inside a string literal is not reported.
-19. FOR each marker, THE `todo_age` analyzer SHALL determine when its line was introduced from git blame as of the pinned SHA, and emit a finding with metrics `age_days` (whole days between the commit that introduced the line and the pinned commit date) and `todo_count_in_file` (the number of markers in that file). The marker kind appears in `evidence`, not in `metrics`.
+19. FOR each marker, THE `todo_age` analyzer SHALL determine from `git blame`, as of the pinned SHA, the commit that **last changed** the marker's line, and emit a finding with metrics `age_days` (whole days between that commit and the pinned commit date) and `todo_count_in_file` (the number of markers in that file). The marker kind appears in `evidence`, not in `metrics`.
+19d. `age_days` SHALL be documented, in the metric description the MCP contract returns, as "days since this line last changed" and NOT as "age of the TODO". `git blame` reports last modification, not introduction, so editing a marker's wording resets its age. The persona SHALL NOT be given wording that claims otherwise. An earlier draft of this requirement said "introduced"; the requirement was wrong and the design was right.
 19a. THE `todo_age` analyzer SHALL invoke `git blame` **at most once per file**, only for files containing at least one marker, and SHALL derive every marker's age from that single result. Per-marker blame invocation is forbidden: at the scale of the demo patient it takes minutes, which breaches the 60-second analysis budget in `demo-patient.md` and would silently flip the patient decision rule for the wrong reason.
 19b. THE `todo_age` analyzer SHALL cap markers processed per snapshot at a configurable maximum, default 2,000. IF the cap is reached, THEN the analyzer SHALL report `truncated = true` alongside the total count found, and SHALL NOT return a partial list that reads as complete.
 20. THE `todo_age` severity SHALL increase monotonically with `age_days`.
@@ -297,12 +298,15 @@ These are requirements on the tasks phase, from the user's brief and `credit-pol
 3. THE ordering SHALL place all Verify tasks, including the Hypothesis property tests (R4.21, R4.22), the fuzz tests (R4.23) and the coverage gate (R4.24), before any task that implements or depends on Personas. The Personas loader and persona-dependent prompt assembly come after.
 4. THE task list SHALL be executed one task at a time. It SHALL NOT be run as a batch.
 5. IF time is short, THEN work SHALL be cut in exactly this order and never out of it:
-   1. R6.10 third-theme fixture test
-   2. R6.8 sound hooks
-   3. R6.7 meter animation (the meter still renders, it just stops animating)
-   4. R2 `todo_age` analyzer
-   5. R2 `staleness` analyzer
-   THE task list SHALL mark each of these as cuttable, and everything else as not cuttable.
+   1. OpenAPI-to-TypeScript codegen and its CI diff gate (hand-write the UI types)
+   2. R1.2 archive ingest (the demo patient is a pinned URL)
+   3. The job and polling API (R9.2 becomes synchronous with a timeout)
+   4. R6.10 third-theme fixture test
+   5. R6.8 sound hooks
+   6. R6.7 meter animation (the meter still renders, it just stops animating)
+   7. R2 `todo_age` analyzer
+   8. R2 `staleness` analyzer
+   THE task list SHALL mark each of these as cuttable, and everything else as not cuttable. Positions 1 to 3 cost the demo nothing and are therefore cut first; 7 and 8 each cost a visible signal and are cut last.
 5a. THE following SHALL NOT be cut under any circumstances: all of R4 (Verify), including its property-based tests, fuzz tests and coverage gate; R6.12 contrast and R6.14 keyboard and screen-reader operability; and all of R7. The verifier is the product's differentiator, and R6.12 and R6.14 carry Design-criterion points at judging.
 5b. R6 is the largest block of discretionary work in this spec. Before R6 begins, the remaining credit balance and day count SHALL be checked against `docs/CREDIT-BUDGET.md`.
 
@@ -317,7 +321,7 @@ This subsystem was absent from the original brief, which named six subsystems wh
 ### Acceptance criteria
 
 1. THE API SHALL be a FastAPI application under `skeleton/api/`, persona-agnostic. It SHALL NOT contain persona names, persona copy, or app-specific routes.
-2. THE API SHALL expose: `POST /snapshots` (ingest a URL or archive; returns Snapshot ID and status), `GET /snapshots/{id}` (metadata per R1.25), `GET /snapshots/{id}/findings` (the filters of R5.2 `list_findings`), `GET /snapshots/{id}/files/{path}` (file facts per R5.2 `get_file_facts`), and `POST /snapshots/{id}/ask` (run the verify flow of R4.12 for a named persona).
+2. THE API SHALL expose: `POST /snapshots` (ingest a URL or archive; returns **202 with a job identifier**, since the commit SHA is not known until the ref resolves, which can take the whole clone), `GET /jobs/{job_id}` (job status, stage, and the Snapshot ID once resolved), `GET /snapshots/{id}` (metadata per R1.25), `GET /snapshots/{id}/findings` (the filters of R5.2 `list_findings`), `GET /snapshots/{id}/files/{path}` (file facts per R5.2 `get_file_facts`), and `POST /snapshots/{id}/ask` (run the verify flow of R4.12 for a named persona).
 3. THE persona SHALL be selected by name in the request. THE API SHALL hold no default persona, and SHALL reject an unknown name with `persona_not_found`.
 4. THE `ask` response SHALL carry the renderable claims, the guesses, the banishments from every attempt (R4.19), the decline if any, and the Snapshot ID. It SHALL be exactly the structure the R6 UI shell renders, with no app-specific reshaping.
 5. THE API SHALL surface the reason codes of R4.2 and R5 unchanged, as structured JSON errors with appropriate HTTP status codes. It SHALL NOT flatten them into free text.

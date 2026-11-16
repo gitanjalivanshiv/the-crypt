@@ -23,13 +23,13 @@ Read these first. Each is a place where I had to choose, and where you may disag
 | D3 | `POST /snapshots` returns a **job** to poll, not a Snapshot ID. The ID is known only after the ref is resolved, which can take the whole clone. | §10.2 | R9.2, R9.8 |
 | D4 | Ephemeral snapshots are addressed by an opaque random `ref`, not by Snapshot ID. Two users pasting the same repo must not share a snapshot. "Session end" means a TTL (default 1 h) or an explicit `DELETE`. | §10.3 | R1.15, R9.9 |
 | D5 | The `quote` exemption in the prose digit scan applies only to digits inside a **delimited span** (`"…"`, `“…”` or backticks) whose content is a substring of a verified quote. Digits outside a delimiter are not exempt. | §6.4 | R4.11a |
-| D6 | The allow-list for prose numbers is **empty by default** and configurable. "Python 3.12" typed in prose is banished. | §6.4 | R4.11a |
+| D6 | The allow-list for prose numbers is **empty by default** and configurable. "Python 3.12" typed bare in prose is banished. Digit runs bound into an identifier (`utf8`, `sha256`) are exempt by the tokeniser boundary in §6.4 step 4, not by the allow-list. | §6.4 | R4.11a |
 | D7 | When the second attempt still fails, the result is a decline with **no renderable claims**. Claims that passed on attempt 2 are not shown beside a decline. Banishments from both attempts are shown. | §6.5 | R4.13, R4.16 |
-| D8 | `churn` and `staleness` are file-level facts, so their `evidence` is the **first up to 3 lines** of the file. An empty file yields no finding. | §5.3 | R2.2, R2.3 |
+| D8 | `churn` and `staleness` are file-level facts, so their range is the **first symbol** in the file (module docstring, else first class or function), falling back to the first up to 3 lines only when the file has no symbols. An empty file yields no finding. | §5.3 | R2.2, R2.3 |
 | D9 | History is computed by one `git log --no-renames`. Renames are not followed and merge commits contribute no files. A renamed file's history starts at the rename. This is stated in the metric docs. | §4.4 | R1.23 |
 | D10 | `git blame` gives the commit that last changed the line, not the commit that first introduced the TODO text. `age_days` is documented as "days since this line last changed". | §5.5 | R2.19 |
 | D11 | The existing `.kiro/settings/mcp.json` lists tools `get_finding` and `repo_summary` that R5.2 does not define, and passes no snapshot path. The design follows R5.2. **`mcp.json` needs a one-line update, which I have not made.** | §8.4 | R5.10 |
-| D12 | `tree-sitter-languages` (named in `tech.md`) is unmaintained and breaks with `tree-sitter >= 0.22`. The design pins `tree-sitter < 0.22`. If a smoke test fails on Python 3.12, `tech.md` must be edited before switching to `tree-sitter-python`. | §4.3 | tech.md |
+| D12 | `tree-sitter-languages` (named in `tech.md`) is unmaintained and breaks with `tree-sitter >= 0.22`. **Resolved in review: use `tree-sitter-python`, the grammar package published by the tree-sitter project, on current `tree-sitter`.** `tech.md` is amended to match. Pinning `tree-sitter==0.21.*` to keep an unmaintained wrapper alive was rejected: it is a Task 1 that probably fails and costs a day. | §4.3 | tech.md |
 
 ## Architecture
 
@@ -160,7 +160,7 @@ Both raise `IngestError(code: IngestCode, detail: str)`. `IngestCode` is a close
 5. **Count files** with `git ls-files -z` before walking. If it exceeds `max_files`, fail with `file_limit_exceeded` and delete.
 6. **Licence (R1.14, R1.15).** Read the first file matching `LICENSE*` or `COPYING*` at repo root. Match it to an SPDX id by a small table of normalised distinctive phrases (MIT, BSD-2-Clause, BSD-3-Clause, Apache-2.0). No match gives `unknown`. For `retained`, anything outside the four ids raises `licence_not_permitted`. For `ephemeral`, record the id and proceed with `retainable=false`.
 
-*Dependency risk (D12):* `tree-sitter-languages` 1.10.x bundles old grammar builds and fails against `tree-sitter >= 0.22`. Pin `tree-sitter==0.21.*`. Task 1 of ingest includes a smoke test that parses a Python snippet on 3.12. If the smoke test fails, the fix is to edit `tech.md` first (it says "do not reopen without editing this file") and use `tree-sitter-python` directly. Nothing else in the design depends on which package supplies the grammar, because parsing sits behind `ingest/parse.py`.
+*Dependency (D12, resolved in review):* use current `tree-sitter` with `tree-sitter-python`, the grammar package published by the tree-sitter project. `tree-sitter-languages` 1.10.x bundles old grammar builds, fails against `tree-sitter >= 0.22`, and is unmaintained; pinning `tree-sitter==0.21.*` to keep it alive was rejected, since it trades a current dependency for a years-old one and a likely day lost in Task 1. Task 1 still includes a smoke test that parses a Python snippet on 3.12. Nothing else in the design depends on which package supplies the grammar, because parsing sits behind `ingest/parse.py`.
 
 #### 4.4 Archive ingest
 
@@ -258,7 +258,15 @@ class AnalyzerOutput(NamedTuple):
 
 #### 5.3 churn and staleness evidence (D8)
 
-Both are file-level facts but a finding needs a line range. The range is the first `min(3, line_count)` lines of the file. A file with 0 lines produces no finding, since no valid range exists. The persona is not told these lines are "the problem"; the finding's `metrics` carry the point.
+Both are file-level facts but a finding needs a line range. The range is chosen so a judge who clicks the citation lands somewhere that looks deliberate:
+
+1. The module docstring, if the file has one.
+2. Otherwise the first `class` or `function` definition, capped at its first 3 lines.
+3. Otherwise the first `min(3, line_count)` lines.
+
+A file with 0 lines produces no finding, since no valid range exists.
+
+*Rejected alternative:* always the first 3 lines. That lands a churn citation on `import os`, which reads as a bug in the signature interaction (persona cites -> file tree highlights -> judge clicks -> real line) even though the citation is perfectly valid. The persona is still not told these lines are "the problem"; the finding's `metrics` carry the point.
 
 #### 5.4 churn, staleness
 
@@ -386,14 +394,18 @@ The scan runs on `claim.text` after the claim has passed steps 1 to 5, so the al
 1. **Strip exempt spans.** Find delimited spans: `"…"`, `“…”`, or `` `…` ``. A span is exempt if its content, after `normalise_line`, is a **substring** of any normalised line of any of the claim's **verified** citation quotes. Exempt spans are blanked before tokenising. Digits outside a delimiter are never exempt (D5). Rationale: it keeps the rule mechanical and strict. A model that writes `1999` bare gets banished; one that writes `` `MAX_YEAR = 1999` `` quoting the cited line passes.
 2. **Remove the Snapshot ID** (the full ID and its first 7 characters) from the text.
 3. **Collapse thousands separators:** `(?<=\d),(?=\d{3}(?!\d))` removed, so `1,200` becomes `1200`.
-4. **Tokenise** with `\d+(?:\.\d+)?` (Python `str` regex, so non-ASCII Unicode digits such as `٣` are matched too).
+4. **Tokenise** with `(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?![A-Za-z0-9_])` (Python `str` regex, so non-ASCII Unicode digits such as `٣` are matched too). The identifier boundaries are load-bearing. Without them `utf8`, `sha256`, `base64`, `python3`, `oauth2` and `s3` are all banished, and in a tool whose subject matter is source code the persona writes those constantly: accepting that false positive means accepting a demo that regularly refuses to speak. A bare `847` still matches.
+
+   The boundary classes must include digits, not only letters. With a letters-only lookbehind, `sha256` still yields `56` and `base64` still yields `4`, because the character before the match is itself a digit. This regex is verified against `utf8`, `sha256`, `base64`, `python3`, `oauth2`, `s3`, `log4j`, `md5`, `12abc` and `a1b2c3` (all empty) and against `847`, `3.12`, `42`, `1200`, `0` and `0.85` (all matched).
+
+   *Known residual:* a hyphen is **not** a boundary character, so `utf-8` yields `8` and is banished unless written inside a delimited span (`` `utf-8` ``). Adding `-` to the classes was rejected: it would exempt `1990-2000` and every other hyphenated figure, which is a real hole in the guarantee that numbers never originate from the model. A narrow false positive that backticks fix is the better trade.
 5. **Allowed tokens**, by exact string equality:
    - the canonical text of each verified figure's value (`str(int)`; for a float, `repr(float)`, plus `str(int(v))` when the float is integral);
    - `str(line_start)` and `str(line_end)` of each verified citation on this claim;
    - members of `cfg.allowed_numbers`, which defaults to the **empty set** (D6).
 6. The first token not allowed gives `unbacked_number` with `target.token` set to it.
 
-Known hole, stated so nobody is surprised: numbers spelled as words ("forty-two") are not caught. Digits inside identifiers outside a quoted span (`utf8`) are caught, which is a false positive the design accepts. The cost of strictness: a persona line like "It has been 847 days" must come from a verified figure, which is the point; "Python 3" typed in prose is banished.
+Known hole, stated so nobody is surprised: numbers spelled as words ("forty-two") are not caught. Digit runs bound into an identifier (`utf8`, `sha256`) are deliberately **not** caught, by the boundary in step 4. The cost of strictness is unchanged otherwise: a persona line like "It has been 847 days" must come from a verified figure, which is the point, and "Python 3" typed bare in prose is still banished with the allow-list empty by default (D6).
 
 *Example hazard:* persona `example_lines` containing digits are copied by models. The loader emits a warning for any example line containing a digit (§7.2).
 
@@ -764,7 +776,7 @@ Hypothesis strategies: `file_contents()` (text lines using the full Unicode rang
 | P4 | CRLF/CR/LF variants of a quote and of the file always compare equal; adding or removing trailing spaces and tabs per line never changes the verdict; changing leading whitespace, interior whitespace, case or Unicode normal form always flips it to `quote_mismatch`. | R4.4 |
 | P5 | `split_lines(b"".join(lines_with_terminators))` round-trips the line count, and a single trailing terminator never adds a line. | §3 |
 | P6 | A figure whose value differs from the metric by any amount, including `1e-9`, is `figure_not_in_metrics`. | R4.10 |
-| P7 | Any claim text containing a digit token not backed by a figure, citation line or exempt quoted span is `unbacked_number`; the same text with the number moved into a verified figure passes. | R4.11a |
+| P7 | Any claim text containing a digit token not backed by a figure, citation line or exempt quoted span is `unbacked_number`; the same text with the number moved into a verified figure passes. A companion case asserts the converse: identifiers with embedded digits (`utf8`, `sha256`, `base64`, `python3`, `oauth2`, `s3`) are **not** flagged. | R4.11a |
 | P8 | For any generator behaviour (sequence of: good, bad, raises, junk), the flow calls the generator at most twice and returns a result with a non-empty `snapshot_id`. | R4.14, 4.15, 4.17 |
 | P9 | No `VerifiedClaim` in `AnswerResult.claims` ever came from a rejected claim; `status="declined"` implies `claims == []`. | R4.16, D7 |
 
@@ -802,21 +814,47 @@ Explicit single-branch tests exist for: every `ReasonCode` (a test asserts the s
 
 ## Cut order and what it costs (R8.5)
 
-| Cut | Effect on design |
-|---|---|
-| R6.10 third-theme fixture test | Theme isolation is still true by construction (§9.2), only untested. |
-| R6.8 sound hooks | Remove `sound/` and `theme.sounds`; `ChatPanel` and `Meter` do not import it. |
-| R6.7 meter animation | Drop the CSS transition; `Meter` still renders. |
-| `todo_age` | Remove one module and one registry entry. `get_file_facts` and the other tools are unaffected. |
-| `staleness` | Same. |
+Cut in this order, and never out of it. The order puts what the demo never shows ahead of what it does.
 
-Nothing in Verify, R6.12, R6.14 or R7 is on this list.
+| # | Cut | Effect on design |
+|---|---|---|
+| 1 | OpenAPI -> TypeScript codegen and its CI diff gate | Hand-write the five interfaces the UI needs in `types.ts`. Drift risk returns, covered by the API schema test instead. Pure toolchain overhead on an 18-day build. |
+| 2 | Archive ingest (§4.4) | Drop `ingest_archive` and the `.zip`/`.tar.gz` path, with it the whole second security surface (zip-slip, decompression bombs, link traversal). The demo patient is a pinned URL and never exercises this. Requires amending R1.2. |
+| 3 | Job and polling API (D3, §10.2) | `POST /snapshots` becomes synchronous with a timeout; drop `GET /jobs/{id}` and the thread pool. Cached runs mean the snapshot already exists for the common judge path. |
+| 4 | R6.10 third-theme fixture test | Theme isolation is still true by construction (§9.2), only untested. |
+| 5 | R6.8 sound hooks | Remove `sound/` and `theme.sounds`; `ChatPanel` and `Meter` do not import it. |
+| 6 | R6.7 meter animation | Drop the CSS transition; `Meter` still renders. |
+| 7 | `todo_age` | Remove one module and one registry entry. `get_file_facts` and the other tools are unaffected. |
+| 8 | `staleness` | Same. |
 
-## Open items for your review
+Cuts 1 to 3 cost the demo nothing; they were added in review because the original list reached only R6 trimmings and analyzers, leaving every heavy item not-cuttable by omission. Cuts 7 and 8 cost a visible signal each and come last.
 
-1. **D3 (job instead of Snapshot ID on `POST /snapshots`)** deviates from R9.2 as worded. Accept, or require a synchronous path for small repos?
-2. **D6 (empty prose-number allow-list).** It is strict and will banish things like "Python 3". Do you want a short default list, for example `{"0", "1"}`?
-3. **D7 (decline discards attempt-2 good claims).** Simple and strict. The alternative shows partial answers beside the decline, which dilutes the "ghost cannot lie" moment.
-4. **D8 (churn and staleness cite the first 3 lines).** A persona citing those lines is citing real lines but not "the problem". If you prefer, I can instead point `churn` and `staleness` at the module docstring or the first symbol.
-5. **D11 (`mcp.json`).** Say if you want me to update it when the MCP tasks run.
-6. **D12 (`tree-sitter-languages`).** Task 1 smoke-tests it. If it fails you will need to approve a `tech.md` edit.
+Nothing in Verify, R6.12, R6.14 or R7 is on this list, at any position.
+
+## Resolved items
+
+The six items raised at the end of the draft, and the decisions taken.
+
+1. **D3, job instead of Snapshot ID on `POST /snapshots`.** Accepted as designed. No parallel synchronous path: two ingest paths is worse than one slow one. R9.2 is amended to match. If the calendar bites, cut 3 above removes the job model entirely rather than running both.
+
+2. **D6, empty prose-number allow-list.** Keep it empty. The real problem was not the allow-list but the tokeniser, now bounded by identifier characters (§6.4 step 4), which removes the `utf8` / `sha256` class of false positive without loosening the rule. A short default list would have papered over it while weakening the guarantee.
+
+3. **D7, decline discards attempt-2 good claims.** Accepted. Strictness is the product. Showing partial answers beside a decline dilutes the one moment the whole design exists to produce.
+
+4. **D8, churn and staleness evidence.** Changed, see §5.3. First symbol or module docstring, falling back to the first 3 lines only when there are no symbols.
+
+5. **D11, `mcp.json`.** Already corrected: the four tools of R5.2 and the `--snapshot` argument. The stale entries were scaffolding error, not a design question.
+
+6. **D12, `tree-sitter-languages`.** Switched to `tree-sitter-python` on current `tree-sitter`; `tech.md` amended. No pin to an old `tree-sitter`.
+
+---
+
+## Watch items carried into the build
+
+1. **Banishment rate, both directions.** The digit scan and the guess rule can each break the demo, in opposite ways: too lenient and every claim becomes a guess so no banishment ever fires; too strict and every answer declines. Neither is visible on paper. Measure the banishment rate on the first real persona output against the demo patient, and be ready to move `cfg.allowed_numbers` or route all-guess answers to decline (the `classify_attempt` seam in §6.5).
+
+2. **D9, `--no-renames`.** On a repo with two decades of file moves, a file with hundreds of commits across renames may report a dozen. Honest and documented, but a judge who knows the repository may read it as a bug. The metric description returned by the MCP contract must say "since the current path was created".
+
+3. **D10, blame semantics.** `age_days` is "days since this line last changed", not "since the TODO was introduced". R2.19 is amended to match the design; the design was right and the requirement was wrong.
+
+4. **Calendar, not credits.** This design is roughly 250 to 300 credits against 4,000, so credits are not the constraint. Seven subsystems with this test plan is more than the Nov 19 to Nov 23 window in `docs/EXECUTION-PLAN.md`. The cut order above exists to be used, in order, without renegotiation.

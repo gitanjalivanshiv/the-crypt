@@ -11,7 +11,7 @@ Decided. Do not reopen without editing this file first.
 | Layer | Choice | Note |
 |---|---|---|
 | Backend | Python 3.12 + FastAPI | one service, no microservices |
-| Parsing | `tree-sitter` + `tree-sitter-languages` | **Python grammar only for v1** |
+| Parsing | `tree-sitter` + `tree-sitter-python` | **Python grammar only for v1.** Not `tree-sitter-languages`: unmaintained, and broken against `tree-sitter >= 0.22` |
 | Git facts | `pygit2` or `git` subprocess | churn, staleness, author counts |
 | Frontend | TypeScript + React 18 + Vite | one themeable shell, two themes |
 | Tests | `pytest` + `hypothesis` | Hypothesis is required for the verifier |
