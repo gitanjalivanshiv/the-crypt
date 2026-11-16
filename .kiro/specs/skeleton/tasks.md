@@ -179,7 +179,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.22, 4.4, 4.6_
 
-  - [ ] 1.7 Claim verifier: structure, citations and figures
+  - [x] 1.7 Claim verifier: structure, citations and figures
     - Subsystem: verify. Files (2): `skeleton/verify/claim.py`, `tests/verify/test_claim.py`.
     - `verify_claim(view, raw, attempt, cfg) -> VerifiedClaim | Banishment` steps 1 to 5 of design §6.3: `malformed` (including **D2**, a guess carrying figures), `uncited_claim`, first failing citation with its index as the target, `figure_not_in_metrics` (exact numeric equality, `847 == 847.0`, no rounding, bool is not a number), `figure_not_cited`. A guess still has its citations verified. The digit-scan step is left as a clearly marked call into task 1.8.
     - Tests: one per code and per malformed variant; banishment carries claim text, target, attempt and snapshot id; messages contain no model prose.
