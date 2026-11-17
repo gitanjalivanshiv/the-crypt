@@ -518,7 +518,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.2, 9.8_
 
-  - [~] 6.5a Upgrade ingest to the job model (CUTTABLE 3)
+  - [x] 6.5a Upgrade ingest to the job model (CUTTABLE 3)
     - Subsystem: api. Files (3): `skeleton/api/jobs.py`, `skeleton/api/app.py`, `tests/api/test_jobs.py`.
     - `POST /snapshots` returns 202 `{job_id, status}` instead of running inline; `GET /jobs/{id}` returns status, stage (`cloning`, `parsing`, `history`, `analysing`), `ref`, `snapshot_id`, or `error`. Thread pool with a semaphore of 2. Failures appear on the job with HTTP 200.
     - Tests: lifecycle; concurrency limit; each `IngestCode` surfaces on the job; a job never blocks the request beyond the configured timeout.
@@ -527,7 +527,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.2, 9.8_
 
-  - [ ] 6.6 API invariants
+  - [x] 6.6 API invariants
     - Subsystem: api. Files (1): `tests/api/test_invariants.py`.
     - Assert from the OpenAPI document that no route writes, executes, or proxies (no `PUT`/`PATCH`, `POST` only on the listed routes), that `AnswerResult` appears in the schema exactly once, and that nothing under `skeleton/api/` reads an environment variable or API key.
     - Done when: `uv run pytest tests/api` is green.
