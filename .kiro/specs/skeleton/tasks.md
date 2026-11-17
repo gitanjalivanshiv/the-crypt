@@ -667,7 +667,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 7.1, 7.3, 7.4_
 
-  - [ ] 8.2 TypeScript import rule
+  - [x] 8.2 TypeScript import rule
     - Subsystem: independence. Files (3): `skeleton/ui-shell/eslint.config.js`, `skeleton/ui-shell/test/lint.test.ts`, `skeleton/ui-shell/package.json`.
     - ESLint `no-restricted-imports` blocking `**/medium/**` and `**/debt-collector/**`, a `lint` script, and a test that runs the ESLint API on a source string importing `../../../medium/x` and expects an error. Also forbid persona names and persona copy in `src/` by test grep.
     - Done when: `pnpm lint && pnpm test lint` is green.
