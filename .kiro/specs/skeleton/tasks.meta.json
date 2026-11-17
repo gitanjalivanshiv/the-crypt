@@ -700,6 +700,18 @@
         "chatSessionId": "sess_e7ee9c0b-b5d3-4d52-96fc-63a0bc6aae40",
         "timestamp": 1794942592867
       }
+    ],
+    "7.6 CrtFrame": [
+      {
+        "executionId": "e3ae1c83-fada-4763-8ae4-264830a787eb",
+        "chatSessionId": "sess_c1b66245-fb4c-493b-8b87-b05192c78506",
+        "timestamp": 1794942629499
+      },
+      {
+        "executionId": "e3ae1c83-fada-4763-8ae4-264830a787eb",
+        "chatSessionId": "sess_c1b66245-fb4c-493b-8b87-b05192c78506",
+        "timestamp": 1794942708830
+      }
     ]
   }
 }

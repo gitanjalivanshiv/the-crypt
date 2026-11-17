@@ -569,7 +569,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.9, 6.13_
 
-  - [ ] 7.6 CrtFrame
+  - [x] 7.6 CrtFrame
     - Subsystem: ui-shell. Files (3): `src/components/CrtFrame.tsx`, `src/components/CrtFrame.module.css`, `test/CrtFrame.test.tsx`.
     - Bezel, scanline overlay (`::after`, `pointer-events: none`, not in the accessibility tree), flicker. Reduced motion turns flicker and scanline movement off, in CSS and in the component's class logic.
     - Tests: children render; overlay is `aria-hidden`; reduced motion removes the animation classes; `vitest-axe` clean.

@@ -1,0 +1,70 @@
+.frame {
+  position: relative;
+  box-sizing: border-box;
+  padding: 1rem;
+  overflow: hidden;
+  color: var(--crypt-colour-text);
+  background: var(--crypt-colour-bg);
+  font-family: var(--crypt-font-family);
+  font-size: var(--crypt-font-size-base);
+  border: 0.75rem solid var(--crypt-colour-panel);
+  border-radius: 1.25rem;
+  box-shadow:
+    inset 0 0 2rem rgb(0 0 0 / 0.6),
+    0 0 calc(1.5rem * var(--crypt-effect-glow, 0)) var(--crypt-colour-accent);
+}
+
+/* Scanline overlay: decorative, never intercepts input, not in the a11y tree. */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--crypt-effect-scanlines, 0);
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.35) 0,
+    rgb(0 0 0 / 0.35) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  background-size: 100% 3px;
+}
+
+.scanlinesMoving::after {
+  animation: scanlineDrift 8s linear infinite;
+}
+
+.flicker {
+  animation: flicker 0.15s steps(2, end) infinite;
+}
+
+@keyframes scanlineDrift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 3px;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: calc(1 - 0.06 * var(--crypt-effect-flicker, 0));
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame,
+  .frame::after,
+  .scanlinesMoving::after,
+  .flicker {
+    animation: none;
+  }
+}
