@@ -458,6 +458,25 @@
         "chatSessionId": "sess_9da39a25-1c15-4663-8bb2-d182a62cf1b4",
         "timestamp": 1794916871606
       }
+    ],
+    "4.5 stdio server": [
+      {
+        "executionId": "4a7f13d8-1e5e-4e01-a02b-bc3aeed89703",
+        "chatSessionId": "sess_a7a869fd-8050-4832-ab3c-7001adc8da6e",
+        "timestamp": 1794916971256
+      },
+      {
+        "executionId": "4a7f13d8-1e5e-4e01-a02b-bc3aeed89703",
+        "chatSessionId": "sess_a7a869fd-8050-4832-ab3c-7001adc8da6e",
+        "timestamp": 1794917779993
+      }
+    ],
+    "4. MCP": [
+      {
+        "executionId": "4a7f13d8-1e5e-4e01-a02b-bc3aeed89703",
+        "chatSessionId": "sess_a7a869fd-8050-4832-ab3c-7001adc8da6e",
+        "timestamp": 1794917780054
+      }
     ]
   }
 }

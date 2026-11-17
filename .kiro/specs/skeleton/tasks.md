@@ -385,7 +385,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.5, 2.6, 2.8, 2.9_
 
-- [ ] 4. MCP
+- [x] 4. MCP
 
   - [x] 4.1 Tool contract
     - Subsystem: mcp. Files (3): `skeleton/mcp/contract.py`, `skeleton/mcp/contract.json`, `tests/mcp/test_contract.py`.
@@ -419,7 +419,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 5.6, 5.7_
 
-  - [ ] 4.5 stdio server
+  - [x] 4.5 stdio server
     - Subsystem: mcp. Files (3): `skeleton/mcp/server.py`, `tests/mcp/test_server.py`, `pyproject.toml`.
     - Add the `mcp` SDK dependency. `python -m skeleton.mcp.server --snapshot <dir> [--allow a,b]`, or `CRYPT_SNAPSHOT`; with neither it exits non-zero with a clear message. Tools delegate to `SignalTools` and `ToolRouter`; no logic is duplicated.
     - Tests: the running server's `tools/list` schemas equal `contract.json`; `--allow` hides tools; missing snapshot exits non-zero; `.kiro/settings/mcp.json` `autoApprove` is a subset of `TOOL_NAMES` and its args match the entry point (R5.10).

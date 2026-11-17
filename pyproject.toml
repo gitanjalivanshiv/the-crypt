@@ -3,6 +3,7 @@ name = "skeleton"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "mcp>=1.2,<2",
     "pydantic>=2",
     "tree-sitter>=0.26.1",
     "tree-sitter-python>=0.25.0",
