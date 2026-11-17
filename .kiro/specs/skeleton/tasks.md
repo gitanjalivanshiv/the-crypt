@@ -254,7 +254,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.22, 1.25, 4.2_
 
-  - [ ] 2.3 Fixture repo builder
+  - [x] 2.3 Fixture repo builder
     - Subsystem: ingest. Files (2): `tests/fixtures/make_repo.py`, `tests/ingest/test_make_repo.py`.
     - Build tiny git repos in `tmp_path` with scripted commits, authors, renames, a merge, and fixed `GIT_AUTHOR_DATE` / `GIT_COMMITTER_DATE`. No network, no dependence on today's date.
     - Tests: the builder is deterministic (same script, same SHAs); dates are as scripted.
