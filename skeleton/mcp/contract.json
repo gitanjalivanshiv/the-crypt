@@ -1,0 +1,661 @@
+{
+  "analyzers": {
+    "churn": "Files with many commits since the current path was created.",
+    "staleness": "Files not changed for a long time.",
+    "todo_age": "TODO markers, aged by days since this line last changed."
+  },
+  "error_codes": {
+    "file_not_found": "No such file in the snapshot.",
+    "invalid_argument": "An argument is missing, has the wrong type, or is out of range.",
+    "malformed": "The request or citation is malformed.",
+    "path_unsafe": "The path is absolute, escapes the snapshot, or is otherwise unsafe.",
+    "range_invalid": "The line range is invalid (for example start after end, or below 1).",
+    "range_out_of_bounds": "The line range extends past the end of the file.",
+    "symlink": "The path is, or passes through, a symlink.",
+    "tool_not_allowed": "The tool is not in this persona's allowed tools."
+  },
+  "error_response_schema": {
+    "$defs": {
+      "ErrorCode": {
+        "description": "R4 citation codes that can occur without a quote, plus tool-level codes.",
+        "enum": [
+          "malformed",
+          "path_unsafe",
+          "symlink",
+          "file_not_found",
+          "range_invalid",
+          "range_out_of_bounds",
+          "tool_not_allowed",
+          "invalid_argument"
+        ],
+        "title": "ErrorCode",
+        "type": "string"
+      },
+      "ToolError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "$ref": "#/$defs/ErrorCode"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ToolError",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "error": {
+        "$ref": "#/$defs/ToolError"
+      },
+      "snapshot_id": {
+        "title": "Snapshot Id",
+        "type": "string"
+      }
+    },
+    "required": [
+      "error",
+      "snapshot_id"
+    ],
+    "title": "ErrorResponse",
+    "type": "object"
+  },
+  "limits": {
+    "default_limit": 20,
+    "max_limit": 100,
+    "read_lines_max": 200
+  },
+  "metrics": {
+    "age_days": "Days since this line last changed (git blame). Editing a TODO's wording resets its age.",
+    "author_count": "Number of distinct authors of commits since the current path was created.",
+    "commit_count": "Number of commits since the current path was created. Renames are not followed and merge commits contribute no files, so a renamed file's history starts at the rename.",
+    "days_since_modified": "Days since the file was last changed by a commit on the current path. Renames are not followed.",
+    "todo_count_in_file": "Number of TODO-style markers in the file."
+  },
+  "tools": {
+    "get_file_facts": {
+      "description": "Line count, symbols, imports and history metadata for one file.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "GetFileFactsInput",
+        "type": "object"
+      },
+      "output_schema": {
+        "$defs": {
+          "FileHistory": {
+            "additionalProperties": false,
+            "properties": {
+              "author_count": {
+                "title": "Author Count",
+                "type": "integer"
+              },
+              "commit_count": {
+                "title": "Commit Count",
+                "type": "integer"
+              },
+              "last_modified": {
+                "format": "date-time",
+                "title": "Last Modified",
+                "type": "string"
+              }
+            },
+            "required": [
+              "commit_count",
+              "last_modified",
+              "author_count"
+            ],
+            "title": "FileHistory",
+            "type": "object"
+          },
+          "Import": {
+            "additionalProperties": false,
+            "properties": {
+              "level": {
+                "title": "Level",
+                "type": "integer"
+              },
+              "line": {
+                "title": "Line",
+                "type": "integer"
+              },
+              "module": {
+                "title": "Module",
+                "type": "string"
+              },
+              "names": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Names",
+                "type": "array"
+              },
+              "resolved_file": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Resolved File"
+              }
+            },
+            "required": [
+              "module",
+              "names",
+              "line",
+              "level",
+              "resolved_file"
+            ],
+            "title": "Import",
+            "type": "object"
+          },
+          "Symbol": {
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "enum": [
+                  "module",
+                  "class",
+                  "function",
+                  "method"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "line_end": {
+                "title": "Line End",
+                "type": "integer"
+              },
+              "line_start": {
+                "title": "Line Start",
+                "type": "integer"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "kind",
+              "line_start",
+              "line_end"
+            ],
+            "title": "Symbol",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "history": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/FileHistory"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "history_available": {
+            "title": "History Available",
+            "type": "boolean"
+          },
+          "imports": {
+            "items": {
+              "$ref": "#/$defs/Import"
+            },
+            "title": "Imports",
+            "type": "array"
+          },
+          "line_count": {
+            "title": "Line Count",
+            "type": "integer"
+          },
+          "snapshot_id": {
+            "title": "Snapshot Id",
+            "type": "string"
+          },
+          "symbols": {
+            "items": {
+              "$ref": "#/$defs/Symbol"
+            },
+            "title": "Symbols",
+            "type": "array"
+          }
+        },
+        "required": [
+          "snapshot_id",
+          "file",
+          "line_count",
+          "symbols",
+          "imports",
+          "history",
+          "history_available"
+        ],
+        "title": "GetFileFactsOutput",
+        "type": "object"
+      }
+    },
+    "get_snapshot": {
+      "description": "Snapshot ID, source, licence, history availability, file count and analyzer statuses.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "GetSnapshotInput",
+        "type": "object"
+      },
+      "output_schema": {
+        "$defs": {
+          "AnalyzerStatus": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string"
+              },
+              "reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Reason"
+              },
+              "state": {
+                "enum": [
+                  "ok",
+                  "skipped",
+                  "failed"
+                ],
+                "title": "State",
+                "type": "string"
+              },
+              "total_found": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Total Found"
+              },
+              "truncated": {
+                "default": false,
+                "title": "Truncated",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "state"
+            ],
+            "title": "AnalyzerStatus",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "analyzers": {
+            "items": {
+              "$ref": "#/$defs/AnalyzerStatus"
+            },
+            "title": "Analyzers",
+            "type": "array"
+          },
+          "file_count": {
+            "title": "File Count",
+            "type": "integer"
+          },
+          "history_available": {
+            "title": "History Available",
+            "type": "boolean"
+          },
+          "licence": {
+            "title": "Licence",
+            "type": "string"
+          },
+          "snapshot_id": {
+            "title": "Snapshot Id",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "snapshot_id",
+          "source",
+          "licence",
+          "history_available",
+          "file_count",
+          "analyzers"
+        ],
+        "title": "GetSnapshotOutput",
+        "type": "object"
+      }
+    },
+    "list_findings": {
+      "description": "List findings filtered by analyzer, file and min_severity. Ordered by severity descending, then file, then line_start. Reports clamping and analyzer skipped/failed status.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "analyzer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Analyzer"
+          },
+          "file": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "File"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Default 20; values above 100 are clamped.",
+            "title": "Limit"
+          },
+          "min_severity": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Min Severity"
+          }
+        },
+        "title": "ListFindingsInput",
+        "type": "object"
+      },
+      "output_schema": {
+        "$defs": {
+          "AnalyzerStatus": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string"
+              },
+              "reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Reason"
+              },
+              "state": {
+                "enum": [
+                  "ok",
+                  "skipped",
+                  "failed"
+                ],
+                "title": "State",
+                "type": "string"
+              },
+              "total_found": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Total Found"
+              },
+              "truncated": {
+                "default": false,
+                "title": "Truncated",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "state"
+            ],
+            "title": "AnalyzerStatus",
+            "type": "object"
+          },
+          "FindingWithId": {
+            "additionalProperties": false,
+            "properties": {
+              "analyzer": {
+                "title": "Analyzer",
+                "type": "string"
+              },
+              "evidence": {
+                "title": "Evidence",
+                "type": "string"
+              },
+              "file": {
+                "title": "File",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "line_end": {
+                "title": "Line End",
+                "type": "integer"
+              },
+              "line_start": {
+                "title": "Line Start",
+                "type": "integer"
+              },
+              "metrics": {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                "title": "Metrics",
+                "type": "object"
+              },
+              "severity": {
+                "title": "Severity",
+                "type": "number"
+              }
+            },
+            "required": [
+              "analyzer",
+              "file",
+              "line_start",
+              "line_end",
+              "evidence",
+              "severity",
+              "metrics",
+              "id"
+            ],
+            "title": "FindingWithId",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "analyzers": {
+            "description": "Always present. A skipped or failed analyzer is reported here, so an empty findings list is not evidence of a clean repository.",
+            "items": {
+              "$ref": "#/$defs/AnalyzerStatus"
+            },
+            "title": "Analyzers",
+            "type": "array"
+          },
+          "clamped": {
+            "title": "Clamped",
+            "type": "boolean"
+          },
+          "findings": {
+            "description": "Ordered by severity descending, then file, then line_start.",
+            "items": {
+              "$ref": "#/$defs/FindingWithId"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "limit_applied": {
+            "title": "Limit Applied",
+            "type": "integer"
+          },
+          "snapshot_id": {
+            "title": "Snapshot Id",
+            "type": "string"
+          },
+          "total_matching": {
+            "title": "Total Matching",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "snapshot_id",
+          "findings",
+          "total_matching",
+          "limit_applied",
+          "clamped",
+          "analyzers"
+        ],
+        "title": "ListFindingsOutput",
+        "type": "object"
+      }
+    },
+    "read_lines": {
+      "description": "Normalised lines line_start..line_end of one file, at most 200 lines.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "line_end": {
+            "title": "Line End",
+            "type": "integer"
+          },
+          "line_start": {
+            "title": "Line Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "file",
+          "line_start",
+          "line_end"
+        ],
+        "title": "ReadLinesInput",
+        "type": "object"
+      },
+      "output_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "line_start": {
+            "title": "Line Start",
+            "type": "integer"
+          },
+          "lines": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Lines",
+            "type": "array"
+          },
+          "returned_line_end": {
+            "title": "Returned Line End",
+            "type": "integer"
+          },
+          "snapshot_id": {
+            "title": "Snapshot Id",
+            "type": "string"
+          },
+          "truncated": {
+            "description": "True when the range exceeded 200 lines and was cut.",
+            "title": "Truncated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "snapshot_id",
+          "file",
+          "lines",
+          "line_start",
+          "returned_line_end",
+          "truncated"
+        ],
+        "title": "ReadLinesOutput",
+        "type": "object"
+      }
+    }
+  }
+}
