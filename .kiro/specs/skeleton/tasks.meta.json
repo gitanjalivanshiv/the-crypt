@@ -585,6 +585,18 @@
         "chatSessionId": "sess_58c3b620-b8f8-41cb-b996-a61eb5025673",
         "timestamp": 1794923542451
       }
+    ],
+    "6.3 Ask route": [
+      {
+        "executionId": "1cd514ec-53c2-408e-9554-e3c59079ddc1",
+        "chatSessionId": "sess_000ae7d5-6735-4e50-ba3a-5eb9157067b9",
+        "timestamp": 1794923572733
+      },
+      {
+        "executionId": "1cd514ec-53c2-408e-9554-e3c59079ddc1",
+        "chatSessionId": "sess_000ae7d5-6735-4e50-ba3a-5eb9157067b9",
+        "timestamp": 1794923713477
+      }
     ]
   }
 }

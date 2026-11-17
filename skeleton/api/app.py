@@ -14,13 +14,18 @@ from pydantic import BaseModel, ConfigDict
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from skeleton.api.errors import ApiCode, error_response, status_for
-from skeleton.api.models import SnapshotDetail
+from skeleton.api.models import AskRequest, SnapshotDetail
 from skeleton.ingest.models import IngestLimits
 from skeleton.mcp.contract import ErrorResponse as ToolErrorResponse
+from skeleton.mcp.router import ToolRouter
 from skeleton.mcp.tools import SignalTools
+from skeleton.personas.generator import ToolLoopGenerator
 from skeleton.personas.llm import LLMClient
 from skeleton.personas.loader import load_personas
+from skeleton.personas.prompt import assemble_system_prompt
 from skeleton.signals.store import AnalysedSnapshot
+from skeleton.verify.flow import run_grounded_turn
+from skeleton.verify.models import AnswerResult, VerifyConfig
 
 _REF_RE = re.compile(r"^[A-Za-z0-9_:-]{1,128}$")
 
@@ -150,6 +155,24 @@ def create_app(
             return _json_error("malformed", "line_start and line_end must be given together", 400)
         return _tool_result(
             tools.read_lines({"file": path, "line_start": line_start, "line_end": line_end})
+        )
+
+    @app.post("/snapshots/{ref}/ask")
+    async def ask(ref: str, body: AskRequest) -> AnswerResult:
+        snap = _open(ref)
+        persona = app.state.personas.get(body.persona)
+        if persona is None:
+            raise ApiError(ApiCode.persona_not_found, f"no persona named {body.persona!r}")
+        router = ToolRouter(SignalTools(snap), list(persona.allowed_tools))
+        generator = ToolLoopGenerator(
+            app.state.llm,
+            persona,
+            router,
+            assemble_system_prompt(persona, snap.snapshot.meta),
+            body.question,
+        )
+        return await run_grounded_turn(
+            snap, generator, decline_line=persona.decline_line, cfg=VerifyConfig()
         )
 
     return app

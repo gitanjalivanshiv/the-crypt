@@ -494,7 +494,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.1, 9.2, 9.5, 9.7_
 
-  - [ ] 6.3 Ask route
+  - [x] 6.3 Ask route
     - Subsystem: api. Files (2): `skeleton/api/app.py`, `tests/api/test_ask.py`.
     - `POST /snapshots/{ref}/ask` with `{persona, question}`: look up the persona by name (`persona_not_found` when absent), assemble the prompt, run `run_grounded_turn` with `ToolLoopGenerator`, return `AnswerResult` unchanged.
     - Tests with `FakeLLMClient`: answered, declined, banished-then-answered; unknown persona; body validates against the `AnswerResult` schema; no reshaping.
