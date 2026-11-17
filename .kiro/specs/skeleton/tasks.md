@@ -330,7 +330,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 3. Signals
 
-  - [ ] 3.1 Finding types, protocol, registry and runner
+  - [x] 3.1 Finding types, protocol, registry and runner
     - Subsystem: signals. Files (3): `skeleton/signals/models.py`, `skeleton/signals/__init__.py`, `tests/signals/test_runner.py`.
     - `Finding` with exactly seven fields and validators (severity in `[0,1]` and finite, metrics finite numbers and not bool, `line_start <= line_end`), `finding_id(f)`, `AnalyzerStatus` (`ok`, `skipped`, `failed`, `reason`, `truncated`, `total_found`), `FindingSet`, `SignalsConfig`, the `Analyzer` protocol (`name`, `needs_history`, `requires`, `analyze`), `AnalyzerOutput`. `__init__.py`: `ANALYZERS = ()` and `run_all` with the **finding gate** of design §5.2: a finding with a missing file, out-of-range lines or evidence not equal to the normalised slice fails the **whole analyzer**.
     - Tests with stub analyzers: history analyzer on a no-history snapshot is `skipped: history_unavailable`; a raising analyzer is `failed` and others still run; an invalid finding fails its analyzer; output order is stable.
