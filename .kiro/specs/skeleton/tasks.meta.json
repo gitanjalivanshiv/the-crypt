@@ -295,6 +295,25 @@
         "chatSessionId": "sess_628865bf-f1a7-4a61-b12b-5e63c5bf67d6",
         "timestamp": 1794896946330
       }
+    ],
+    "2.11 Archive ingest (CUTTABLE 2)": [
+      {
+        "executionId": "4812a1d6-81ea-4872-909c-75cb6b9372fa",
+        "chatSessionId": "sess_8598738e-c379-4119-b3ea-f535e25ca882",
+        "timestamp": 1794896987514
+      },
+      {
+        "executionId": "4812a1d6-81ea-4872-909c-75cb6b9372fa",
+        "chatSessionId": "sess_8598738e-c379-4119-b3ea-f535e25ca882",
+        "timestamp": 1794897183487
+      }
+    ],
+    "2. Ingest": [
+      {
+        "executionId": "4812a1d6-81ea-4872-909c-75cb6b9372fa",
+        "chatSessionId": "sess_8598738e-c379-4119-b3ea-f535e25ca882",
+        "timestamp": 1794897183528
+      }
     ]
   }
 }

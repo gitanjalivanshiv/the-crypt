@@ -7,7 +7,7 @@ import secrets
 import shutil
 import stat
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from skeleton.ingest.clone import clone_and_pin
@@ -18,7 +18,14 @@ from skeleton.ingest.models import DEFAULT_INTENT, IngestLimits, Intent, Snapsho
 from skeleton.ingest.snapshot import Snapshot
 from skeleton.ingest.source import Resolver, default_resolver, validate_url
 
-__all__ = ["ingest_url", "IngestLimits", "Snapshot"]
+__all__ = ["IngestLimits", "Snapshot", "ingest_archive", "ingest_url"]
+
+
+def ingest_archive(*args, **kwargs) -> Snapshot:  # type: ignore[no-untyped-def]
+    """Ingest a .zip / .tar.gz upload; see skeleton.ingest.archive."""
+    from skeleton.ingest.archive import ingest_archive as _impl
+
+    return _impl(*args, **kwargs)
 
 
 def _make_tree_writable(path: Path) -> None:
@@ -91,7 +98,7 @@ def ingest_url(
             retainable=retainable,
             intent=intent,
             history_available=hist.available,
-            ingested_at=datetime.now(timezone.utc),
+            ingested_at=datetime.now(UTC),
             file_count=len(graph.files),
             total_bytes=sum(f.size_bytes for f in graph.files),
             pinned_commit_time=hist.pinned_commit_time,

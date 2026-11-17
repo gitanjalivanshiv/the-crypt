@@ -236,7 +236,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - No files. Run `./scripts/check-verify.sh`. Confirm 100% line and branch coverage, every `ReasonCode` hit, and that P1 to P9 pass. Commit. **No task in group 5 or later may start until this is green** (R4.25, R8.3).
     - _Requirements: 4.24, 4.25, 8.3_
 
-- [ ] 2. Ingest
+- [x] 2. Ingest
 
   - [x] 2.1 Ingest models and errors
     - Subsystem: ingest. Files (2): `skeleton/ingest/models.py`, `tests/ingest/test_models.py`.
@@ -319,7 +319,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.1, 1.5, 1.14, 1.15, 1.25, 1.26_
 
-  - [ ] 2.11 Archive ingest (CUTTABLE 2)
+  - [x] 2.11 Archive ingest (CUTTABLE 2)
     - Subsystem: ingest. Files (3): `skeleton/ingest/archive.py`, `skeleton/ingest/__init__.py`, `tests/ingest/test_archive.py`.
     - `ingest_archive(data, *, filename, intent, limits, store)`: sniff `.zip` and `.tar.gz`/`.tgz` by content, SHA-256 while streaming (Snapshot ID `sha256:<hex>`), reject absolute names, `..`, and out-of-root symlinks or hardlinks as `unsafe_archive`, extract member by member with exclusive-create (never `extractall`), count decompressed bytes written (headers can lie), strip a common top-level directory, treat an embedded `.git` as git history, otherwise `history_available=false`. Export it from `__init__.py`.
     - Tests: zip-slip, absolute name, symlink out, hardlink out, decompression bomb with lying header, unsupported format, GitHub-style top-level directory, archive with and without `.git`, `history=None` per file.
