@@ -175,6 +175,18 @@
         "chatSessionId": "sess_d21e2bf5-c227-4822-b52d-508a70ad4805",
         "timestamp": 1794895774177
       }
+    ],
+    "2.1 Ingest models and errors": [
+      {
+        "executionId": "2e8f1c7d-3bc6-4c79-99e6-a3d51b706199",
+        "chatSessionId": "sess_22843c21-782f-4dfb-9b0d-200df1b3ea9d",
+        "timestamp": 1794895836108
+      },
+      {
+        "executionId": "2e8f1c7d-3bc6-4c79-99e6-a3d51b706199",
+        "chatSessionId": "sess_22843c21-782f-4dfb-9b0d-200df1b3ea9d",
+        "timestamp": 1794895892698
+      }
     ]
   }
 }

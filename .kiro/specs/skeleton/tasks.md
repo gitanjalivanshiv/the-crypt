@@ -238,7 +238,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 2. Ingest
 
-  - [ ] 2.1 Ingest models and errors
+  - [x] 2.1 Ingest models and errors
     - Subsystem: ingest. Files (2): `skeleton/ingest/models.py`, `tests/ingest/test_models.py`.
     - `FileEntry`, `FileHistory`, `Symbol`, `Import`, `CodeGraph`, `SnapshotMeta`, `IngestLimits` (500 MB, 180 s, 50,000 files), `Intent` (default `ephemeral`), `IngestCode` enum of the seven codes, `IngestError(code, detail)`. History is `FileHistory | None`, never a zero-filled record.
     - Tests: defaults match R1.8; frozen; `history=None` round-trips; `SnapshotMeta` JSON round trip.
