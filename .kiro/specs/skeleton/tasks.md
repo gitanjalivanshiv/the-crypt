@@ -518,7 +518,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.2, 9.8_
 
-  - [ ] 6.5a Upgrade ingest to the job model (CUTTABLE 3)
+  - [~] 6.5a Upgrade ingest to the job model (CUTTABLE 3)
     - Subsystem: api. Files (3): `skeleton/api/jobs.py`, `skeleton/api/app.py`, `tests/api/test_jobs.py`.
     - `POST /snapshots` returns 202 `{job_id, status}` instead of running inline; `GET /jobs/{id}` returns status, stage (`cloning`, `parsing`, `history`, `analysing`), `ref`, `snapshot_id`, or `error`. Thread pool with a semaphore of 2. Failures appear on the job with HTTP 200.
     - Tests: lifecycle; concurrency limit; each `IngestCode` surfaces on the job; a job never blocks the request beyond the configured timeout.
