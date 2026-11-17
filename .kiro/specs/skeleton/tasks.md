@@ -547,7 +547,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 6.1_
 
-  - [ ] 7.3 UI types and theme types
+  - [x] 7.3 UI types and theme types
     - Subsystem: ui-shell. Files (3): `src/types.ts`, `src/theme/types.ts`, `src/theme/contrast.ts`.
     - `types.ts`: hand-written `AnswerResult`, `VerifiedClaim`, `Banishment`, `Citation`, `ChatMessage` matching the API schema. `theme/types.ts`: `Theme`, `SoundSpec`, `REQUIRED_PAIRS`. `contrast.ts`: WCAG relative luminance and ratio.
     - Done when: `pnpm tsc --noEmit` passes.
