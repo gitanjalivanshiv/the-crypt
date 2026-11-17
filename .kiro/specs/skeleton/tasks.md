@@ -617,7 +617,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 6.7_
 
-  - [ ] 7.12 Meter animation (CUTTABLE 6)
+  - [x] 7.12 Meter animation (CUTTABLE 6)
     - Subsystem: ui-shell. Files (2): `src/components/Meter.module.css`, `test/Meter.motion.test.tsx`.
     - Width transition between values, disabled under reduced motion.
     - Tests: transition class present normally and absent under a mocked `prefers-reduced-motion`.
