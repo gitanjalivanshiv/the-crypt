@@ -395,7 +395,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: **Opus** (MCP contract).
     - _Requirements: 5.2, 5.3, 5.8_
 
-  - [ ] 4.2 Findings tools
+  - [x] 4.2 Findings tools
     - Subsystem: mcp. Files (2): `skeleton/mcp/tools.py`, `tests/mcp/test_tools_findings.py`.
     - `SignalTools(analysed_snapshot)` with `get_snapshot` and `list_findings` (filters `analyzer`, `file`, `min_severity`; order severity descending, then file, then `line_start`; default limit 20; clamp above 100 with `clamped=true`; each finding carries its derived `id`; the `analyzers` status list is **always** present). Every response carries `snapshot_id`. Pure Python, no SDK.
     - Tests: ordering; filters; clamp flag; a skipped or failed analyzer is visible and an empty list is never ambiguous; invalid `min_severity` gives `invalid_argument`.
