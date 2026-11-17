@@ -554,7 +554,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.9, 6.12_
 
-  - [ ] 7.4 Reference themes and contrast test
+  - [x] 7.4 Reference themes and contrast test
     - Subsystem: ui-shell. Files (3): `src/theme/themes/phosphor.ts`, `src/theme/themes/ledger.ts`, `test/contrast.test.ts`.
     - Two reference themes, as data only. One test iterates every registered theme and every pair in `REQUIRED_PAIRS`, requiring ratio `>= 4.5`, and checks effect values stay within their ranges.
     - Done when: `pnpm test contrast` is green. **Not cuttable** (R6.12).
