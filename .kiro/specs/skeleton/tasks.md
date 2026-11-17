@@ -609,7 +609,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.14_
 
-  - [ ] 7.11 Meter
+  - [x] 7.11 Meter
     - Subsystem: ui-shell. Files (3): `src/components/Meter.tsx`, `src/components/Meter.module.css`, `test/Meter.test.tsx`.
     - Props `value` (0 to 1, clamped) and `label`, `role="meter"` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-label`. No assumption about what it measures.
     - Tests: clamping at both ends; ARIA attributes; `vitest-axe` clean.
