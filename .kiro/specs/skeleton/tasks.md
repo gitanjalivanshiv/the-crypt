@@ -486,7 +486,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 9.5_
 
-  - [ ] 6.2 App factory and read routes
+  - [x] 6.2 App factory and read routes
     - Subsystem: api. Files (3): `skeleton/api/app.py`, `tests/api/test_read_routes.py`, `pyproject.toml`.
     - Add `fastapi`, `uvicorn`, `httpx`, `python-multipart`. `create_app(store, llm, persona_dir, cfg)`, personas loaded at startup (a bad persona fails startup). Routes `GET /snapshots/{ref}`, `GET /snapshots/{ref}/findings`, `GET /snapshots/{ref}/files/{path:path}` delegating to `SignalsTools`. No default persona. The app reads no secret or key.
     - Tests: `TestClient` against a fixture snapshot; bad path and range return the verifier's code with the mapped status; unknown ref is `snapshot_not_found`.
