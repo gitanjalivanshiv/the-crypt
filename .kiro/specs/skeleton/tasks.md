@@ -403,7 +403,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 5.2, 5.3, 5.5, 5.9_
 
-  - [ ] 4.3 File tools
+  - [x] 4.3 File tools
     - Subsystem: mcp. Files (2): `skeleton/mcp/tools.py`, `tests/mcp/test_tools_files.py`.
     - Add `get_file_facts` and `read_lines`. Both validate through `verify.citation.verify_citation(..., quote=None)` and return its reason code as a structured error, never an exception. `read_lines` returns normalised lines, at most 200, with `truncated` and `returned_line_end` when the range is longer.
     - Tests: each reachable reason code through the tools (`path_unsafe`, `symlink`, `file_not_found`, `range_invalid`, `range_out_of_bounds`); the 200-line truncation; a file in the graph without history reports `history_available=false`.
