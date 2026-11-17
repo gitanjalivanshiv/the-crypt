@@ -635,7 +635,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.8_
 
-  - [ ] 7.14 Third-theme fixture test (CUTTABLE 4)
+  - [x] 7.14 Third-theme fixture test (CUTTABLE 4)
     - Subsystem: ui-shell. Files (2): `test/fixtures/themeC.ts`, `test/third-theme.test.tsx`.
     - Render every component with a third theme defined only as data; assert no component file changed and the theme passes the contrast test.
     - Cut: theme isolation is still true by construction, only untested.
