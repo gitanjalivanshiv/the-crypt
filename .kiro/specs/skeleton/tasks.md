@@ -370,7 +370,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.18, 2.19, 2.20, 2.21, 2.9_
 
-  - [ ] 3.6 Findings store and analysed snapshot
+  - [x] 3.6 Findings store and analysed snapshot
     - Subsystem: signals. Files (2): `skeleton/signals/store.py`, `tests/signals/test_store.py`.
     - `analyse(snapshot_dir) -> FindingSet` runs `run_all` and writes `findings.json`. `load_findings(dir)`. `AnalysedSnapshot` wraps `ingest.Snapshot` plus a `FindingSet` and completes `verify.SnapshotView` with `finding(id) -> (file, metrics) | None`. This replaces the "Snapshot exposes findings" sentence in design §4.6, which would invert the layering.
     - Tests: round trip; `finding` of a known and unknown id; `AnalysedSnapshot` satisfies `SnapshotView` and `verify_citation` works through it on a real fixture snapshot.

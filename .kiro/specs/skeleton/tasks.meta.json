@@ -374,6 +374,18 @@
         "chatSessionId": "sess_449dcebd-cde0-4f68-aaad-e7b9d3b5d0ae",
         "timestamp": 1794905368824
       }
+    ],
+    "3.6 Findings store and analysed snapshot": [
+      {
+        "executionId": "476c981d-61ce-40be-b338-0e4d215fd16d",
+        "chatSessionId": "sess_ca243dff-50a6-4258-8f9b-10a1a56959c6",
+        "timestamp": 1794905406406
+      },
+      {
+        "executionId": "476c981d-61ce-40be-b338-0e4d215fd16d",
+        "chatSessionId": "sess_ca243dff-50a6-4258-8f9b-10a1a56959c6",
+        "timestamp": 1794905528060
+      }
     ]
   }
 }
