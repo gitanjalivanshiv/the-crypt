@@ -67,3 +67,27 @@ work, Opus 5.5 capped at 15 prompts), command hooks over agent hooks, one task a
 rather than concurrent waves. Final actuals from `docs/CREDIT-BUDGET.md`.
 
 > _TODO_
+## Skeleton change requests
+Filed by the Medium spec (`.kiro/specs/medium/design.md` §7). The skeleton is edited only
+through a change request, never as a side effect of a Medium task.
+
+### SCR-2: `allowed_numbers` per app. Taken pre-emptively, before Medium task 1.1.
+Spec: `.kiro/specs/skeleton-amendment-scr2/`. Change: `ApiConfig.verify: VerifyConfig`
+(default `VerifyConfig()`), passed as `cfg=cfg.verify` in the `ask` route of
+`skeleton/api/app.py`. One test in `tests/api/test_ask.py`. Nothing under `skeleton/verify/`
+changed.
+
+The Medium spec says SCR-2 is opened only if the harness shows `unbacked_number`
+over-rejection. It was opened before any harness run. Why: `allowed_numbers` was permanently
+empty and the digit scan is strict by design, so that breach was the likeliest one.
+Reactively it would have stalled Medium task 5.2, with the UI group blocked behind gate 5.3,
+and the fix would have needed this same amendment days later. The default equals the old
+inline value, so the harness measures the same thing as before.
+
+The stop-condition process worked: the Medium spec filed the request instead of editing the
+skeleton, and the request then went through its own spec (three tasks, one source file, one
+test file). SCR-1, SCR-3 and SCR-4 stay reactive.
+
+Checks after the change: 599 Python tests and 74 UI tests pass, `./scripts/check-verify.sh`
+holds 100% line and branch coverage, import-linter is green (3 contracts exist in
+`.importlinter`, not 4).

@@ -47,6 +47,7 @@ class ApiConfig(BaseModel):
     allowed_hosts: frozenset[str] | None = None
     limits: IngestLimits = IngestLimits()
     ingest_timeout_s: float = 300.0
+    verify: VerifyConfig = VerifyConfig()
 
 
 class ApiError(Exception):
@@ -269,7 +270,7 @@ def create_app(
             body.question,
         )
         return await run_grounded_turn(
-            snap, generator, decline_line=persona.decline_line, cfg=VerifyConfig()
+            snap, generator, decline_line=persona.decline_line, cfg=cfg.verify
         )
 
     return app

@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 
 from skeleton.api.app import ApiConfig, create_app
 from skeleton.personas.llm import FakeLLMClient, LLMResponse
-from skeleton.verify.models import AnswerResult
+from skeleton.verify.models import AnswerResult, VerifyConfig
 from tests.api.test_read_routes import REF, SNAP_ID, persona_dir, store  # noqa: F401
 
 GOOD = {"text": "It sleeps here.", "citations": [{"file": "a.py", "line_start": 1, "line_end": 1}]}
@@ -18,9 +18,11 @@ def _reply(*claims: dict) -> LLMResponse:
     return LLMResponse(text=json.dumps({"claims": list(claims)}))
 
 
-def _ask(store: Path, persona_dir: Path, script: list[LLMResponse], persona: str = "example"):  # noqa: F811
+def _ask(store: Path, persona_dir: Path, script: list[LLMResponse], persona: str = "example", cfg: ApiConfig | None = None):  # noqa: F811
     llm = FakeLLMClient(script)
-    client = TestClient(create_app(store=store, llm=llm, persona_dir=persona_dir, cfg=ApiConfig()))
+    client = TestClient(
+        create_app(store=store, llm=llm, persona_dir=persona_dir, cfg=cfg or ApiConfig())
+    )
     return client.post(f"/snapshots/{REF}/ask", json={"persona": persona, "question": "Why?"}), llm
 
 
@@ -65,3 +67,19 @@ def test_body_is_answer_result_unchanged(store: Path, persona_dir: Path) -> None
     parsed = AnswerResult.model_validate(body)
     assert set(body) == set(AnswerResult.model_fields)
     assert parsed.model_dump(mode="json") == body
+
+FORTY_TWO = {
+    "text": "It has 42 lines.",
+    "citations": [{"file": "a.py", "line_start": 1, "line_end": 1}],
+}
+def test_injected_allowed_numbers(store: Path, persona_dir: Path) -> None:  # noqa: F811
+    r, _ = _ask(store, persona_dir, [_reply(FORTY_TWO), _reply(FORTY_TWO)])
+    body = r.json()
+    assert body["status"] == "declined"
+    assert body["banishments"][0]["reason"] == "unbacked_number"
+    allowed = ApiConfig(verify=VerifyConfig(allowed_numbers=frozenset({"42"})))
+    r, _ = _ask(store, persona_dir, [_reply(FORTY_TWO)], cfg=allowed)
+    body = r.json()
+    assert body["status"] == "answered"
+    assert [c["text"] for c in body["claims"]] == [FORTY_TWO["text"]]
+    assert body["banishments"] == []
