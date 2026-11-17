@@ -577,7 +577,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku for the CSS; Auto for the component.
     - _Requirements: 6.1, 6.13_
 
-  - [ ] 7.7 FileTree: tree and highlight-on-cite
+  - [x] 7.7 FileTree: tree and highlight-on-cite
     - Subsystem: ui-shell. Files (3): `src/components/FileTree.tsx`, `src/components/FileTree.module.css`, `test/FileTree.test.tsx`.
     - Props `files`, `cited`, `active`, `onSelect`. Build the tree from sorted paths. `expanded = userExpanded ∪ ancestors(cited)` is derived, so a cited file is always visible and its ancestors cannot be collapsed. Cited rows are highlighted, `active` is scrolled into view with `scrollIntoView({block: "nearest"})`. Highlight is prop-driven only.
     - Tests: ancestors expand; cited rows marked; collapse of a cited ancestor is ignored; changing `cited` updates highlight; `scrollIntoView` called for `active`.

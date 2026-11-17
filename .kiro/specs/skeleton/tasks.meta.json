@@ -712,6 +712,18 @@
         "chatSessionId": "sess_c1b66245-fb4c-493b-8b87-b05192c78506",
         "timestamp": 1794942708830
       }
+    ],
+    "7.7 FileTree: tree and highlight-on-cite": [
+      {
+        "executionId": "34397a80-40a0-451f-8879-57ed756aaa09",
+        "chatSessionId": "sess_08bf97a1-0cd3-4d04-a083-d99b46330c8b",
+        "timestamp": 1794942752136
+      },
+      {
+        "executionId": "34397a80-40a0-451f-8879-57ed756aaa09",
+        "chatSessionId": "sess_08bf97a1-0cd3-4d04-a083-d99b46330c8b",
+        "timestamp": 1794942861051
+      }
     ]
   }
 }
