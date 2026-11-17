@@ -121,14 +121,26 @@ _WS = st.text(alphabet=" \t\f\v", max_size=3)
 
 
 @st.composite
-def _pieces(draw, lines):
-    """Join lines with random terminators and trailing whitespace."""
+def _pieces(draw, lines, trailing=False):
+    """Join lines with random terminators and trailing whitespace.
+
+    A bare "\r" is never emitted before an empty piece, so adjacent
+    terminators can never merge into a single "\r\n".
+    """
+    pieces = [ln + draw(_WS) for ln in lines]
     out = []
-    for i, ln in enumerate(lines):
-        out.append(ln + draw(_WS))
-        if i < len(lines) - 1:
-            out.append(draw(_TERM))
+    for i, piece in enumerate(pieces):
+        out.append(piece)
+        if i < len(pieces) - 1 or trailing:
+            nxt_empty = i + 1 < len(pieces) and piece_is_empty(pieces[i + 1])
+            if i + 1 == len(pieces):
+                nxt_empty = False
+            out.append(draw(st.sampled_from(["\n", "\r\n"]) if nxt_empty else _TERM))
     return "".join(out)
+
+
+def piece_is_empty(piece):
+    return piece == ""
 
 
 @CFG
@@ -139,7 +151,7 @@ def test_p4_terminator_and_trailing_ws_do_not_change_verdict(tc, data):
     assume(c["quote"].split("\n")[-1] != "")
     path = c["file"]
     file_lines = [b.decode("utf-8") for b in split_lines(tree.files[path])]
-    new_file = data.draw(_pieces(file_lines)) + data.draw(_TERM)
+    new_file = data.draw(_pieces(file_lines, trailing=True))
     files = {**tree.files, path: new_file.encode("utf-8")}
     quote = data.draw(_pieces(c["quote"].split("\n")))
     view = FakeView(files=files)

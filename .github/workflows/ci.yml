@@ -1,0 +1,15 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  # R4.24a: no deploy job may list `verify-coverage` under `needs:`.
+  # The coverage gate must never block a deploy.
+  verify-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: ./scripts/check-verify.sh

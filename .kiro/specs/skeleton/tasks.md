@@ -225,7 +225,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.14, 4.15, 4.16, 4.17_
 
-  - [ ] 1.13 Coverage gate and reason-code coverage
+  - [x] 1.13 Coverage gate and reason-code coverage
     - Subsystem: verify. Files (3): `.github/workflows/ci.yml`, `scripts/check-verify.sh`, `tests/verify/test_reason_coverage.py`.
     - `check-verify.sh`: fails if `pragma: no cover` appears anywhere under `skeleton/verify/`, then runs `pytest tests/verify --cov=skeleton.verify --cov-branch --cov-fail-under=100`. `ci.yml`: a job `verify-coverage` that runs it. **No deploy job may list it under `needs:`** (R4.24a); add a comment saying so. `test_reason_coverage.py`: a table mapping every `ReasonCode` to one minimal input that produces it, asserting the produced code equals the key, so a new code without a test fails.
     - Done when: `./scripts/check-verify.sh` exits 0 locally; adding a `pragma: no cover` line to a verify module makes it exit non-zero.

@@ -144,6 +144,18 @@
         "chatSessionId": "sess_820d735f-1be1-4fbc-89d5-0226feaf2c20",
         "timestamp": 1794895090632
       }
+    ],
+    "1.13 Coverage gate and reason-code coverage": [
+      {
+        "executionId": "9ad0268b-0c2b-4169-92a2-be903219bc7b",
+        "chatSessionId": "sess_e340c081-4abc-4a5e-9db3-869eb333d083",
+        "timestamp": 1794895142051
+      },
+      {
+        "executionId": "a5110048-bb42-47a5-ab06-8105dd9557e6",
+        "chatSessionId": "sess_e340c081-4abc-4a5e-9db3-869eb333d083",
+        "timestamp": 1794895619392
+      }
     ]
   }
 }
