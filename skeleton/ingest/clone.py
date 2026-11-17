@@ -59,7 +59,7 @@ def _kill_group(proc: subprocess.Popen) -> None:
 def _run_clone(cmd: list[str], dest: Path, limits: IngestLimits) -> None:
     """Run the clone, enforcing time and size limits. Raises IngestError."""
     with tempfile.TemporaryFile() as err:
-        proc = subprocess.Popen(  # noqa: S603 - argument list, no shell
+        proc = subprocess.Popen(
             cmd,
             env=_env(),
             stdin=subprocess.DEVNULL,
@@ -115,7 +115,7 @@ def _run_clone(cmd: list[str], dest: Path, limits: IngestLimits) -> None:
 def _git(
     git_bin: str, dest: Path, allow: str, *args: str
 ) -> subprocess.CompletedProcess[bytes]:
-    return subprocess.run(  # noqa: S603
+    return subprocess.run(
         [git_bin, *_hardening(allow), "-C", str(dest), *args],
         env=_env(),
         stdin=subprocess.DEVNULL,

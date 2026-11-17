@@ -6,9 +6,9 @@
 from hypothesis import assume, given, settings
 from hypothesis import strategies as st
 
+from skeleton.verify.claim import verify_claim
 from skeleton.verify.codes import ReasonCode as R
 from skeleton.verify.models import Banishment, VerifiedClaim, VerifyConfig
-from skeleton.verify.claim import verify_claim
 from skeleton.verify.textnorm import normalise_line, split_lines
 from tests.verify.fake_view import FakeView
 from tests.verify.strategies import answer, file_trees

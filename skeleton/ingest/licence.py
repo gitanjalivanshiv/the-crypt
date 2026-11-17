@@ -3,7 +3,7 @@
 import re
 from pathlib import Path
 
-from skeleton.ingest.models import Intent, IngestCode, IngestError
+from skeleton.ingest.models import IngestCode, IngestError, Intent
 
 PERMITTED = frozenset({"MIT", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0"})
 UNKNOWN = "unknown"

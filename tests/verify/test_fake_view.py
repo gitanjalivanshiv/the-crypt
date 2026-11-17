@@ -26,7 +26,7 @@ CASES = {
 
 @pytest.fixture(params=["fake", "real"])
 def view(request, tmp_path):
-    kw = dict(files=FILES, symlinks=SYMLINKS, symlink_dirs=SYMLINK_DIRS, findings=FINDINGS)
+    kw = {"files": FILES, "symlinks": SYMLINKS, "symlink_dirs": SYMLINK_DIRS, "findings": FINDINGS}
     if request.param == "fake":
         return FakeView(**kw)
     return RealDirView(tmp_path, **kw)

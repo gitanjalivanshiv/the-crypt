@@ -18,7 +18,7 @@ def _reply(*claims: dict) -> LLMResponse:
     return LLMResponse(text=json.dumps({"claims": list(claims)}))
 
 
-def _ask(store: Path, persona_dir: Path, script: list[LLMResponse], persona: str = "example"):
+def _ask(store: Path, persona_dir: Path, script: list[LLMResponse], persona: str = "example"):  # noqa: F811
     llm = FakeLLMClient(script)
     client = TestClient(create_app(store=store, llm=llm, persona_dir=persona_dir, cfg=ApiConfig()))
     return client.post(f"/snapshots/{REF}/ask", json={"persona": persona, "question": "Why?"}), llm

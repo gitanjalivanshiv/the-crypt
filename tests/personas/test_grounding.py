@@ -9,7 +9,7 @@ from tests.verify.fake_view import FakeView
 
 
 def _example() -> str:
-    m = re.search(r"```json\n(.*?)\n```", GROUNDING, re.S)
+    m = re.search(r"```json\n(.*?)\n```", GROUNDING, re.DOTALL)
     assert m
     return m.group(1)
 

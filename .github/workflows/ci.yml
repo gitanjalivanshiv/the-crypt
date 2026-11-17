@@ -5,7 +5,7 @@ on:
 
 jobs:
   # R4.24a: no deploy job may list `verify-coverage` under `needs:`.
-  # The coverage gate must never block a deploy.
+  # The coverage gate must never block a deploy. Keep it as its own job.
   verify-coverage:
     runs-on: ubuntu-latest
     steps:
@@ -13,3 +13,63 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv sync
       - run: ./scripts/check-verify.sh
+
+  # Full suite. Network tests are excluded by default via pyproject addopts
+  # (`-m 'not network'`); the explicit marker here keeps that visible.
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run pytest -m "not network"
+
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run ruff check .
+
+  import-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run lint-imports
+
+  ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skeleton/ui-shell
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: skeleton/ui-shell/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test
+
+  # Deferred from task 7.16: fail if generated TS types drift from the API schema.
+  ts-types-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: uv sync
+      - run: ./scripts/gen-ts-types.sh --check

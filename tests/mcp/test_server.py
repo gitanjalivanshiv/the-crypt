@@ -70,10 +70,9 @@ def _params(args: list[str], env: dict[str, str] | None = None) -> StdioServerPa
 
 
 async def _list_tools(params: StdioServerParameters):  # type: ignore[no-untyped-def]
-    async with stdio_client(params) as (read, write):
-        async with ClientSession(read, write) as session:
-            await session.initialize()
-            return (await session.list_tools()).tools
+    async with stdio_client(params) as (read, write), ClientSession(read, write) as session:
+        await session.initialize()
+        return (await session.list_tools()).tools
 
 
 def list_tools(params: StdioServerParameters):  # type: ignore[no-untyped-def]
@@ -97,17 +96,16 @@ def test_snapshot_from_env_and_allow_hides_tools(snapshot_dir: Path) -> None:
 def test_tool_call_delegates_and_disallowed_is_error(snapshot_dir: Path) -> None:
     async def run() -> tuple[dict, dict]:  # type: ignore[type-arg]
         params = _params(["--snapshot", str(snapshot_dir), "--allow", "read_lines"])
-        async with stdio_client(params) as (read, write):
-            async with ClientSession(read, write) as session:
-                await session.initialize()
-                ok = await session.call_tool(
-                    "read_lines", {"file": "a.py", "line_start": 1, "line_end": 2}
-                )
-                bad = await session.call_tool("get_snapshot", {})
-                return (
-                    json.loads(ok.content[0].text),  # type: ignore[union-attr]
-                    json.loads(bad.content[0].text),  # type: ignore[union-attr]
-                )
+        async with stdio_client(params) as (read, write), ClientSession(read, write) as session:
+            await session.initialize()
+            ok = await session.call_tool(
+                "read_lines", {"file": "a.py", "line_start": 1, "line_end": 2}
+            )
+            bad = await session.call_tool("get_snapshot", {})
+            return (
+                json.loads(ok.content[0].text),  # type: ignore[union-attr]
+                json.loads(bad.content[0].text),  # type: ignore[union-attr]
+            )
 
     ok, bad = anyio.run(run)
     assert ok["lines"] == ["one", "two"]
@@ -119,6 +117,7 @@ def test_missing_snapshot_exits_nonzero() -> None:
     proc = subprocess.run(
         [sys.executable, "-m", "skeleton.mcp.server"],
         cwd=ROOT,
+        check=False,
         env={**env, "PYTHONPATH": str(ROOT)},
         capture_output=True,
         text=True,
@@ -132,6 +131,7 @@ def test_bad_snapshot_path_exits_nonzero(tmp_path: Path) -> None:
     proc = subprocess.run(
         [sys.executable, "-m", "skeleton.mcp.server", "--snapshot", str(tmp_path / "nope")],
         cwd=ROOT,
+        check=False,
         env={**os.environ, "PYTHONPATH": str(ROOT)},
         capture_output=True,
         text=True,

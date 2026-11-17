@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 import subprocess
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict
@@ -53,7 +53,7 @@ def _git(repo: Path, *args: str) -> bytes:
 
 
 def _ts(value: bytes) -> datetime:
-    return datetime.fromtimestamp(int(value), tz=timezone.utc)
+    return datetime.fromtimestamp(int(value), tz=UTC)
 
 
 def collect_history(repo: Path, sha: str) -> HistoryResult:

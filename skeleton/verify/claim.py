@@ -4,7 +4,6 @@ import re
 
 from skeleton.verify.citation import CitationOk, verify_citation
 from skeleton.verify.codes import ReasonCode, render_message
-from skeleton.verify.textnorm import normalise_line, normalise_quote
 from skeleton.verify.models import (
     Banishment,
     BanishmentTarget,
@@ -17,6 +16,7 @@ from skeleton.verify.models import (
     VerifiedClaim,
     VerifyConfig,
 )
+from skeleton.verify.textnorm import normalise_line, normalise_quote
 
 
 def _is_number(value: object) -> bool:
@@ -56,7 +56,7 @@ _THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}(?!\d))")
 _TOKEN = re.compile(r"(?<![A-Za-z0-9_])\d+(?:\.\d+)?(?![A-Za-z0-9_])")
 
 
-def _figure_tokens(value: int | float) -> set[str]:
+def _figure_tokens(value: float) -> set[str]:
     if isinstance(value, int):
         return {str(value)}
     tokens = {repr(value)}

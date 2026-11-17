@@ -681,7 +681,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 7.2, 3.8_
 
-- [ ] 9. Integration
+- [x] 9. Integration
 
   - [x] 9.1 Smoke test on a real repository
     - Subsystem: integration. Files (1): `tests/integration/test_itsdangerous.py`.
@@ -690,7 +690,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.1, 1.14, 2.19_
 
-  - [ ] 9.2 Complete the CI workflow (not cuttable)
+  - [x] 9.2 Complete the CI workflow (not cuttable)
     - Subsystem: integration. Files (1): `.github/workflows/ci.yml`.
     - Add the jobs the earlier tasks deferred: the full `pytest` suite with network tests excluded, `lint-imports` from 8.1, `ruff`, and the UI `pnpm lint` and `pnpm test` from 8.2. Keep `verify-coverage` as its own job and confirm that no deploy job lists it under `needs:` (R4.24a).
     - Tasks 1.13, 7.16 and 8.1 each defer CI work to "a follow-up" or "the next CI-touching task". **This is that task.** Without it the repository ships with a single CI job that checks the verifier and nothing else, while the import contracts, the UI tests and the whole Python suite never run on a push. An unnamed future task is not a plan.
@@ -698,8 +698,17 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku (config).
     - _Requirements: 7.1, 4.24_
 
+  - [x] 9.3 Fix ruff violations so the CI `ruff` job passes
+
+    - Subsystem: integration. Files: those under `skeleton/` (ingest, mcp, verify) and `tests/` that `ruff check .` reports (23 violations at the time of writing).
+    - Run `uv run ruff check . --fix` to clear the auto-fixable violations (13: unsorted imports, unused `noqa`). Then fix the rest by hand, for example the blind `except Exception` and `subprocess.run` without `check=`. Do not silence them with blanket `noqa` comments or a broad `ignore` list. Where a violation is intentional, use a narrow `# noqa: RULE` with a reason.
+    - Behaviour must not change: run the full `pytest -m "not network"` suite and `lint-imports` after the fixes.
+    - Done when: `uv run ruff check .` exits 0 and the suite still passes. Once it does, task 9.2's "every job passes" condition is met.
+    - Model: Haiku (mechanical fixes).
+    - _Requirements: 7.1_
+
 ## Notes
 
-- Counts: 9 groups and 71 tasks. Eight tasks carry a `CUTTABLE` marker, one per position in R8.5: cut 1 is task 7.16, cut 2 is 2.11, cut 3 is 6.5a, cut 4 is 7.14, cut 5 is 7.13, cut 6 is 7.12, cut 7 is 3.5 and cut 8 is 3.4.
+- Counts: 9 groups and 72 tasks. Eight tasks carry a `CUTTABLE` marker, one per position in R8.5: cut 1 is task 7.16, cut 2 is 2.11, cut 3 is 6.5a, cut 4 is 7.14, cut 5 is 7.13, cut 6 is 7.12, cut 7 is 3.5 and cut 8 is 3.4.
 - **Every CUTTABLE task is now a clean deletion.** Cut 3 was originally one task, "Ingest jobs", which could not be removed cleanly: cutting it still required a synchronous `POST /snapshots` to be written in its place, under time pressure, exactly when the schedule was already failing. It is now split: 6.5 builds the synchronous route unconditionally, 6.5a upgrades it to jobs. Cutting 6.5a deletes code and leaves a working API.
 - `.github/workflows/ci.yml` is created in task 1.13 holding only the `verify-coverage` job, and completed by task **9.2**, which is the one-file CI task referred to by the deferrals in 1.13, 7.16 and 8.1.

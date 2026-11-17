@@ -62,7 +62,7 @@ async def _attempt(
 ) -> _Attempt:
     try:
         text = await generate(n, feedback)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - generator is untrusted; any failure fails the attempt
         return _Attempt((), (), AttemptFailure("generator_error", type(exc).__name__))
     items = parse_answer(text if isinstance(text, str) else "")
     if isinstance(items, ParseFailure):

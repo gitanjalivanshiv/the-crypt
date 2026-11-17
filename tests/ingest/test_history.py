@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from skeleton.ingest.history import collect_history
 from tests.fixtures.make_repo import FixtureRepo
@@ -12,7 +12,7 @@ def d(day: int) -> str:
 
 
 def dt(day: int) -> datetime:
-    return datetime(2024, 2, day, tzinfo=timezone.utc)
+    return datetime(2024, 2, day, tzinfo=UTC)
 
 
 def test_counts_authors_and_last_modified(tmp_path):

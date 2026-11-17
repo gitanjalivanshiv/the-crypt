@@ -12,7 +12,7 @@ import os
 import sys
 from collections.abc import Sequence
 
-import mcp.types as types
+from mcp import types
 from mcp.server.lowlevel import Server
 from mcp.server.stdio import stdio_server
 

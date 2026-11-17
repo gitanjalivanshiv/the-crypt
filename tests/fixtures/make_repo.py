@@ -18,12 +18,12 @@ from __future__ import annotations
 
 import os
 import subprocess
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 DEFAULT_AUTHOR = "Test User <test@example.com>"
 DEFAULT_BRANCH = "main"
-_BASE_DATE = datetime(2024, 1, 1, tzinfo=timezone.utc)
+_BASE_DATE = datetime(2024, 1, 1, tzinfo=UTC)
 
 
 def _parse_author(author: str) -> tuple[str, str]:

@@ -52,5 +52,5 @@ class Snapshot:
             if self.entry_kind(path) != "file" or self.has_symlink_ancestor(path):
                 return None
             return (self.repo / path).read_bytes()
-        except Exception:
+        except (OSError, ValueError):  # unreadable or malformed path: contract is None, never raise
             return None

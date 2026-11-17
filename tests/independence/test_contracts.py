@@ -18,6 +18,7 @@ def _lint() -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [str(Path(sys.executable).parent / "lint-imports"), "--config", str(ROOT / ".importlinter")],
         cwd=ROOT,
+        check=False,
         capture_output=True,
         text=True,
         timeout=300,
