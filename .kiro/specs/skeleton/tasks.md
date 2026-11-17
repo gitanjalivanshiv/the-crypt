@@ -510,7 +510,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.9, 1.15_
 
-  - [ ] 6.5 Synchronous ingest route (not cuttable)
+  - [x] 6.5 Synchronous ingest route (not cuttable)
     - Subsystem: api. Files (2): `skeleton/api/app.py`, `tests/api/test_ingest_route.py`.
     - `POST /snapshots` runs `ingest_url` then `signals.analyse` inline, under `cfg.ingest_timeout_s`, and returns the `ref` and Snapshot ID. On timeout, `clone_timeout`. This is the minimum ingest route the API must have. Task 6.5a upgrades it to the job model of R9.2 without replacing it.
     - Tests: a fixture repo ingests and is then readable through the 6.2 routes; each `IngestCode` maps to its status; the route honours the timeout.

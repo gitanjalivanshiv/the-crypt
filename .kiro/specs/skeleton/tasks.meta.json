@@ -609,6 +609,18 @@
         "chatSessionId": "sess_e6f20330-491a-42c4-bc52-9d167bcc7384",
         "timestamp": 1794923828944
       }
+    ],
+    "6.5 Synchronous ingest route (not cuttable)": [
+      {
+        "executionId": "b4dff833-a622-416c-9cd9-4799e3411087",
+        "chatSessionId": "sess_b6d6e4e8-98e6-4821-98cb-856be84602a2",
+        "timestamp": 1794941728958
+      },
+      {
+        "executionId": "b4dff833-a622-416c-9cd9-4799e3411087",
+        "chatSessionId": "sess_b6d6e4e8-98e6-4821-98cb-856be84602a2",
+        "timestamp": 1794941884569
+      }
     ]
   }
 }

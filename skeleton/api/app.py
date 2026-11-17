@@ -6,6 +6,7 @@ provider path and is passed in by the caller.
 
 import asyncio
 import re
+import threading
 import time
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
@@ -18,9 +19,11 @@ from pydantic import BaseModel, ConfigDict
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from skeleton.api.errors import ApiCode, error_response, status_for
-from skeleton.api.models import AskRequest, SnapshotDetail
-from skeleton.api.retention import RetainedNotAllowed, Retention
-from skeleton.ingest.models import IngestLimits
+from skeleton.api.models import AskRequest, SnapshotDetail, SnapshotRequest
+from skeleton.api.retention import RetainedNotAllowed, Retention, resolve_intent
+from skeleton.ingest import _remove, ingest_url
+from skeleton.ingest.models import IngestCode, IngestError, IngestLimits
+from skeleton.ingest.snapshot import Snapshot
 from skeleton.mcp.contract import ErrorResponse as ToolErrorResponse
 from skeleton.mcp.router import ToolRouter
 from skeleton.mcp.tools import SignalTools
@@ -28,7 +31,7 @@ from skeleton.personas.generator import ToolLoopGenerator
 from skeleton.personas.llm import LLMClient
 from skeleton.personas.loader import load_personas
 from skeleton.personas.prompt import assemble_system_prompt
-from skeleton.signals.store import AnalysedSnapshot
+from skeleton.signals.store import AnalysedSnapshot, analyse
 from skeleton.verify.flow import run_grounded_turn
 from skeleton.verify.models import AnswerResult, VerifyConfig
 
@@ -43,6 +46,7 @@ class ApiConfig(BaseModel):
     max_concurrent_ingests: int = 2
     allowed_hosts: frozenset[str] | None = None
     limits: IngestLimits = IngestLimits()
+    ingest_timeout_s: float = 300.0
 
 
 class ApiError(Exception):
@@ -95,6 +99,7 @@ def create_app(
     persona_dir: Path,
     cfg: ApiConfig | None = None,
     clock: Callable[[], float] | None = None,
+    ingest_fn: Callable[..., Snapshot] = ingest_url,
 ) -> FastAPI:
     cfg = cfg or ApiConfig()
     # A bad persona raises PersonaError here, so startup fails. There is no default persona.
@@ -153,6 +158,55 @@ def create_app(
         if directory is None:
             raise ApiError(ApiCode.snapshot_not_found, f"no snapshot for ref {ref!r}")
         return AnalysedSnapshot.open(directory)
+
+    @app.post("/snapshots")
+    async def create_snapshot(body: SnapshotRequest) -> JSONResponse:
+        """Synchronous ingest then analyse, bounded by ``cfg.ingest_timeout_s`` (task 6.5)."""
+        intent = resolve_intent(body.intent, allow_retained=cfg.allow_retained)
+        abandoned = threading.Event()
+
+        def _work() -> tuple[Snapshot, str]:
+            snap = ingest_fn(
+                body.url,
+                ref=body.ref,
+                sha=body.sha,
+                intent=intent,
+                limits=cfg.limits,
+                store=app.state.store,
+            )
+            try:
+                if abandoned.is_set():
+                    raise IngestError(IngestCode.clone_timeout, "request timed out")
+                analyse(snap.root)
+            except BaseException:
+                _remove(snap.root)
+                raise
+            if abandoned.is_set():  # the request gave up while we ran: leave nothing behind
+                _remove(snap.root)
+                raise IngestError(IngestCode.clone_timeout, "request timed out")
+            if intent == "retained":
+                return snap, Retention.retained_ref(snap.meta.snapshot_id)
+            return snap, snap.root.name
+
+        try:
+            snap, ref = await asyncio.wait_for(asyncio.to_thread(_work), cfg.ingest_timeout_s)
+        except TimeoutError:
+            abandoned.set()
+            return _json_error(
+                IngestCode.clone_timeout, f"ingest exceeded {cfg.ingest_timeout_s}s"
+            )
+        except IngestError as exc:
+            return _json_error(exc.code, exc.detail)
+        if intent == "ephemeral":
+            retention.register(ref)
+        return JSONResponse(
+            status_code=201,
+            content={
+                "ref": ref,
+                "snapshot_id": snap.meta.snapshot_id,
+                "licence": snap.meta.licence,
+            },
+        )
 
     @app.get("/snapshots/{ref}")
     def get_snapshot(ref: str) -> SnapshotDetail:
