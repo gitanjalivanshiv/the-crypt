@@ -132,6 +132,18 @@
         "chatSessionId": "sess_bd6663a5-77b7-4b4f-9a90-51d96cc0785d",
         "timestamp": 1794855183156
       }
+    ],
+    "1.12 Flow property tests": [
+      {
+        "executionId": "8faa63fe-1157-4e35-ac6e-bab64e698f78",
+        "chatSessionId": "sess_820d735f-1be1-4fbc-89d5-0226feaf2c20",
+        "timestamp": 1794895058814
+      },
+      {
+        "executionId": "8faa63fe-1157-4e35-ac6e-bab64e698f78",
+        "chatSessionId": "sess_820d735f-1be1-4fbc-89d5-0226feaf2c20",
+        "timestamp": 1794895090632
+      }
     ]
   }
 }

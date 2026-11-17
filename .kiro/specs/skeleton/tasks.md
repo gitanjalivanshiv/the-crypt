@@ -218,7 +218,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: **Opus** (verifier semantics).
     - _Requirements: 4.12, 4.13, 4.14, 4.15, 4.16, 4.17, 4.19_
 
-  - [ ] 1.12 Flow property tests
+  - [x] 1.12 Flow property tests
     - Subsystem: verify. Files (1): `tests/verify/test_flow_properties.py`.
     - **P8** (for any generator behaviour drawn from good, bad, raises, junk, the generator is called at most twice and the result has a non-empty `snapshot_id`) and **P9** (a rejected claim never appears in `claims`; `declined` implies `claims == []`).
     - Done when: `uv run pytest tests/verify/test_flow_properties.py` is green.
