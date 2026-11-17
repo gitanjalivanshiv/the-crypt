@@ -626,7 +626,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 6.7, 6.13_
 
-  - [ ] 7.13 Sound hooks (CUTTABLE 5)
+  - [x] 7.13 Sound hooks (CUTTABLE 5)
     - Subsystem: ui-shell. Files (3): `src/sound/SoundProvider.tsx`, `src/sound/useSound.ts`, `test/sound.test.tsx`.
     - `SoundProvider` takes the theme's `sounds` plus app registrations; `useSound()` returns `{play, muted, setMuted, register}`. `muted` starts `true`; the `AudioContext` is created lazily on the first `setMuted(false)`, which is a user gesture. Unknown event names are a no-op. Sounds are synthesised tones, so no assets.
     - Tests with a mocked `AudioContext`: nothing plays while muted; no context is created before the first unmute; `register` then `play`; unknown name is a no-op.
