@@ -597,6 +597,18 @@
         "chatSessionId": "sess_000ae7d5-6735-4e50-ba3a-5eb9157067b9",
         "timestamp": 1794923713477
       }
+    ],
+    "6.4 Retention and refs": [
+      {
+        "executionId": "31aa7450-e156-4e61-9c9a-e1147fc9aafe",
+        "chatSessionId": "sess_e6f20330-491a-42c4-bc52-9d167bcc7384",
+        "timestamp": 1794923751293
+      },
+      {
+        "executionId": "31aa7450-e156-4e61-9c9a-e1147fc9aafe",
+        "chatSessionId": "sess_e6f20330-491a-42c4-bc52-9d167bcc7384",
+        "timestamp": 1794923828944
+      }
     ]
   }
 }

@@ -502,7 +502,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.2, 9.3, 9.4_
 
-  - [ ] 6.4 Retention and refs
+  - [x] 6.4 Retention and refs
     - Subsystem: api. Files (3): `skeleton/api/retention.py`, `skeleton/api/app.py`, `tests/api/test_retention.py`.
     - Ref scheme of design §10.3: retained snapshots are addressed by Snapshot ID, ephemeral ones by `secrets.token_urlsafe(16)`. `allow_retained` defaults false; `retained` on a server that disallows it is `retained_not_allowed` (403); default intent `ephemeral`. `DELETE /snapshots/{ref}`, a TTL sweep (default 3,600 s) run in the background and lazily per request, and cleanup on shutdown.
     - Tests: two requests for the same repo get different refs; TTL deletes the directory (injected clock); `DELETE`; a retained request is refused by default; ephemeral snapshot shows its licence in metadata.

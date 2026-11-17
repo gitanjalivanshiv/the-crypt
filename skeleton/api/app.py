@@ -4,10 +4,14 @@ This module reads no environment variable, key or secret (R9.7). ``llm`` is the 
 provider path and is passed in by the caller.
 """
 
+import asyncio
 import re
+import time
+from collections.abc import AsyncIterator, Awaitable, Callable
+from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict
@@ -15,6 +19,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from skeleton.api.errors import ApiCode, error_response, status_for
 from skeleton.api.models import AskRequest, SnapshotDetail
+from skeleton.api.retention import RetainedNotAllowed, Retention
 from skeleton.ingest.models import IngestLimits
 from skeleton.mcp.contract import ErrorResponse as ToolErrorResponse
 from skeleton.mcp.router import ToolRouter
@@ -84,13 +89,36 @@ def _tool_result(result: BaseModel) -> JSONResponse:
 
 
 def create_app(
-    *, store: Path, llm: LLMClient, persona_dir: Path, cfg: ApiConfig | None = None
+    *,
+    store: Path,
+    llm: LLMClient,
+    persona_dir: Path,
+    cfg: ApiConfig | None = None,
+    clock: Callable[[], float] | None = None,
 ) -> FastAPI:
     cfg = cfg or ApiConfig()
     # A bad persona raises PersonaError here, so startup fails. There is no default persona.
     personas = load_personas(Path(persona_dir))
 
-    app = FastAPI(title="skeleton")
+    retention = Retention(Path(store), cfg.ephemeral_ttl_s, clock or time.monotonic)
+    sweep_interval = max(1.0, min(60.0, cfg.ephemeral_ttl_s / 2))
+
+    async def _sweeper() -> None:
+        while True:
+            await asyncio.sleep(sweep_interval)
+            retention.sweep()
+
+    @asynccontextmanager
+    async def _lifespan(_: FastAPI) -> AsyncIterator[None]:
+        task = asyncio.create_task(_sweeper())
+        try:
+            yield
+        finally:
+            task.cancel()
+            retention.cleanup_all()
+
+    app = FastAPI(title="skeleton", lifespan=_lifespan)
+    app.state.retention = retention
     app.state.store = Path(store)
     app.state.llm = llm
     app.state.personas = personas
@@ -99,6 +127,15 @@ def create_app(
     @app.exception_handler(ApiError)
     async def _api_error(_: Request, exc: ApiError) -> JSONResponse:
         return _json_error(exc.code, exc.message)
+
+    @app.exception_handler(RetainedNotAllowed)
+    async def _retained(_: Request, exc: RetainedNotAllowed) -> JSONResponse:
+        return _json_error(exc.code, str(exc))
+
+    @app.middleware("http")
+    async def _lazy_sweep(request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+        retention.sweep()
+        return await call_next(request)
 
     @app.exception_handler(RequestValidationError)
     async def _validation(_: Request, exc: RequestValidationError) -> JSONResponse:
@@ -121,6 +158,12 @@ def create_app(
     def get_snapshot(ref: str) -> SnapshotDetail:
         snap = _open(ref)
         return SnapshotDetail(meta=snap.snapshot.meta, analyzers=tuple(snap.findings.analyzers))
+
+    @app.delete("/snapshots/{ref}", status_code=204)
+    def delete_snapshot(ref: str) -> Response:
+        if not retention.delete(ref):
+            raise ApiError(ApiCode.snapshot_not_found, f"no ephemeral snapshot for ref {ref!r}")
+        return Response(status_code=204)
 
     @app.get("/snapshots/{ref}/findings")
     def list_findings(
