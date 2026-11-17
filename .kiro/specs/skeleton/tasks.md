@@ -303,7 +303,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.14, 1.15_
 
-  - [ ] 2.9 Hardened clone, pin and limits
+  - [x] 2.9 Hardened clone, pin and limits
     - Subsystem: ingest. Files (2): `skeleton/ingest/clone.py`, `tests/ingest/test_clone.py`.
     - `clone_and_pin(url, *, ref, sha, limits, dest, git_bin="git", _allow_protocols="https") -> sha`. `subprocess.Popen` with an argument list, the hardened `-c` flags and environment of design §4.3, a watcher thread polling directory size and elapsed time every 0.5 s and killing the process group, `rmtree` of partial output, then pinning via `rev-parse` or `cat-file -e`, `checkout --detach`, and a `git ls-files -z` file count check. `git_bin` and `_allow_protocols` are test seams (marked private).
     - Tests: branch, tag and default-ref resolve to a 40-character SHA; explicit missing SHA gives `ref_not_found`; a stub `git` that sleeps gives `clone_timeout` and leaves no directory; a stub that writes bytes gives `size_limit_exceeded`; too many files gives `file_limit_exceeded`; no hook in the fixture repo's `.git/hooks` ever runs.
