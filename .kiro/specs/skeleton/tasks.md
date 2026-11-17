@@ -338,7 +338,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.10, 2.11, 2.12_
 
-  - [ ] 3.2 Finding anchor selection
+  - [x] 3.2 Finding anchor selection
     - Subsystem: signals. Files (2): `skeleton/signals/anchor.py`, `tests/signals/test_anchor.py`.
     - `anchor_range(data, parse_result) -> (start, end) | None` per design §5.3: module docstring, else first class or function capped at its first 3 lines, else the first `min(3, line_count)` lines; `None` for a file with 0 lines. Uses `ingest.parse.parse_python`.
     - Tests: each of the three branches; a docstring-only file; a file with a syntax error; an empty file.
