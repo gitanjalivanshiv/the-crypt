@@ -534,7 +534,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 9.1, 9.6, 9.7_
 
-- [ ] 7. UI shell
+- [x] 7. UI shell
 
   - [x] 7.1 Budget gate before UI work
     - No files. Check the remaining credit balance and days against `docs/CREDIT-BUDGET.md` (R8.5b). If the calendar is behind, consider cutting tasks marked CUTTABLE 4 to 6 now rather than later. Record the decision in the commit message.
@@ -650,7 +650,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 6.1, 6.15_
 
-  - [ ] 7.16 OpenAPI-to-TypeScript codegen (CUTTABLE 1)
+  - [x] 7.16 OpenAPI-to-TypeScript codegen (CUTTABLE 1)
     - Subsystem: ui-shell. Files (3): `scripts/gen-ts-types.sh`, `skeleton/ui-shell/src/types.generated.ts`, `skeleton/ui-shell/src/types.ts`.
     - Generate TypeScript from the API's OpenAPI schema with `openapi-typescript`; `types.ts` re-exports the generated types. Add a CI step that regenerates and fails on a diff (edit `ci.yml` in a follow-up if the third-file budget is exhausted).
     - Cut: keep the hand-written `types.ts` from task 7.3. Drift is then caught by the API schema test only.

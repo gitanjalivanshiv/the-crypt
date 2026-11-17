@@ -66,3 +66,6 @@ export interface AnswerResult {
 export type ChatMessage =
   | { role: "user"; text: string }
   | { role: "persona"; result: AnswerResult };
+
+/** Types generated from the API's OpenAPI schema (scripts/gen-ts-types.sh). */
+export type { components, paths, operations } from "./types.generated";
