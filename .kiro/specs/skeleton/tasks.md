@@ -279,7 +279,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.16, 1.18, 1.19, 1.20_
 
-  - [ ] 2.6 Code graph builder
+  - [x] 2.6 Code graph builder
     - Subsystem: ingest. Files (2): `skeleton/ingest/graph.py`, `tests/ingest/test_graph.py`.
     - `build_graph(root) -> CodeGraph`: `os.scandir` walk skipping `.git`, never following links (symlinks recorded with `is_symlink=True`, never opened, symlinked directories not descended). Every file gets `line_count` from `split_lines`. Undecodable files get `parsed=False, decodable=False`. Import resolution for `a/b.py`, `a/b/__init__.py`, under root or `src/`, and relative imports by level; unresolved is `None`. Stable sorted order.
     - Tests: symlink file and symlink directory; non-UTF-8 file; syntax-error file still contributes recovered symbols; empty file has `line_count == 0`; resolved and unresolved imports; two runs give byte-identical JSON.
