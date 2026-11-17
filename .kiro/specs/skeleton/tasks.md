@@ -593,7 +593,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.14_
 
-  - [ ] 7.9 ChatPanel: rendering rules
+  - [x] 7.9 ChatPanel: rendering rules
     - Subsystem: ui-shell. Files (3): `src/components/ChatPanel.tsx`, `src/components/ChatPanel.module.css`, `test/ChatPanel.test.tsx`.
     - Renders a persona message **only** from `result.claims` (facts with citations, guesses with a visible "guess" label), then each `result.banishments` (`BANISHED` as text, claim in `<del>`, reason message), then the decline line when `status === "declined"`. Shows the Snapshot ID and, if passed, the licence. There is no code path that renders claim text from anywhere else.
     - Tests: a claim present only in `banishments` never appears outside the banishment block; declined results show only banishments and the decline line; guess label; Snapshot ID shown.
