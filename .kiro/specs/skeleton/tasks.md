@@ -643,7 +643,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.10_
 
-  - [ ] 7.15 Public exports
+  - [x] 7.15 Public exports
     - Subsystem: ui-shell. Files (1): `src/index.ts`.
     - Export the components, hooks, both themes, `ThemeProvider` and the types. `pnpm build` produces a library bundle.
     - Done when: `pnpm test && pnpm build` is green.
