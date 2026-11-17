@@ -536,11 +536,11 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 7. UI shell
 
-  - [ ] 7.1 Budget gate before UI work
+  - [x] 7.1 Budget gate before UI work
     - No files. Check the remaining credit balance and days against `docs/CREDIT-BUDGET.md` (R8.5b). If the calendar is behind, consider cutting tasks marked CUTTABLE 4 to 6 now rather than later. Record the decision in the commit message.
     - _Requirements: 8.5_
 
-  - [ ] 7.2 Package scaffold
+  - [x] 7.2 Package scaffold
     - Subsystem: ui-shell. Files (3): `skeleton/ui-shell/package.json`, `skeleton/ui-shell/tsconfig.json`, `skeleton/ui-shell/vite.config.ts`.
     - pnpm, TypeScript strict with `rootDir` set to the package, React 18, Vite library mode, Vitest with jsdom, `@testing-library/react`, `vitest-axe`. Scripts `test`, `build`, `lint`.
     - Done when: `pnpm install && pnpm build` succeeds on an empty `src/index.ts`.

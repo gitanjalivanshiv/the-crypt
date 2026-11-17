@@ -640,6 +640,30 @@
         "chatSessionId": "sess_3701f7b5-f98c-4e1f-a895-c377bf925723",
         "timestamp": 1794942082810
       }
+    ],
+    "7.1 Budget gate before UI work": [
+      {
+        "executionId": "965b635c-0815-43c5-930e-56d1053869e7",
+        "chatSessionId": "sess_5b5dac57-b492-4849-b5ce-09abd4758314",
+        "timestamp": 1794942131237
+      },
+      {
+        "executionId": "965b635c-0815-43c5-930e-56d1053869e7",
+        "chatSessionId": "sess_5b5dac57-b492-4849-b5ce-09abd4758314",
+        "timestamp": 1794942202446
+      }
+    ],
+    "7.2 Package scaffold": [
+      {
+        "executionId": "a278cdec-48fc-464f-84a0-202dc2fd808b",
+        "chatSessionId": "sess_91b2b403-55ae-4547-a6de-b77a07a57242",
+        "timestamp": 1794942220102
+      },
+      {
+        "executionId": "a278cdec-48fc-464f-84a0-202dc2fd808b",
+        "chatSessionId": "sess_91b2b403-55ae-4547-a6de-b77a07a57242",
+        "timestamp": 1794942321787
+      }
     ]
   }
 }
