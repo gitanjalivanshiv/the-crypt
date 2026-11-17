@@ -246,7 +246,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 1.8, 1.15, 1.17, 1.24, 1.25_
 
-  - [ ] 2.2 Snapshot loader
+  - [x] 2.2 Snapshot loader
     - Subsystem: ingest. Files (2): `skeleton/ingest/snapshot.py`, `tests/ingest/test_snapshot.py`.
     - `Snapshot.open(dir)` loads `meta.json` and `graph.json`; provides `entry_kind(path)`, `has_symlink_ancestor(path)`, `read_bytes(path)` (returns `None` on any failure, never raises). It implements the file-side of `verify.SnapshotView`; the `finding()` method is added by `AnalysedSnapshot` in task 3.6 because `ingest` cannot import `signals` (layering, design §2.1).
     - Tests: exact-match paths; directories give `None`; symlinked directory ancestor detected even though its children are not in the index; `read_bytes` of a vanished file is `None`.
