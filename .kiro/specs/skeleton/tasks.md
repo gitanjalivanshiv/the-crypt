@@ -478,7 +478,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 6. API
 
-  - [ ] 6.1 API errors and models
+  - [x] 6.1 API errors and models
     - Subsystem: api. Files (3): `skeleton/api/errors.py`, `skeleton/api/models.py`, `tests/api/test_errors.py`.
     - Structured error body `{error: {code, message}}`; the code-to-HTTP table of design §10.4; request and response models (`AskRequest`, `JobStatus`, ...). Reason codes are never flattened into free text.
     - Tests: every `IngestCode`, `ReasonCode` and API code maps to a status; unknown code is a test failure.
