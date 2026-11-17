@@ -437,7 +437,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.8_
 
-  - [ ] 5.2 Grounding prompt text
+  - [x] 5.2 Grounding prompt text
     - Subsystem: personas. Files (2): `skeleton/personas/grounding.py`, `tests/personas/test_grounding.py`.
     - `GROUNDING` and `GROUNDING_REMINDER` constants: citation format, guess rule, figures-only-via-references rule, backtick rule for quoting source, the answer JSON schema including `finding_id` references. The JSON schema example in the prompt is validated by parsing it with `verify.parse.parse_answer`.
     - Tests: the schema example parses and verifies against a fixture snapshot; the text mentions each rule.

@@ -489,6 +489,18 @@
         "chatSessionId": "sess_97a54a9c-09df-4d23-a71a-d5e9443adc47",
         "timestamp": 1794920267737
       }
+    ],
+    "5.2 Grounding prompt text": [
+      {
+        "executionId": "23bbe6cf-8e39-49ac-beee-43e3eced3eca",
+        "chatSessionId": "sess_0958ae3e-ecd0-459b-9aab-d4148921a405",
+        "timestamp": 1794920419820
+      },
+      {
+        "executionId": "23bbe6cf-8e39-49ac-beee-43e3eced3eca",
+        "chatSessionId": "sess_0958ae3e-ecd0-459b-9aab-d4148921a405",
+        "timestamp": 1794920472824
+      }
     ]
   }
 }
