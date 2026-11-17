@@ -102,8 +102,18 @@ The deployed demo calls an LLM provider at runtime, billed to a **separate accou
 credits do not cover it; they pay for building in the IDE and expire 2026-12-31 anyway,
 four weeks before judging ends.
 
-Build against a **stub `LLMClient`** locally. No key is needed until deploy day
-(~Nov 30), which also defers the Bedrock-vs-Anthropic decision until it actually matters.
+~~Build against a stub `LLMClient` locally. No key is needed until deploy day (~Nov 30).~~
+
+**Revised 2026-11-18.** The key is needed earlier, during the Medium build, not at deploy.
+The skeleton ships `FakeLLMClient` and every skeleton test uses it, so nothing needed a
+provider until now. But watch item 1, the banishment rate, cannot be measured against a
+fake: only a real model reveals whether answers come back mostly as guesses (no banishment
+ever fires) or mostly banished (every turn declines). Both break the demo, and the fix is
+in prompt wording and config, so it has to be found while there is time to change it.
+
+Get the key when the Medium spec's adapter task runs. Set the hard cap at the same time —
+a key with no cap is the thing being guarded against, and it is no less true in a dev
+sandbox than in production.
 
 Before the demo goes public, and not after:
 

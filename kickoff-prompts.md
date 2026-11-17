@@ -57,24 +57,88 @@ discovering it was wrong after ten tasks costs the tasks and their rework.
 
 ## Prompt 2 — The Medium
 
-Only after the skeleton spec's tasks are executing cleanly.
+The skeleton is built and green. Check `.kiro/specs/skeleton/` for what exists before
+assuming anything; the names below are real modules, not placeholders.
 
 > Create a feature spec named `medium` for app 1, The Medium, per `.kiro/steering/`.
 >
-> It consumes `skeleton/` and adds **no code under `skeleton/`**. If something here appears
-> to require a skeleton change, stop and tell me — that is a skeleton design bug, not a
-> reason to special-case the app.
+> The skeleton is complete: ingest, signals, personas, verify, mcp, ui-shell and api are
+> built, tested and green. This app **consumes** it and adds **no code under `skeleton/`**.
+> If something here appears to need a skeleton change, stop and say so — that is a skeleton
+> design bug, not a licence to special-case the app. `import-linter` will fail the build
+> either way.
+>
+> **Consume the API, do not rebuild it.** `skeleton/api` already exposes snapshot ingest,
+> findings, file facts and `POST /snapshots/{ref}/ask`, which runs the grounded turn and
+> returns `AnswerResult`. The app is a persona config, a theme, a thin UI and a few routes
+> of its own. It does not re-implement verification, tool routing or prompt assembly.
+>
+> **The app folder is top-level `medium/`**, not `apps/medium/`. A Skeleton Crew submission
+> must show two separate application folders at the repository root.
 >
 > Scope:
-> - A persona TOML for the ghost: voice, goals, allowed MCP tools, example lines.
-> - An interview loop: user question → MCP signal queries → grounded answer with citations
->   → verification → render or banish.
-> - File-tree possession: the tree highlights each file as the ghost cites it.
-> - A resurrection plan generator emitting requirements, design, and tasks for modernising
->   the analysed system, every claim citation-backed.
-> - The CRT theme for this app, built from the shared UI shell.
+>
+> 1. **The provider adapter** (see "Where the adapter lives" below). First real
+>    `LLMClient` implementation, in a new top-level `providers/` package. This is the first
+>    time the system talks to a real model, so it belongs in this spec.
+> 2. **Persona TOML** for the ghost: voice, goals, `allowed_tools`, `example_lines`,
+>    `decline_line`. No example line may contain a digit — the loader warns about this and
+>    the digit scan will banish copied numbers.
+> 3. **Interview loop**: question -> `POST /ask` -> render `AnswerResult` unchanged.
+>    `ChatPanel` already renders claims, guesses, banishments and declines; do not reshape
+>    the payload.
+> 4. **File-tree possession**: `FileTree` already takes `cited` and `active` props and
+>    expands ancestors. Wire the app's state to them.
+> 5. **Resurrection plan**: generate requirements, design and tasks for modernising the
+>    analysed system, every claim citation-backed through the same verified path. A plan
+>    that bypasses the verifier is not acceptable.
+> 6. **The CRT theme** for this app, built from the shared `ThemeProvider` tokens. No
+>    component may be forked or branched on `theme.id`.
+> 7. **A banishment-rate harness** (see below).
+>
+> In the tasks phase, keep R8.1: one subsystem, at most three files per task. Mark cuttable
+> tasks explicitly as the skeleton plan does.
 
----
+### Where the adapter lives — settle this, do not let the spec choose
+
+`skeleton/personas/llm.py` defines `LLMClient` as a one-method async Protocol, and no
+adapter exists anywhere: R7.3 kept provider SDKs out of the skeleton, and `import-linter`
+enforces it with a `forbidden_modules` rule naming `anthropic`, `openai` and `boto3`.
+
+The adapter cannot go in `skeleton/` (the contract forbids it) and must not go in `medium/`
+(then `debt-collector/` would have to import from a sibling app, which breaks app
+independence). So:
+
+- A **new top-level `providers/` package** holds it. Both apps import it; `skeleton/` never
+  does.
+- Add a fourth `import-linter` contract: `skeleton` must not import `providers` either.
+- Keep it thin. Translate `LLMRequest` to the provider's call, map tool calls back to
+  `ToolCall`, surface errors as exceptions the flow already treats as a failed attempt
+  (R4.15). No retry logic: the flow's one-regeneration rule owns that.
+- The API still takes an `LLMClient` by argument, so tests keep using `FakeLLMClient` and
+  nothing in `skeleton/` learns the provider's name.
+
+### The banishment-rate harness — the point of this spec
+
+Watch item 1 has been unmeasurable until now, because nothing has run a real model. The
+Medium is the first thing that does, so it measures it.
+
+Both failure modes kill the demo, in opposite directions:
+
+- **Too lenient** — the model learns that flagging a claim as a guess avoids rejection, so
+  everything comes back a guess, no banishment ever fires, and the signature moment never
+  happens on camera.
+- **Too strict** — the digit scan or the citation rules reject nearly everything, every
+  answer reaches the decline path, and the demo looks broken rather than principled.
+
+Require a task that runs a fixed set of roughly 20 questions against the real patient and
+reports: share of claims verified, share banished by reason code, share marked guess, and
+share of turns that declined. Record the numbers in `docs/KIRO-USAGE.md`. The levers, in
+order of preference, are `cfg.allowed_numbers`, the `GROUNDING` prompt wording, and the
+`classify_attempt` seam in `skeleton/verify/flow.py` — which exists precisely for this.
+
+**Do this before the UI work, not after.** If the rate is wrong, the fix is in prompts and
+config, and you want to find that out while there is still time to change it.
 
 ## Prompt 3 — The Debt Collector
 
