@@ -362,7 +362,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.15, 2.16, 2.17, 2.9_
 
-  - [ ] 3.5 todo_age analyzer (CUTTABLE 7)
+  - [x] 3.5 todo_age analyzer (CUTTABLE 7)
     - Subsystem: signals. Files (3): `skeleton/signals/todo_age.py`, `skeleton/signals/__init__.py`, `tests/signals/test_todo_age.py`.
     - Find `TODO|FIXME|HACK|XXX` in tree-sitter comment nodes only. **Exactly one `git blame --porcelain` per file that has a marker**, parsed once into a per-line map; age is `floor((pinned_commit_time - committer_time) / 86400)`, floored at 0. Metrics `age_days`, `todo_count_in_file`. Cap default 2,000 markers, taking **whole files** in path order; if anything is skipped the status has `truncated=True` and `total_found` is the true total. Severity `min(1.0, age_days / 1825)`. `needs_history = True`. Register.
     - Tests: marker in a string is not reported; a subprocess spy asserts one blame call per file and none for files without markers; cap with truncation and `total_found`; `todo_count_in_file` is the true count; monotone severity; blame semantics documented as "days since this line last changed" (D10).
