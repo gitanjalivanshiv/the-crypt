@@ -427,7 +427,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 5.1, 5.6, 5.8, 5.10_
 
-- [ ] 5. Personas (starts only after checkpoint 1.14)
+- [x] 5. Personas (starts only after checkpoint 1.14)
 
   - [x] 5.1 Persona schema and loader
     - Subsystem: personas. Files (3): `skeleton/personas/loader.py`, `tests/personas/test_loader.py`, `tests/fixtures/personas/third.toml`.
@@ -469,7 +469,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.12, 5.6_
 
-  - [ ] 5.6 Grounded turn end to end
+  - [x] 5.6 Grounded turn end to end
     - Subsystem: personas. Files (1): `tests/personas/test_turn_e2e.py`.
     - On a fixture `AnalysedSnapshot`, with `FakeLLMClient` scripts: a good answer renders; a fabricated line number is banished then regenerated; a prose number is banished with `unbacked_number`; two failures decline with the persona's `decline_line`; a tool call through the router returns a finding id that a figure then references successfully.
     - Done when: `uv run pytest tests/personas` is green.
