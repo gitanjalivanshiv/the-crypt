@@ -14,7 +14,13 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pytest", "hypothesis", "pytest-cov", "ruff"]
+dev = [
+    "pytest",
+    "hypothesis",
+    "pytest-cov",
+    "ruff",
+    "import-linter>=2.16",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

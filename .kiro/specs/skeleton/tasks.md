@@ -660,7 +660,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 8. Skeleton independence (not cuttable)
 
-  - [ ] 8.1 Python import contracts and secret guard
+  - [x] 8.1 Python import contracts and secret guard
     - Subsystem: independence. Files (2): `.importlinter`, `tests/independence/test_contracts.py`.
     - `import-linter` contracts from design §2.1: `skeleton` must not import `medium` or `debt_collector`; layers `verify` then `ingest` then `signals` then `mcp`, `personas` then `api`; forbidden externals `anthropic`, `openai`, `boto3`. The test runs `lint-imports`, plants a temporary violating module and asserts the lint fails, and greps `skeleton/` for `getenv`, `environ` and `API_KEY` against an allow-list (`CRYPT_SNAPSHOT`, the git subprocess environment).
     - Done when: `uv run pytest tests/independence/test_contracts.py` is green; add the job to `ci.yml` in the next CI-touching task.

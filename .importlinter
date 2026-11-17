@@ -1,0 +1,35 @@
+[importlinter]
+root_package = skeleton
+include_external_packages = True
+
+[importlinter:contract:no-sibling-projects]
+name = skeleton must not import medium or debt_collector
+type = forbidden
+source_modules =
+    skeleton
+forbidden_modules =
+    medium
+    debt_collector
+allow_indirect_imports = True
+
+[importlinter:contract:layers]
+name = subsystem layering (verify is lowest, api is top)
+type = layers
+layers =
+    skeleton.api
+    skeleton.personas
+    skeleton.mcp
+    skeleton.signals
+    skeleton.ingest
+    skeleton.verify
+
+[importlinter:contract:no-model-sdks]
+name = no model or cloud SDK imports
+type = forbidden
+source_modules =
+    skeleton
+forbidden_modules =
+    anthropic
+    openai
+    boto3
+allow_indirect_imports = True
