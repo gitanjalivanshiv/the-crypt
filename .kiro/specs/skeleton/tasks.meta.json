@@ -477,6 +477,18 @@
         "chatSessionId": "sess_a7a869fd-8050-4832-ab3c-7001adc8da6e",
         "timestamp": 1794917780054
       }
+    ],
+    "5.1 Persona schema and loader": [
+      {
+        "executionId": "e227fa8a-2b1e-401c-ab1d-8d6e40e8aaf3",
+        "chatSessionId": "sess_97a54a9c-09df-4d23-a71a-d5e9443adc47",
+        "timestamp": 1794919993528
+      },
+      {
+        "executionId": "e227fa8a-2b1e-401c-ab1d-8d6e40e8aaf3",
+        "chatSessionId": "sess_97a54a9c-09df-4d23-a71a-d5e9443adc47",
+        "timestamp": 1794920267737
+      }
     ]
   }
 }

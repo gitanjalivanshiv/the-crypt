@@ -429,7 +429,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 5. Personas (starts only after checkpoint 1.14)
 
-  - [ ] 5.1 Persona schema and loader
+  - [x] 5.1 Persona schema and loader
     - Subsystem: personas. Files (3): `skeleton/personas/loader.py`, `tests/personas/test_loader.py`, `tests/fixtures/personas/third.toml`.
     - `Persona` (strict, `extra="forbid"`) with the fields of design §7.1, `load_persona(path, known_tools=mcp.contract.TOOL_NAMES)`, `load_personas(directory)` (duplicate names are an error), `PersonaError(file, field, message)`. `Persona.warnings` lists every `example_lines` entry containing a digit. No field can touch verification.
     - Tests: valid load; invalid TOML; missing field; wrong type; empty `goals` and `example_lines`; unknown key including `verify = false`; unknown tool named in the error; blank strings; empty `allowed_tools` is legal; the third fixture persona loads with no edit under `skeleton/`.
