@@ -585,7 +585,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.2, 6.3_
 
-  - [ ] 7.8 FileTree: keyboard and screen reader
+  - [x] 7.8 FileTree: keyboard and screen reader
     - Subsystem: ui-shell. Files (2): `src/components/FileTree.tsx`, `test/FileTree.a11y.test.tsx`.
     - WAI-ARIA tree pattern: `role="tree"` and `treeitem`, `aria-expanded`, roving `tabindex`, Arrow keys to move and expand or collapse, Home and End, Enter selects.
     - Tests: each key; focus follows; `vitest-axe` has no violations. **Not cuttable** (R6.14).

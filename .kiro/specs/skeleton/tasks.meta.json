@@ -724,6 +724,18 @@
         "chatSessionId": "sess_08bf97a1-0cd3-4d04-a083-d99b46330c8b",
         "timestamp": 1794942861051
       }
+    ],
+    "7.8 FileTree: keyboard and screen reader": [
+      {
+        "executionId": "cab54e13-3860-4ba4-a108-e7e958d5180b",
+        "chatSessionId": "sess_995b54b3-e8d4-4268-b69a-b270674d98c3",
+        "timestamp": 1794942894515
+      },
+      {
+        "executionId": "cab54e13-3860-4ba4-a108-e7e958d5180b",
+        "chatSessionId": "sess_995b54b3-e8d4-4268-b69a-b270674d98c3",
+        "timestamp": 1794942962684
+      }
     ]
   }
 }
