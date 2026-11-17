@@ -13,9 +13,10 @@ from skeleton.signals.models import (
     SignalsConfig,
     finding_id,
 )
+from skeleton.signals.staleness import Staleness
 from skeleton.verify.textnorm import normalised_lines
 
-ANALYZERS: tuple[Analyzer, ...] = (Churn(),)
+ANALYZERS: tuple[Analyzer, ...] = (Churn(), Staleness())
 
 __all__ = [
     "ANALYZERS",

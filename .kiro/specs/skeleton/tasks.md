@@ -354,7 +354,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.9, 2.13, 2.14, 2.2_
 
-  - [ ] 3.4 staleness analyzer (CUTTABLE 8)
+  - [x] 3.4 staleness analyzer (CUTTABLE 8)
     - Subsystem: signals. Files (3): `skeleton/signals/staleness.py`, `skeleton/signals/__init__.py`, `tests/signals/test_staleness.py`.
     - `days_since_modified = (pinned_commit_date - last_modified_date).days`, floored at 0, never the wall clock. Emit at `>= 365` days, metrics `days_since_modified`, `commit_count`, severity `min(1.0, days / 3650)`. Register.
     - Tests: boundary at 364, 365, 366; monotone severity; result unchanged when the system clock is patched; history unavailable gives skipped.
