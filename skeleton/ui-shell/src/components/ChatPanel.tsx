@@ -13,7 +13,7 @@ const cite = (c: Citation): string =>
 export function ChatPanel({ result, licence }: ChatPanelProps) {
   const declined = result.status === "declined";
   return (
-    <section className={styles.panel} aria-label="Persona message">
+    <section className={styles.panel} role="log" aria-live="polite" aria-label="Persona message">
       {!declined &&
         result.claims.map((claim, i) => (
           <p key={`claim-${i}`} className={styles.claim} data-kind={claim.kind}>
@@ -23,7 +23,7 @@ export function ChatPanel({ result, licence }: ChatPanelProps) {
               <span className={styles.citations}>
                 {" "}
                 {claim.citations.map((c, j) => (
-                  <cite key={j} className={styles.cite}>
+                  <cite key={j} className={styles.cite} tabIndex={0}>
                     [{cite(c)}]
                   </cite>
                 ))}

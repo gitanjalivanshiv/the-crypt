@@ -601,7 +601,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 6.4, 6.5, 6.6_
 
-  - [ ] 7.10 ChatPanel: accessibility
+  - [x] 7.10 ChatPanel: accessibility
     - Subsystem: ui-shell. Files (2): `src/components/ChatPanel.tsx`, `test/ChatPanel.a11y.test.tsx`.
     - `role="log"` with `aria-live="polite"`, keyboard reachability of citations, banishment conveyed by text and not only by strikethrough.
     - Tests: `vitest-axe` clean; a screen-reader text query finds "BANISHED" and the reason. **Not cuttable** (R6.14).
