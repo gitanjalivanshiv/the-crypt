@@ -270,7 +270,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.3_
 
-  - [ ] 2.5 Python parser
+  - [x] 2.5 Python parser
     - Subsystem: ingest. Files (3): `skeleton/ingest/parse.py`, `tests/ingest/test_parse.py`, `pyproject.toml`.
     - Add `tree-sitter` and `tree-sitter-python` (current versions, per D12). `SUPPORTED_GRAMMARS = ["python"]`. `parse_python(data: bytes) -> ParseResult` with `symbols` (module, class, function, method), `imports` (module, names, line, level), `has_errors`, `docstring_range`, and `comments` as `(line, text)` for later use by `signals`.
     - **First step: a smoke test that parses a snippet on Python 3.12.** If it fails, stop and report; do not work around it.
