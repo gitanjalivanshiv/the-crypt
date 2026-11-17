@@ -287,7 +287,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: **Opus** (code-graph design) only if the first Auto attempt fails review; otherwise Auto.
     - _Requirements: 1.17, 1.18, 1.19, 1.20, 1.21, 1.22, 1.26_
 
-  - [ ] 2.7 Git history collector
+  - [x] 2.7 Git history collector
     - Subsystem: ingest. Files (2): `skeleton/ingest/history.py`, `tests/ingest/test_history.py`.
     - One pass: `git log --topo-order --no-renames --name-only -z --format=%x01%H%x00%ct%x00%ae <sha>`. Per path: commit count, distinct lower-cased author emails, last-modified date from the first commit seen. Paths not in the final tree are dropped. Also returns the pinned commit's committer time. No history gives an explicit "unavailable" result.
     - Tests against `make_repo`: counts and authors match a hand-computed fixture; last-modified correct; **D9** a renamed file's history starts at the rename; a merge commit lists no files; deleted files dropped; date-order independence.
