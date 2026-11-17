@@ -328,7 +328,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.2, 1.4, 1.11, 1.12, 1.24, 1.25_
 
-- [ ] 3. Signals
+- [x] 3. Signals
 
   - [x] 3.1 Finding types, protocol, registry and runner
     - Subsystem: signals. Files (3): `skeleton/signals/models.py`, `skeleton/signals/__init__.py`, `tests/signals/test_runner.py`.
@@ -378,7 +378,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.6, 4.1, 5.9_
 
-  - [ ] 3.7 Signal property tests
+  - [x] 3.7 Signal property tests
     - Subsystem: signals. Files (1): `tests/signals/test_signal_properties.py`.
     - Hypothesis over generated fixture histories: **Property 10** (every finding has in-range lines, verbatim evidence, severity in `[0,1]`), severity monotone in the main metric for each registered analyzer, two runs are identical. A registry test asserts the registered names equal `{churn, staleness, todo_age}` minus any task that has been cut, and that `complexity`, `dependency_age`, `dead_code` are absent (R2.8, R2.9). Edit the expected set in the same commit as any cut.
     - Done when: `uv run pytest tests/signals` is green.
