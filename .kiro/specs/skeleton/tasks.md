@@ -683,7 +683,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 - [ ] 9. Integration
 
-  - [ ] 9.1 Smoke test on a real repository
+  - [x] 9.1 Smoke test on a real repository
     - Subsystem: integration. Files (1): `tests/integration/test_itsdangerous.py`.
     - Marked `@pytest.mark.network`, excluded from the default run. Ingest `pallets/itsdangerous` as `retained`, analyse it, run a fake-LLM turn citing a real finding, and record wall-clock seconds. Per watch item 3, `measured_analysis_seconds` for the demo patient is then recorded by hand in `demo/patient.json`, outside this spec.
     - Done when: `uv run pytest -m network tests/integration` is green on a machine with network access.

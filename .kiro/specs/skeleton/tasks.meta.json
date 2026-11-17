@@ -882,6 +882,18 @@
         "chatSessionId": "sess_17bbd130-1675-4904-be3f-ddaae3fff1b4",
         "timestamp": 1794944370382
       }
+    ],
+    "9.1 Smoke test on a real repository": [
+      {
+        "executionId": "72562909-51cc-4134-80e3-5ab23a9e5c8f",
+        "chatSessionId": "sess_9d59a80a-2a15-4438-a00f-86c7faf2a20f",
+        "timestamp": 1794944400167
+      },
+      {
+        "executionId": "72562909-51cc-4134-80e3-5ab23a9e5c8f",
+        "chatSessionId": "sess_9d59a80a-2a15-4438-a00f-86c7faf2a20f",
+        "timestamp": 1794944477944
+      }
     ]
   }
 }

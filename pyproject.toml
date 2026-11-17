@@ -24,8 +24,9 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--import-mode=importlib"
+addopts = "--import-mode=importlib -m 'not network'"
 pythonpath = ["."]
+markers = ["network: needs network access (excluded by default; run with -m network)"]
 
 [tool.coverage.run]
 branch = true
