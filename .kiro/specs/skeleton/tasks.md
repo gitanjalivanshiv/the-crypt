@@ -453,7 +453,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 3.7_
 
-  - [ ] 5.4 LLMClient interface and fake
+  - [x] 5.4 LLMClient interface and fake
     - Subsystem: personas. Files (2): `skeleton/personas/llm.py`, `tests/personas/test_llm.py`.
     - `LLMClient` protocol, `LLMRequest`, `LLMResponse`, `Message`, `ToolSpec`, `ToolCall`, and `FakeLLMClient` (scripted responses, records every request). No provider SDK anywhere.
     - Tests: the fake replays a script and records requests; running out of script raises a clear error.
