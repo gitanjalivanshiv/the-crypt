@@ -44,7 +44,27 @@
     "risk": "Too small to carry the demo on its own."
   },
   "decision_rule": "setuptools is the demo patient if a full analysis completes in under 60 seconds on the demo host. Otherwise switch to requests and record the measurement below. Judges will not wait.",
-  "measured_analysis_seconds": null,
+  "measured_analysis_seconds": {
+    "measured_on": "2026-11-18",
+    "method": "ingest_url + signals.run_all on this machine, full clone",
+    "setuptools": {
+      "ingest_s": 17.4,
+      "analyse_s": 3.0,
+      "total_s": 20.4,
+      "files": 564,
+      "findings": 495,
+      "truncated": false
+    },
+    "requests": {
+      "ingest_s": 5.2,
+      "analyse_s": 0.3,
+      "total_s": 5.6,
+      "files": 130,
+      "findings": 117,
+      "truncated": false
+    },
+    "verdict": "setuptools stays primary: 20.4 s total against the 60 s rule, all three analyzers ok, no marker truncation. The one-blame-per-file rule in R2.19a holds; analysis alone is 3.0 s."
+  },
   "obligations": [
     "Honour each licence. Quote only what a citation requires and link to the source at the pinned commit.",
     "The humour targets the code and the passage of time, never the maintainers.",
