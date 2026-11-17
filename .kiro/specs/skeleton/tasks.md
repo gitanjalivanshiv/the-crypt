@@ -295,7 +295,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.23, 1.24_
 
-  - [ ] 2.8 Licence detection and gate
+  - [x] 2.8 Licence detection and gate
     - Subsystem: ingest. Files (2): `skeleton/ingest/licence.py`, `tests/ingest/test_licence.py`.
     - `detect_licence(root) -> str` returning an SPDX id for MIT, BSD-2-Clause, BSD-3-Clause, Apache-2.0, else `unknown`, from `LICENSE*` or `COPYING*` at the repo root via distinctive normalised phrases. `apply_gate(licence, intent) -> retainable: bool`: `retained` outside the four ids or `unknown` raises `licence_not_permitted`; `ephemeral` returns `retainable=False` and never raises.
     - Tests: real-text samples of each licence; GPL; missing file; mixed-case filename; the gate matrix of four ids by two intents plus `unknown`.

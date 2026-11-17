@@ -259,6 +259,18 @@
         "chatSessionId": "sess_95d89807-6a55-4549-80a7-b4a3d4998bdc",
         "timestamp": 1794896679299
       }
+    ],
+    "2.8 Licence detection and gate": [
+      {
+        "executionId": "55b369d3-5fe9-4a50-982a-65e86ffbe849",
+        "chatSessionId": "sess_d462f13e-f21d-4139-90d1-1390ccdb6bc3",
+        "timestamp": 1794896710429
+      },
+      {
+        "executionId": "55b369d3-5fe9-4a50-982a-65e86ffbe849",
+        "chatSessionId": "sess_d462f13e-f21d-4139-90d1-1390ccdb6bc3",
+        "timestamp": 1794896745465
+      }
     ]
   }
 }
