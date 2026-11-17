@@ -262,7 +262,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 1.23, 1.26_
 
-  - [ ] 2.4 URL validation
+  - [x] 2.4 URL validation
     - Subsystem: ingest. Files (2): `skeleton/ingest/source.py`, `tests/ingest/test_source.py`.
     - `validate_url(url, *, resolver, allowed_hosts) -> ParsedSource`. Only `https`, a hostname, no userinfo; every resolved address must be public (loopback, link-local, private, multicast, unspecified, reserved rejected via `ipaddress`). Failure is `IngestError(invalid_source)` before any network or filesystem access. `resolver` is injectable.
     - Tests: `http://`, `ssh://`, `file://`, a local path, `https://user:pw@host`, `127.0.0.1`, `10.0.0.1`, `169.254.169.254`, `::1`, a hostname resolving to a mix of public and private, `allowed_hosts` mismatch; a valid GitHub URL passes. Assert the resolver is the only I/O.
