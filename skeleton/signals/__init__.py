@@ -3,6 +3,7 @@
 from collections.abc import Iterable, Mapping
 
 from skeleton.ingest.snapshot import Snapshot
+from skeleton.signals.churn import Churn
 from skeleton.signals.models import (
     Analyzer,
     AnalyzerOutput,
@@ -14,7 +15,7 @@ from skeleton.signals.models import (
 )
 from skeleton.verify.textnorm import normalised_lines
 
-ANALYZERS: tuple[Analyzer, ...] = ()
+ANALYZERS: tuple[Analyzer, ...] = (Churn(),)
 
 __all__ = [
     "ANALYZERS",

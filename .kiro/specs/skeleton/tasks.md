@@ -346,7 +346,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 2.2, 2.3_
 
-  - [ ] 3.3 churn analyzer
+  - [x] 3.3 churn analyzer
     - Subsystem: signals. Files (3): `skeleton/signals/churn.py`, `skeleton/signals/__init__.py`, `tests/signals/test_churn.py`.
     - Emit one finding per file with `commit_count >= 10` (configurable), metrics `commit_count`, `author_count`, severity `min(1.0, ln(commit_count) / ln(200))`, `needs_history = True`, anchored by task 3.2. Register in `ANALYZERS`. The metric description states "commits since the current path was created" (D9).
     - Tests: threshold boundary at 9, 10, 11; severity is 0.0 at one commit and monotone; evidence equals the normalised slice; history unavailable gives skipped.
