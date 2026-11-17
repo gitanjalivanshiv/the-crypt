@@ -311,7 +311,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.13_
 
-  - [ ] 2.10 URL ingest orchestration and CLI
+  - [x] 2.10 URL ingest orchestration and CLI
     - Subsystem: ingest. Files (3): `skeleton/ingest/__init__.py`, `skeleton/ingest/__main__.py`, `tests/ingest/test_ingest_url.py`.
     - `ingest_url(url, *, ref, sha, intent, limits, store) -> Snapshot`: validate, clone and pin, licence and gate, build graph, collect history, write `meta.json` and `graph.json` to the layout of design §4.1, then make `repo/` read-only. Snapshot ID is the SHA. `python -m skeleton.ingest --retained <url>` is the CLI used to cache the demo patient.
     - Tests: end to end on a `make_repo` fixture; metadata complete (R1.25); retained with GPL fails and leaves nothing behind; ephemeral with GPL succeeds with `retainable=false`; default intent is `ephemeral`; two runs produce byte-identical `graph.json`; `repo/` is not writable afterwards.
