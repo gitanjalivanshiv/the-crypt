@@ -863,6 +863,25 @@
         "chatSessionId": "sess_4ede9e14-3a0e-484d-806c-ea6df8c74b77",
         "timestamp": 1794944234259
       }
+    ],
+    "8.3 Third persona, no edits under skeleton": [
+      {
+        "executionId": "2a3e48a1-88e5-4ab5-84f8-1960c2126a80",
+        "chatSessionId": "sess_17bbd130-1675-4904-be3f-ddaae3fff1b4",
+        "timestamp": 1794944279554
+      },
+      {
+        "executionId": "2a3e48a1-88e5-4ab5-84f8-1960c2126a80",
+        "chatSessionId": "sess_17bbd130-1675-4904-be3f-ddaae3fff1b4",
+        "timestamp": 1794944370318
+      }
+    ],
+    "8. Skeleton independence (not cuttable)": [
+      {
+        "executionId": "2a3e48a1-88e5-4ab5-84f8-1960c2126a80",
+        "chatSessionId": "sess_17bbd130-1675-4904-be3f-ddaae3fff1b4",
+        "timestamp": 1794944370382
+      }
     ]
   }
 }

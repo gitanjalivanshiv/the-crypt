@@ -658,7 +658,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 9.4_
 
-- [ ] 8. Skeleton independence (not cuttable)
+- [x] 8. Skeleton independence (not cuttable)
 
   - [x] 8.1 Python import contracts and secret guard
     - Subsystem: independence. Files (2): `.importlinter`, `tests/independence/test_contracts.py`.
@@ -674,7 +674,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku for config; Auto for the test.
     - _Requirements: 7.1, 6.15_
 
-  - [ ] 8.3 Third persona, no edits under skeleton
+  - [x] 8.3 Third persona, no edits under skeleton
     - Subsystem: independence. Files (2): `tests/independence/test_third_persona.py`, `tests/fixtures/personas/third.toml`.
     - Hash every file under `skeleton/`, load the third persona, run a full verify turn with `FakeLLMClient`, through the API app, hash again, and assert the manifest is unchanged. Assert the persona's name does not appear in any file under `skeleton/`.
     - Done when: `uv run pytest tests/independence` is green.
