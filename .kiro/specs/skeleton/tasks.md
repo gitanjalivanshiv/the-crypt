@@ -461,7 +461,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku.
     - _Requirements: 7.3_
 
-  - [ ] 5.5 Tool-loop generator
+  - [x] 5.5 Tool-loop generator
     - Subsystem: personas. Files (2): `skeleton/personas/generator.py`, `tests/personas/test_generator.py`.
     - `ToolLoopGenerator` implements `verify.flow.Generator`: at most 4 tool rounds per attempt, tool calls through `ToolRouter` restricted to `persona.allowed_tools`, a disallowed call returns `tool_not_allowed` to the model, attempt 2 includes the rendered rejections.
     - Tests with `FakeLLMClient`: tool round cap; disallowed tool; feedback rendering on attempt 2; returns the model's final text unchanged.
