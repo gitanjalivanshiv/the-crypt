@@ -156,6 +156,25 @@
         "chatSessionId": "sess_e340c081-4abc-4a5e-9db3-869eb333d083",
         "timestamp": 1794895619392
       }
+    ],
+    "1.14 Checkpoint: Verify complete": [
+      {
+        "executionId": "c36b448f-5379-49f5-affc-e3b6e2677468",
+        "chatSessionId": "sess_d21e2bf5-c227-4822-b52d-508a70ad4805",
+        "timestamp": 1794895733368
+      },
+      {
+        "executionId": "c36b448f-5379-49f5-affc-e3b6e2677468",
+        "chatSessionId": "sess_d21e2bf5-c227-4822-b52d-508a70ad4805",
+        "timestamp": 1794895774145
+      }
+    ],
+    "1. Verify (not cuttable, no dependencies on other subsystems)": [
+      {
+        "executionId": "c36b448f-5379-49f5-affc-e3b6e2677468",
+        "chatSessionId": "sess_d21e2bf5-c227-4822-b52d-508a70ad4805",
+        "timestamp": 1794895774177
+      }
     ]
   }
 }

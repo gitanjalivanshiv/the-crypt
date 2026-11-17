@@ -130,7 +130,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
 
 ## Tasks
 
-- [ ] 1. Verify (not cuttable, no dependencies on other subsystems)
+- [x] 1. Verify (not cuttable, no dependencies on other subsystems)
 
   - [x] 1.1 Text normalisation and project toolchain
     - Subsystem: verify. Files (3): `pyproject.toml`, `skeleton/verify/textnorm.py`, `tests/verify/test_textnorm.py`.
@@ -232,7 +232,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku (config) for the workflow and script; Auto for the test.
     - _Requirements: 4.24, 4.20_
 
-  - [ ] 1.14 Checkpoint: Verify complete
+  - [x] 1.14 Checkpoint: Verify complete
     - No files. Run `./scripts/check-verify.sh`. Confirm 100% line and branch coverage, every `ReasonCode` hit, and that P1 to P9 pass. Commit. **No task in group 5 or later may start until this is green** (R4.25, R8.3).
     - _Requirements: 4.24, 4.25, 8.3_
 
