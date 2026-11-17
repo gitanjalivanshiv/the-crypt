@@ -140,6 +140,59 @@ order of preference, are `cfg.allowed_numbers`, the `GROUNDING` prompt wording, 
 **Do this before the UI work, not after.** If the rate is wrong, the fix is in prompts and
 config, and you want to find that out while there is still time to change it.
 
+## Prompt 2b — Skeleton amendment: SCR-2 (run before the Medium tasks)
+
+The Medium spec filed four skeleton change requests. **SCR-2 is taken now, pre-emptively,
+before task 1.1 of the Medium.** The other three stay reactive as that spec has them.
+
+Why now rather than on breach: `allowed_numbers` is empty and the digit scan is strict by
+design, so `unbacked_number` over-rejection is the most likely band breach in the harness.
+Reactively it stalls Medium task 5.2 with the whole UI group blocked behind gate 5.3, and
+resolving it then needs this same amendment anyway, several days later. The amendment
+defaults to exactly today's behaviour, so it changes nothing that the harness measures.
+
+> Create a feature spec named `skeleton-amendment-scr2`.
+>
+> **Scope: one change. Resist every temptation to widen it.** This spec exists because the
+> Medium spec's stop-condition process worked and filed a change request; it is not an
+> invitation to refactor the API.
+>
+> The change: `skeleton/api/app.py` line 272 passes `cfg=VerifyConfig()`, constructed
+> inline, to `run_grounded_turn`. `VerifyConfig.allowed_numbers` is therefore permanently
+> the empty frozenset and no caller can set it. `ApiConfig` has six fields and none is
+> `verify`.
+>
+> Make it injectable:
+>
+> 1. Add `verify: VerifyConfig = VerifyConfig()` to `ApiConfig`. The default must be exactly
+>    the current value, so behaviour is unchanged for every existing caller and every
+>    existing test.
+> 2. At line 272 pass the configured value instead of a fresh one. `cfg` is already the
+>    `ApiConfig` in that closure's scope, so this is `cfg=cfg.verify`. That reads oddly
+>    because `run_grounded_turn`'s keyword is also named `cfg`; use a local alias if it is
+>    clearer, but do not rename either parameter.
+> 3. One test: an app built with `ApiConfig(verify=VerifyConfig(allowed_numbers=frozenset({"42"})))`
+>    accepts a claim whose prose contains a bare `42`, and an app built with the default
+>    rejects the same claim with `unbacked_number`. Use `FakeLLMClient`; no network.
+>
+> Out of scope, explicitly: SCR-1, SCR-3 and SCR-4; any other `ApiConfig` field; any change
+> under `skeleton/verify/`; any change to `GROUNDING`; any new route; threading
+> `VerifyConfig` anywhere else.
+>
+> Constraints:
+> - `skeleton/verify/` is untouched, so the 100% branch-coverage gate is unaffected. If a
+>   task wants to touch it, the task is wrong.
+> - All four import-linter contracts keep passing.
+> - The full suite stays green: 598 Python tests and 74 UI tests at the time of writing.
+>
+> This should be **two or three tasks**. If the task list comes back longer, the scope has
+> drifted and the spec needs cutting before any task runs.
+
+After it is done, run the full suite and `./scripts/check-verify.sh` before starting Medium
+task 1.1. Then record in `docs/KIRO-USAGE.md`, under "Skeleton change requests", that SCR-2
+was taken pre-emptively and why — the stop-condition discipline visibly working is worth
+more at judging than a quiet edit.
+
 ## Prompt 3 — The Debt Collector
 
 > Create a feature spec named `debt-collector` for app 2, per `.kiro/steering/`.
