@@ -561,7 +561,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Haiku for the theme files; Auto for the test.
     - _Requirements: 6.9, 6.11, 6.12_
 
-  - [ ] 7.5 ThemeProvider and reduced motion
+  - [x] 7.5 ThemeProvider and reduced motion
     - Subsystem: ui-shell. Files (3): `src/theme/ThemeProvider.tsx`, `src/hooks/useReducedMotion.ts`, `test/theme.test.tsx`.
     - `ThemeProvider` writes tokens to `--crypt-*` custom properties on a wrapper; no component branches on `theme.id`. `useReducedMotion` reads `matchMedia` and subscribes to changes.
     - Tests: tokens appear on the wrapper; switching theme updates them; the hook follows a mocked media query.

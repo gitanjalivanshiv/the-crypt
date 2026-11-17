@@ -688,6 +688,18 @@
         "chatSessionId": "sess_de3f63ac-aa88-4c11-b153-e59852a16b13",
         "timestamp": 1794942520180
       }
+    ],
+    "7.5 ThemeProvider and reduced motion": [
+      {
+        "executionId": "e9dcdeb6-52dc-4166-82bb-4e753341738c",
+        "chatSessionId": "sess_e7ee9c0b-b5d3-4d52-96fc-63a0bc6aae40",
+        "timestamp": 1794942552449
+      },
+      {
+        "executionId": "e9dcdeb6-52dc-4166-82bb-4e753341738c",
+        "chatSessionId": "sess_e7ee9c0b-b5d3-4d52-96fc-63a0bc6aae40",
+        "timestamp": 1794942592867
+      }
     ]
   }
 }
