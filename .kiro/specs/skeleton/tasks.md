@@ -411,7 +411,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 5.2, 5.4, 5.7_
 
-  - [ ] 4.4 Tool router with allow-list
+  - [x] 4.4 Tool router with allow-list
     - Subsystem: mcp. Files (2): `skeleton/mcp/router.py`, `tests/mcp/test_router.py`.
     - `ToolRouter(tools, allowed)` is the in-process dispatcher used by the persona generator and the API. A tool outside `allowed` is not listed and a call returns `tool_not_allowed`. An unknown tool name returns `invalid_argument`.
     - Tests: restricted listing; rejection; no write, execute or network tool exists in the router's tool set.

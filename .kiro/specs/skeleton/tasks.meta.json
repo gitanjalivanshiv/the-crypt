@@ -446,6 +446,18 @@
         "chatSessionId": "sess_c25a059d-157d-4af9-8481-559013454ffd",
         "timestamp": 1794916767127
       }
+    ],
+    "4.4 Tool router with allow-list": [
+      {
+        "executionId": "a9102c7e-57e6-48a9-9c21-79d02a7a8aa8",
+        "chatSessionId": "sess_9da39a25-1c15-4663-8bb2-d182a62cf1b4",
+        "timestamp": 1794916816687
+      },
+      {
+        "executionId": "a9102c7e-57e6-48a9-9c21-79d02a7a8aa8",
+        "chatSessionId": "sess_9da39a25-1c15-4663-8bb2-d182a62cf1b4",
+        "timestamp": 1794916871606
+      }
     ]
   }
 }
