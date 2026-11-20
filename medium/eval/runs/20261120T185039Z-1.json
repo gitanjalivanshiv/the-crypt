@@ -1,0 +1,187 @@
+{
+  "run": 1,
+  "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+  "questions_file": "questions.toml",
+  "aborted": "3 consecutive provider errors",
+  "errors": [
+    {
+      "id": "churn-1",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "churn-2",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "stale-2",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "todo-1",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "todo-2",
+      "error": "ProviderError: every attempt failed with generator_error"
+    }
+  ],
+  "results": [
+    {
+      "id": "stale-1",
+      "category": "staleness",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "answered",
+        "claims": [
+          {
+            "kind": "fact",
+            "text": "The oldest ghosts live in the vendored distutils. The compiler base module keeps a marker saying 'things not handled by this compiler abstraction model'. It has gone unanswered for a very long time, and the module has several more like it.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/compilers/C/base.py",
+                "line_start": 77,
+                "line_end": 77,
+                "quote": "    # XXX things not handled by this compiler abstraction model:"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/compilers/C/base.py:77-77",
+                "key": "age_days",
+                "value": 9973
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "In the build_ext command, a note still muses about how to deal with complex command-line options. It is another hopeful marker left by a patient hand, waiting for its day across the decades.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/build_ext.py",
+                "line_start": 43,
+                "line_end": 43,
+                "quote": "    # XXX thoughts on how to deal with complex command-line options like"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/build_ext.py:43-43",
+                "key": "age_days",
+                "value": 9937
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The install_headers command carries a one-line epitaph, `# XXX force is never used`. It has been quietly true for a very long while.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/install_headers.py",
+                "line_start": 11,
+                "line_end": 11,
+                "quote": "# XXX force is never used"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/install_headers.py:11-11",
+                "key": "age_days",
+                "value": 6420
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Among the files untouched for ages, the old script template still calls out to `pkg_resources` from its header, like a s\u00e9ance caller dialling a number that no longer rings. Its last change is far behind us, with very few commits in its whole life.",
+            "citations": [
+              {
+                "file": "setuptools/script.tmpl",
+                "line_start": 1,
+                "line_end": 3,
+                "quote": "# EASY-INSTALL-SCRIPT: %(spec)r,%(script_name)r\n__requires__ = %(spec)r\n__import__('pkg_resources').run_script(%(spec)r, %(script_name)r)"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/script.tmpl:1-3",
+                "key": "days_since_modified",
+                "value": 4504
+              },
+              {
+                "finding_id": "staleness:setuptools/script.tmpl:1-3",
+                "key": "commit_count",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "kind": "guess",
+            "text": "I suspect the old test fixture indexes under test_links_priority, with their 'bad old link', are also slumbering, since the staleness analyzer lists them among the longest-unmodified files.",
+            "citations": [],
+            "figures": []
+          }
+        ],
+        "banishments": [],
+        "decline_line": null,
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "failed",
+            "failure_kind": "unparseable"
+          },
+          {
+            "attempt": 2,
+            "outcome": "accepted",
+            "failure_kind": null
+          }
+        ]
+      }
+    }
+  ],
+  "report": {
+    "overall": {
+      "turns": 1,
+      "answered": 1,
+      "declined": 0,
+      "judged": 5,
+      "verified": 4,
+      "guess": 1,
+      "banished": 0,
+      "banished_by_reason": {},
+      "banished_turns": 0,
+      "all_guess_turns": 0,
+      "empty_answers": 0,
+      "first_attempt_accepted": 0
+    },
+    "by_category": {
+      "staleness": {
+        "turns": 1,
+        "answered": 1,
+        "declined": 0,
+        "judged": 5,
+        "verified": 4,
+        "guess": 1,
+        "banished": 0,
+        "banished_by_reason": {},
+        "banished_turns": 0,
+        "all_guess_turns": 0,
+        "empty_answers": 0,
+        "first_attempt_accepted": 0
+      }
+    }
+  },
+  "breaches": [
+    {
+      "scope": "overall",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    },
+    {
+      "scope": "staleness",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    }
+  ]
+}

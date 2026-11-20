@@ -193,6 +193,72 @@ task 1.1. Then record in `docs/KIRO-USAGE.md`, under "Skeleton change requests",
 was taken pre-emptively and why — the stop-condition discipline visibly working is worth
 more at judging than a quiet edit.
 
+## Prompt 2c — Skeleton amendment: SCR-5 (blocks Medium task 5.1)
+
+Found by running the harness. The first live run aborted after 3 consecutive provider
+errors and reported a 66.7% declined share. **Neither number measures the grounding rule.**
+The real error, recovered by instrumenting the adapter:
+
+```
+ProviderError: response truncated: stop_reason=max_tokens
+   max_tokens=1024  system_len=4434  msgs=13
+```
+
+An answer carries verbatim source quotes in every citation, so a few claims exceed 1024
+output tokens. R1.8 of the Medium spec correctly raises on truncation; the default is
+simply far too small for the payload this system produces. Every failing turn failed this
+way, both attempts, so the turn declined. Run 1's numbers are an artefact and must be
+discarded, not tuned against.
+
+> Create a feature spec named `skeleton-amendment-scr5`.
+>
+> **Scope: two defects in the skeleton, found by the Medium's harness. Nothing else.**
+>
+> **Defect 1 — the output budget makes grounded answers impossible.**
+> `skeleton/personas/llm.py` line 36 sets `max_tokens: int = 1024` on `LLMRequest`, and
+> `ToolLoopGenerator` in `skeleton/personas/generator.py` never overrides it. A grounded
+> answer embeds a verbatim `quote` per citation, so three or four claims exceed the budget,
+> the response is truncated, and the adapter raises. Both attempts fail the same way and
+> the turn declines.
+> - Raise the default to **4096**.
+> - Let `ToolLoopGenerator` take `max_tokens` as a constructor argument defaulting to that,
+>   so an app can raise it without another skeleton change.
+> - Output tokens are billed as generated, so a higher ceiling costs nothing when unused.
+>
+> **Defect 2 — a failed attempt is undiagnosable.**
+> `skeleton/verify/flow.py` line 66 records `AttemptFailure("generator_error",
+> type(exc).__name__)`. The detail is the class name alone, `"ProviderError"`, so the
+> message that names the actual cause never reaches `AttemptRecord`, the `AnswerResult`, or
+> the harness run files. Defect 1 cost a full diagnostic session for this reason.
+> - Record the message as well, as `f"{type(exc).__name__}: {exc}"`, truncated to 300
+>   characters.
+> - `skeleton/verify/` is under the 100% line-and-branch coverage gate and `pragma: no
+>   cover` is banned there. Extend the existing flow tests to cover both paths rather than
+>   weakening the gate. **If this defect cannot be fixed without touching the gate, stop and
+>   report; ship defect 1 alone.**
+> - Safety: the generator is untrusted, so the message may carry model text. Truncate, never
+>   log it outside the structured record, and keep the existing tests that assert no key or
+>   prompt leaks.
+>
+> Out of scope: any other skeleton change, SCR-1, SCR-3, SCR-4, any retry or backoff logic
+> (`max_retries=0` stays), any change to the adapter, the harness, the bands or the question
+> set.
+>
+> Constraints: all four import-linter contracts keep passing; the full suite stays green
+> (599 Python, 74 UI at the time of writing); `./scripts/check-verify.sh` stays at 100%.
+>
+> This should be **three or four tasks**. Longer means the scope drifted.
+
+After it lands, discard run 1 and re-run the harness from scratch:
+
+```
+uv run python -m medium.eval --runs 2
+```
+
+Record in `docs/KIRO-USAGE.md` under "Skeleton change requests" that SCR-5 was found by the
+harness rather than by review — the harness earning its place before the UI was built is
+exactly the argument for ordering it first, and it is worth saying so in the write-up.
+
 ## Prompt 3 — The Debt Collector
 
 > Create a feature spec named `debt-collector` for app 2, per `.kiro/steering/`.

@@ -1,0 +1,103 @@
+{
+  "run": 1,
+  "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+  "questions_file": "questions.toml",
+  "aborted": null,
+  "errors": [
+    {
+      "id": "churn-1",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "churn-2",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "stale-2",
+      "error": "ProviderError: every attempt failed with generator_error"
+    }
+  ],
+  "results": [
+    {
+      "id": "stale-1",
+      "category": "staleness",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "declined",
+        "claims": [],
+        "banishments": [],
+        "decline_line": "The spirits are silent on that, and the veil will not part.",
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "failed",
+            "failure_kind": "unparseable"
+          },
+          {
+            "attempt": 2,
+            "outcome": "failed",
+            "failure_kind": "generator_error"
+          }
+        ]
+      }
+    }
+  ],
+  "report": {
+    "overall": {
+      "turns": 1,
+      "answered": 0,
+      "declined": 1,
+      "judged": 0,
+      "verified": 0,
+      "guess": 0,
+      "banished": 0,
+      "banished_by_reason": {},
+      "banished_turns": 0,
+      "all_guess_turns": 0,
+      "empty_answers": 0,
+      "first_attempt_accepted": 0
+    },
+    "by_category": {
+      "staleness": {
+        "turns": 1,
+        "answered": 0,
+        "declined": 1,
+        "judged": 0,
+        "verified": 0,
+        "guess": 0,
+        "banished": 0,
+        "banished_by_reason": {},
+        "banished_turns": 0,
+        "all_guess_turns": 0,
+        "empty_answers": 0,
+        "first_attempt_accepted": 0
+      }
+    }
+  },
+  "breaches": [
+    {
+      "scope": "overall",
+      "metric": "declined_share",
+      "value": 1.0,
+      "band": "<= 0.15"
+    },
+    {
+      "scope": "overall",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    },
+    {
+      "scope": "staleness",
+      "metric": "declined_share",
+      "value": 1.0,
+      "band": "<= 0.15"
+    },
+    {
+      "scope": "staleness",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    }
+  ]
+}
