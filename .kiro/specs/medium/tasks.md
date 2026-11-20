@@ -105,7 +105,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_plan_route.py` is green.
     - Model: Auto.
     - _Requirements: 6.1, 6.2, 6.3, 6.5, 6.6, 4.7_
-  - [ ] 4.2 Process entry point
+  - [x] 4.2 Process entry point
     - Subsystem: medium-api. Files (2): `medium/main.py`, `tests/medium/test_main.py`.
     - Build `AnthropicClient.from_env(MEDIUM_MODEL)`, store from `CRYPT_STORE`, run uvicorn. Missing key fails at startup naming the variable, printing no value. Pin the default model id in one constant.
     - Tests: missing key raises at build time with the variable name and no secret; the built app serves `/medium/...` and `/snapshots/...` (with FakeLLMClient injected through a factory seam).
