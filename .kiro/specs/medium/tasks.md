@@ -63,7 +63,7 @@ flowchart TD
     - Model: Auto.
     - _Requirements: 2.1 to 2.8_
 - [ ] 3. Harness build (not cuttable)
-  - [ ] 3.1 Plan section questions and models
+  - [x] 3.1 Plan section questions and models
     - Subsystem: medium-api. Files (2): `medium/plan.py`, `tests/medium/test_plan_prompts.py`.
     - `SECTIONS`, `SECTION_QUESTIONS` (no digit, independent, asking for modernisation steps tied to cited code, tone per R2.7), `PlanSection`, `PlanResult` (design §4). Imports `AnswerResult` from `skeleton.verify.models` only.
     - Tests: three sections in fixed order; no digit in any question; no question mentions another section's output; models round-trip an `AnswerResult` unchanged.

@@ -74,6 +74,18 @@
         "chatSessionId": "sess_161dfe1c-b2a5-449c-aeb2-da18176d3180",
         "timestamp": 1795196013912
       }
+    ],
+    "3.1 Plan section questions and models": [
+      {
+        "executionId": "42e0bf4c-b365-4c76-82ac-6c2a1d24c9c9",
+        "chatSessionId": "sess_6da0a3f7-1c37-4c7d-98e2-d07fb1b9eeee",
+        "timestamp": 1795196049077
+      },
+      {
+        "executionId": "42e0bf4c-b365-4c76-82ac-6c2a1d24c9c9",
+        "chatSessionId": "sess_6da0a3f7-1c37-4c7d-98e2-d07fb1b9eeee",
+        "timestamp": 1795196111230
+      }
     ]
   }
 }
