@@ -84,7 +84,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_metrics.py` is green.
     - Model: Auto.
     - _Requirements: 3.6, 3.7, 3.8, 3.9_
-  - [ ] 3.4 Harness runner
+  - [x] 3.4 Harness runner
     - Subsystem: eval. Files (2): `medium/eval/__main__.py`, `tests/medium/test_eval_runner.py`.
     - CLI per design §5.1: `--runs`, `--max-turns`, `--questions`. Builds `create_medium_app`-equivalent via `create_app` plus the ghost persona with `ApiConfig(allow_retained=True)` in a `TestClient`; ingests the patient as retained from `demo/patient.json`; asks every question through `POST /snapshots/{ref}/ask`; writes `medium/eval/runs/<UTC>-<n>.json`; prints the report; exits non-zero on a breach or abort; aborts after 3 consecutive `ProviderError` turns. Accepts an injected client and an injected ingest function for tests.
     - Tests (FakeLLMClient, injected ingest over the skeleton's fixture repo): the harness asks through `/ask` (a spy on the route sees every question); a scripted all-guess run exits non-zero and names the breached bands; three consecutive provider errors abort; the run file is written and parses back to the same report; a grep asserts the module imports none of `run_grounded_turn`, `verify_claim`, `ToolLoopGenerator`.

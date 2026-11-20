@@ -110,6 +110,18 @@
         "chatSessionId": "sess_6583534b-fba8-40e9-88f6-23df6a8583cc",
         "timestamp": 1795196541108
       }
+    ],
+    "3.4 Harness runner": [
+      {
+        "executionId": "e6f5d1f4-c2ba-456d-b45d-e8993e12644f",
+        "chatSessionId": "sess_5d18ff26-538a-42c5-913f-70b6e4523845",
+        "timestamp": 1795196573828
+      },
+      {
+        "executionId": "e6f5d1f4-c2ba-456d-b45d-e8993e12644f",
+        "chatSessionId": "sess_5d18ff26-538a-42c5-913f-70b6e4523845",
+        "timestamp": 1795196768775
+      }
     ]
   }
 }
