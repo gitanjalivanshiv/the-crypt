@@ -180,6 +180,20 @@ executions**, record actuals here and recompute §3.
 | | skeleton spec: design | Auto | 10 | | |
 | | skeleton task 1 | Auto | 5 | | |
 
+### Spec-phase actuals: medium spec
+
+No dashboard export is available in the repo, so no figures are recorded. Do not estimate.
+
+| Phase | Model | Est. | Actual | Running total |
+|---|---|---|---|---|
+| medium spec: requirements | Auto | 10 | TODO: fill from Kiro dashboard | TODO: fill from Kiro dashboard |
+| medium spec: design | Auto | 10 | TODO: fill from Kiro dashboard | TODO: fill from Kiro dashboard |
+| medium spec: tasks | Auto | 10 | TODO: fill from Kiro dashboard | TODO: fill from Kiro dashboard |
+| medium spec: total (planned 40) | | 40 | TODO: fill from Kiro dashboard | TODO: fill from Kiro dashboard |
+
+Provider spend for harness runs (Anthropic dashboard, separate from Kiro credits): TODO: fill
+from provider dashboard after the first live run.
+
 ### Opus 5.5 log (cap: 15)
 
 | # | Date | What it was needed for | Credits |

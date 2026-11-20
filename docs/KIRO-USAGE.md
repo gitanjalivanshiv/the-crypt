@@ -67,9 +67,36 @@ work, Opus 5.5 capped at 15 prompts), command hooks over agent hooks, one task a
 rather than concurrent waves. Final actuals from `docs/CREDIT-BUDGET.md`.
 
 > _TODO_
+
+## Banishment rate (Medium)
+
+Bands for the harness (`python -m medium.eval`), copied from `medium/eval/metrics.py`
+(R3.8). Fixed in code before the first live run; not tuned to a result.
+
+| Metric | Band | Reason |
+|---|---|---|
+| Guess share | ≤ 0.35 | Too lenient above this: the "guess" flag becomes a loophole the model hides behind instead of citing evidence. |
+| All-guess turns | ≤ 0.15 of answered turns | Too lenient above this: such a turn is the one `classify_attempt` would route to a decline. |
+| Turns with ≥ 1 banishment | 0.10 to 0.50 of turns | Below the lower bound the demo has no on-camera banishment; above the upper bound the ghost is unreliable. |
+| Declined share | ≤ 0.15 | Too strict above this: the demo looks broken. |
+| Verified share | ≥ 0.50 | A ghost that mostly guesses or is mostly rejected has little to say. |
+
+Measured results: none yet (no live run).
+
 ## Skeleton change requests
 Filed by the Medium spec (`.kiro/specs/medium/design.md` §7). The skeleton is edited only
 through a change request, never as a side effect of a Medium task.
+
+Each request states the requirement or lever, evidence, smallest proposed change and the
+blocked Medium task (R9.2). SCR-2 to SCR-4 are opened only if a measured breach points at
+them. SCR-1 is a nice-to-have. Evidence is "none yet" for all four until a harness run exists.
+
+| ID | Need (requirement or lever) | Today | Smallest change | Blocks | Evidence |
+|---|---|---|---|---|---|
+| SCR-1 | File listing for the tree (R5.3) | No route exposes the code graph's files | `GET /snapshots/{ref}/files` listing paths | Nothing (workaround: findings plus cited files) | None yet |
+| SCR-2 | `allowed_numbers` per app (lever) | `VerifyConfig()` built inline in `ask` | `ApiConfig.verify: VerifyConfig`, passed to `ask` | Only if the harness shows `unbacked_number` over-rejection | None yet (taken pre-emptively, see below) |
+| SCR-3 | Grounding wording (lever) | `GROUNDING` is a constant | Optional persona-level addendum field, or a documented edit to the constant | Only if persona wording cannot fix the guess share | None yet |
+| SCR-4 | Acceptance rule (lever) | `classify_attempt` not injectable | Accept `classify` as an argument to `run_grounded_turn`, current function as default | Only if all-guess turns breach their band | None yet |
 
 ### SCR-2: `allowed_numbers` per app. Taken pre-emptively, before Medium task 1.1.
 Spec: `.kiro/specs/skeleton-amendment-scr2/`. Change: `ApiConfig.verify: VerifyConfig`

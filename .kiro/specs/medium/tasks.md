@@ -62,7 +62,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_persona.py` is green.
     - Model: Auto.
     - _Requirements: 2.1 to 2.8_
-- [ ] 3. Harness build (not cuttable)
+- [x] 3. Harness build (not cuttable)
   - [x] 3.1 Plan section questions and models
     - Subsystem: medium-api. Files (2): `medium/plan.py`, `tests/medium/test_plan_prompts.py`.
     - `SECTIONS`, `SECTION_QUESTIONS` (no digit, independent, asking for modernisation steps tied to cited code, tone per R2.7), `PlanSection`, `PlanResult` (design §4). Imports `AnswerResult` from `skeleton.verify.models` only.
@@ -91,7 +91,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_eval_runner.py` is green.
     - Model: Auto.
     - _Requirements: 3.4, 3.5, 3.9, 3.10, 3.12, 3.13_
-  - [ ] 3.5 Record the bands and seed the skeleton change requests
+  - [x] 3.5 Record the bands and seed the skeleton change requests
     - Subsystem: docs. Files (2): `docs/KIRO-USAGE.md`, `docs/CREDIT-BUDGET.md`.
     - In `docs/KIRO-USAGE.md` add the sections "Banishment rate (Medium)" with the bands and their reasons copied from `metrics.py`, and "Skeleton change requests" seeded with SCR-1 to SCR-4 from design §7. In `docs/CREDIT-BUDGET.md` log the spec-phase actuals read from the dashboard.
     - Done when: both files contain the sections and the bands match `metrics.py` (read by eye; no test).
