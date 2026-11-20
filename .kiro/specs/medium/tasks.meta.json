@@ -165,6 +165,25 @@
         "chatSessionId": "sess_b22304f2-cda1-4b67-92fa-3c5eff83c16d",
         "timestamp": 1795197384484
       }
+    ],
+    "4.3 Interview loop end to end (server side)": [
+      {
+        "executionId": "37fcc1c7-791e-41e3-8d34-8e2195f93b70",
+        "chatSessionId": "sess_95f7d433-43a2-41f8-827b-d3f520349438",
+        "timestamp": 1795199806432
+      },
+      {
+        "executionId": "37fcc1c7-791e-41e3-8d34-8e2195f93b70",
+        "chatSessionId": "sess_95f7d433-43a2-41f8-827b-d3f520349438",
+        "timestamp": 1795199877184
+      }
+    ],
+    "4. Medium API (not cuttable)": [
+      {
+        "executionId": "37fcc1c7-791e-41e3-8d34-8e2195f93b70",
+        "chatSessionId": "sess_95f7d433-43a2-41f8-827b-d3f520349438",
+        "timestamp": 1795199877224
+      }
     ]
   }
 }

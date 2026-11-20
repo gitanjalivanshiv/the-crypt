@@ -97,7 +97,7 @@ flowchart TD
     - Done when: both files contain the sections and the bands match `metrics.py` (read by eye; no test).
     - Model: Haiku.
     - _Requirements: 3.8, 3.14, 9.1, 9.2, 10.7_
-- [ ] 4. Medium API (not cuttable)
+- [x] 4. Medium API (not cuttable)
   - [x] 4.1 Plan route and app factory
     - Subsystem: medium-api. Files (2): `medium/api.py`, `tests/medium/test_plan_route.py`.
     - `create_medium_app(store, llm, cfg=None)`: calls `skeleton.api.app.create_app(..., persona_dir=<medium/personas>)` and includes a router with `POST /medium/snapshots/{ref}/plan` per design §4. Sections run sequentially through `httpx.AsyncClient(transport=ASGITransport(app))`. A non-200 section response is returned unchanged and stops the loop.  `httpx` is already a runtime dependency in `pyproject.toml`.
@@ -112,7 +112,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_main.py` is green.
     - Model: Haiku.
     - _Requirements: 1.10, 1.12_
-  - [ ] 4.3 Interview loop end to end (server side)
+  - [x] 4.3 Interview loop end to end (server side)
     - Subsystem: medium-api. Files (1): `tests/medium/test_interview_e2e.py`.
     - Through `create_medium_app` with `FakeLLMClient`: a verified answer, a banished-then-regenerated answer, and a decline each return `AnswerResult` JSON whose fields equal the skeleton app's own response for the same script; the decline carries the ghost's `decline_line`.
     - Done when: `uv run pytest tests/medium/test_interview_e2e.py` is green.
