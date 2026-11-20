@@ -119,7 +119,7 @@ flowchart TD
     - Model: Auto.
     - _Requirements: 4.1, 4.2, 4.7_
 - [ ] 5. Live measurement (not cuttable; this is the gate for group 6)
-  - [ ] 5.1 First live runs
+  - [-] 5.1 First live runs
     - Subsystem: eval. Files (3): `docs/KIRO-USAGE.md` and two raw run files under `medium/eval/runs/`.
     - Needs `ANTHROPIC_API_KEY` and network. Run `uv run python -m medium.eval --runs 2`. Record **both** reports in `docs/KIRO-USAGE.md` with the run file paths, model id, patient SHA, date, per-category shares and counts, breached bands, and the provider-dashboard spend. Do not average the runs. Read five raw turns and check the persona's tone against `demo-patient.md` obligations.
     - Done when: both runs are recorded. A breach is a finding, not a failure of this task.

@@ -184,6 +184,13 @@
         "chatSessionId": "sess_95f7d433-43a2-41f8-827b-d3f520349438",
         "timestamp": 1795199877224
       }
+    ],
+    "5.1 First live runs": [
+      {
+        "executionId": "74b1761b-5fe9-43a3-9ae0-01b1af092827",
+        "chatSessionId": "sess_555dd80b-2395-4f9b-8ad2-6417dd9aaa76",
+        "timestamp": 1795199917122
+      }
     ]
   }
 }
