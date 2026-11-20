@@ -25,9 +25,12 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--import-mode=importlib -m 'not network'"
+addopts = "--import-mode=importlib -m 'not network and not live'"
 pythonpath = ["."]
-markers = ["network: needs network access (excluded by default; run with -m network)"]
+markers = [
+    "network: needs network access (excluded by default; run with -m network)",
+    "live: calls the real provider, needs ANTHROPIC_API_KEY (excluded by default; run with -m live)",
+]
 
 [tool.coverage.run]
 branch = true

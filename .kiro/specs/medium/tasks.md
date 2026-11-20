@@ -42,7 +42,7 @@ flowchart TD
     - Done when: `uv run pytest tests/providers` is green.
     - Model: Auto.
     - _Requirements: 1.2, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11_
-  - [ ] 1.3 Live provider test
+  - [x] 1.3 Live provider test
     - Subsystem: providers. Files (2): `tests/providers/test_live.py`, `pyproject.toml`.
     - Add the `live` marker to `pyproject.toml` (excluded by default alongside `network`). One real call with a one-tool request; assert a well-formed `LLMResponse` (text or one `ToolCall` whose name is in the request's tools). Skips with a clear reason when `ANTHROPIC_API_KEY` is unset.
     - Done when: `uv run pytest -m live tests/providers` is green with a key set, and the default run still skips it.

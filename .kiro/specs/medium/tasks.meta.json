@@ -24,6 +24,18 @@
         "chatSessionId": "sess_bf049ee6-e8b8-4490-9e97-b0359691d63e",
         "timestamp": 1795195437211
       }
+    ],
+    "1.3 Live provider test": [
+      {
+        "executionId": "78b17235-21bd-4237-ab91-c0ea7514da76",
+        "chatSessionId": "sess_6626579a-b637-493d-978a-c01c5eac8a92",
+        "timestamp": 1795195472583
+      },
+      {
+        "executionId": "78b17235-21bd-4237-ab91-c0ea7514da76",
+        "chatSessionId": "sess_6626579a-b637-493d-978a-c01c5eac8a92",
+        "timestamp": 1795195513868
+      }
     ]
   }
 }
