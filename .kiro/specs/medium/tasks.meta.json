@@ -86,6 +86,18 @@
         "chatSessionId": "sess_6da0a3f7-1c37-4c7d-98e2-d07fb1b9eeee",
         "timestamp": 1795196111230
       }
+    ],
+    "3.2 The fixed question set": [
+      {
+        "executionId": "796906e3-b2cb-4681-af44-25715aed8e9f",
+        "chatSessionId": "sess_2f8849f0-bfc7-415c-825e-41a73504b227",
+        "timestamp": 1795196146270
+      },
+      {
+        "executionId": "796906e3-b2cb-4681-af44-25715aed8e9f",
+        "chatSessionId": "sess_2f8849f0-bfc7-415c-825e-41a73504b227",
+        "timestamp": 1795196211533
+      }
     ]
   }
 }

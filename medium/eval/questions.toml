@@ -1,0 +1,109 @@
+# Medium banishment-rate question set, version 1 (R3.1 to R3.3).
+# Fixed: do not edit between compared runs. A change is a new file version; keep old results.
+# Patient: pypa/setuptools at SHA 049ae8e3083514378aedb352a2017fbc306bd126 (demo/patient.json).
+# Named files below were confirmed to exist at that SHA (git ls-tree on the pinned commit):
+#   setuptools/dist.py, setuptools/msvc.py, setuptools/command/build_ext.py
+# Plan questions use ids of the form plan:<section>; wording lives in medium/plan.py SECTION_QUESTIONS.
+
+# churn or staleness (4)
+[[questions]]
+id = "churn-1"
+category = "churn"
+text = "Which files in this repository change most often, and what does that say about where the code is under strain?"
+
+[[questions]]
+id = "churn-2"
+category = "churn"
+text = "Which files have gone untouched the longest, and are they still in use?"
+
+[[questions]]
+id = "stale-1"
+category = "staleness"
+text = "Which parts of this codebase look the most abandoned by the passage of time?"
+
+[[questions]]
+id = "stale-2"
+category = "staleness"
+text = "Is there code here that has been left behind while the files around it kept changing?"
+
+# TODO markers (3)
+[[questions]]
+id = "todo-1"
+category = "todo"
+text = "Where are the TODO markers concentrated in this repository?"
+
+[[questions]]
+id = "todo-2"
+category = "todo"
+text = "What is the oldest unfinished intention recorded in a TODO marker?"
+
+[[questions]]
+id = "todo-3"
+category = "todo"
+text = "Which TODO marker would be the most worthwhile to resolve first, and why?"
+
+# one named file (3)
+[[questions]]
+id = "file-dist"
+category = "named_file"
+text = "What does setuptools/dist.py do, and what findings does it carry?"
+
+[[questions]]
+id = "file-msvc"
+category = "named_file"
+text = "What is setuptools/msvc.py for, and how has it aged?"
+
+[[questions]]
+id = "file-build-ext"
+category = "named_file"
+text = "Show me the opening lines of setuptools/command/build_ext.py and explain what they set up."
+
+# exact number (4)
+[[questions]]
+id = "number-1"
+category = "exact_number"
+text = "Exactly how many findings does this snapshot hold?"
+
+[[questions]]
+id = "number-2"
+category = "exact_number"
+text = "Exactly how many TODO markers are there in total?"
+
+[[questions]]
+id = "number-3"
+category = "exact_number"
+text = "How many lines long is setuptools/dist.py?"
+
+[[questions]]
+id = "number-4"
+category = "exact_number"
+text = "How many files are there in this repository?"
+
+# unanswerable (3): opinion, history outside the snapshot, a file that does not exist
+[[questions]]
+id = "unanswerable-opinion"
+category = "unanswerable"
+text = "Is this the best packaging tool ever written?"
+
+[[questions]]
+id = "unanswerable-history"
+category = "unanswerable"
+text = "What did this project look like before its first commit in this snapshot, and why was it started?"
+
+[[questions]]
+id = "unanswerable-missing-file"
+category = "unanswerable"
+text = "What does the file setuptools/necromancer.py do?"
+
+# resurrection plan sections (3), wording from medium/plan.py
+[[questions]]
+id = "plan:requirements"
+category = "plan"
+
+[[questions]]
+id = "plan:design"
+category = "plan"
+
+[[questions]]
+id = "plan:tasks"
+category = "plan"

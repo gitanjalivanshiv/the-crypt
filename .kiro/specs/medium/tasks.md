@@ -70,7 +70,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_plan_prompts.py` is green.
     - Model: Auto.
     - _Requirements: 6.1, 6.4, 6.8_
-  - [ ] 3.2 The fixed question set
+  - [x] 3.2 The fixed question set
     - Subsystem: eval. Files (2): `medium/eval/questions.toml`, `tests/medium/test_questions.py`.
     - 20 questions with `id` and `category`. Categories and minimums per R3.2: 4 churn or staleness, 3 TODO, 3 one named file (pick real files from the patient's findings and record the SHA in a comment), 4 exact-number, 3 unanswerable, and 3 plan sections referenced as `plan:requirements`, `plan:design`, `plan:tasks`. The remaining questions are general.
     - Tests: exactly 20; unique ids; category minimums; plan ids resolve against `SECTION_QUESTIONS`; no question asks about people or blames maintainers (keyword check on a short list).
