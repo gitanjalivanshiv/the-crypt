@@ -54,8 +54,8 @@ flowchart TD
     - Done when: `uv run pytest tests/independence/test_contracts.py` and `uv run lint-imports` are green.
     - Model: Auto.
     - _Requirements: 1.1, 1.12, 1.13_
-- [ ] 2. Persona (not cuttable)
-  - [ ] 2.1 The ghost persona
+- [x] 2. Persona (not cuttable)
+  - [x] 2.1 The ghost persona
     - Subsystem: personas-config. Files (2): `medium/personas/ghost.toml`, `tests/medium/test_persona.py`.
     - Write the ghost per design §3. Read `TOOL_NAMES` from `skeleton.mcp.contract` and choose `allowed_tools` from it. Persona wording must tie guesses to "no tool result supports this", and say figures go only in the `figures` list (design §12.2). No digit in any text field. Humour targets the code and time, never the maintainers.
     - Tests: `load_persona` succeeds; `warnings == []`; no digit in `voice`, `goals`, `example_lines`, `decline_line`; `allowed_tools` is a subset of `TOOL_NAMES`; `load_personas` over a directory holding only this file returns exactly one persona named `ghost`; `create_app` starts with it (FakeLLMClient).

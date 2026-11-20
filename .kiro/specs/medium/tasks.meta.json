@@ -55,6 +55,25 @@
         "chatSessionId": "sess_97564a8d-b5af-4d88-a98e-bdfa92127ece",
         "timestamp": 1795195903534
       }
+    ],
+    "2.1 The ghost persona": [
+      {
+        "executionId": "46ced532-9bdf-4db9-bd40-5704a75251a0",
+        "chatSessionId": "sess_161dfe1c-b2a5-449c-aeb2-da18176d3180",
+        "timestamp": 1795195948796
+      },
+      {
+        "executionId": "46ced532-9bdf-4db9-bd40-5704a75251a0",
+        "chatSessionId": "sess_161dfe1c-b2a5-449c-aeb2-da18176d3180",
+        "timestamp": 1795196013882
+      }
+    ],
+    "2. Persona (not cuttable)": [
+      {
+        "executionId": "46ced532-9bdf-4db9-bd40-5704a75251a0",
+        "chatSessionId": "sess_161dfe1c-b2a5-449c-aeb2-da18176d3180",
+        "timestamp": 1795196013912
+      }
     ]
   }
 }
