@@ -1,5 +1,7 @@
 [importlinter]
-root_package = skeleton
+root_packages =
+    skeleton
+    providers
 include_external_packages = True
 
 [importlinter:contract:no-sibling-projects]
@@ -32,4 +34,13 @@ forbidden_modules =
     anthropic
     openai
     boto3
+allow_indirect_imports = True
+
+[importlinter:contract:no-providers]
+name = skeleton must not import providers
+type = forbidden
+source_modules =
+    skeleton
+forbidden_modules =
+    providers
 allow_indirect_imports = True

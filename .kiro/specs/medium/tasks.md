@@ -27,7 +27,7 @@ flowchart TD
 ```
 
 ## Tasks
-- [ ] 1. Providers (not cuttable)
+- [x] 1. Providers (not cuttable)
   - [x] 1.1 Request and response mapping
     - Subsystem: providers. Files (3): `providers/mapping.py`, `tests/providers/test_mapping.py`, `pyproject.toml`.
     - `pyproject.toml`: add runtime dependency `anthropic`. `mapping.py`: pure functions per design §2.2, with no SDK import (it builds plain dicts and reads response objects by attribute): `to_sdk_kwargs(request) -> dict`, `from_sdk_response(response) -> LLMResponse`. Merge consecutive tool messages into one user message of `tool_result` blocks. Omit `tools` when empty. Raise `ProviderError` on `stop_reason == "max_tokens"`.
@@ -48,7 +48,7 @@ flowchart TD
     - Done when: `uv run pytest -m live tests/providers` is green with a key set, and the default run still skips it.
     - Model: Haiku.
     - _Requirements: 1.14_
-  - [ ] 1.4 Fourth import-linter contract
+  - [x] 1.4 Fourth import-linter contract
     - Subsystem: independence. Files (2): `.importlinter`, `tests/independence/test_contracts.py`.
     - Run the existing contracts first and note they pass. Change `root_package = skeleton` to `root_packages = skeleton, providers`. Add the contract `skeleton must not import providers` (design §2.3). Add a planted-violation test (`skeleton/verify/_planted_providers.py`, deleted in `finally`) asserting the lint fails. Confirm the three existing contracts still pass unchanged.
     - Done when: `uv run pytest tests/independence/test_contracts.py` and `uv run lint-imports` are green.

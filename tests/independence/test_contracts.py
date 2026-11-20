@@ -28,7 +28,7 @@ def _lint() -> subprocess.CompletedProcess[str]:
 def test_import_contracts_hold() -> None:
     result = _lint()
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "3 kept, 0 broken" in result.stdout
+    assert "4 kept, 0 broken" in result.stdout
 
 
 @pytest.mark.parametrize(
@@ -37,6 +37,7 @@ def test_import_contracts_hold() -> None:
         "from skeleton.api import errors\n",  # verify importing the top layer
         "from skeleton.ingest import models\n",  # verify importing a higher layer
         "import medium\n",
+        "import providers\n",
         "import debt_collector\n",
         "import anthropic\n",
         "import openai\n",
