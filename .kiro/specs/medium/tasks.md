@@ -28,7 +28,7 @@ flowchart TD
 
 ## Tasks
 - [ ] 1. Providers (not cuttable)
-  - [ ] 1.1 Request and response mapping
+  - [x] 1.1 Request and response mapping
     - Subsystem: providers. Files (3): `providers/mapping.py`, `tests/providers/test_mapping.py`, `pyproject.toml`.
     - `pyproject.toml`: add runtime dependency `anthropic`. `mapping.py`: pure functions per design §2.2, with no SDK import (it builds plain dicts and reads response objects by attribute): `to_sdk_kwargs(request) -> dict`, `from_sdk_response(response) -> LLMResponse`. Merge consecutive tool messages into one user message of `tool_result` blocks. Omit `tools` when empty. Raise `ProviderError` on `stop_reason == "max_tokens"`.
     - Tests: each row of the §2.2 table; consecutive tool messages merge; empty tools omits the key; empty response gives an empty `LLMResponse`; Hypothesis MP2 (every call id round-trips).
