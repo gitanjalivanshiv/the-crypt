@@ -12,6 +12,18 @@
         "chatSessionId": "sess_c92b0e3c-bad4-470f-9c20-beb84f929d70",
         "timestamp": 1795195248693
       }
+    ],
+    "1.2 AnthropicClient and ProviderError": [
+      {
+        "executionId": "cefa559c-a4a0-4082-b60d-bc1f2e89deaf",
+        "chatSessionId": "sess_bf049ee6-e8b8-4490-9e97-b0359691d63e",
+        "timestamp": 1795195296236
+      },
+      {
+        "executionId": "cefa559c-a4a0-4082-b60d-bc1f2e89deaf",
+        "chatSessionId": "sess_bf049ee6-e8b8-4490-9e97-b0359691d63e",
+        "timestamp": 1795195437211
+      }
     ]
   }
 }

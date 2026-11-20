@@ -35,7 +35,7 @@ flowchart TD
     - Done when: `uv run pytest tests/providers/test_mapping.py` is green.
     - Model: Auto.
     - _Requirements: 1.3, 1.4, 1.5, 1.8_
-  - [ ] 1.2 AnthropicClient and ProviderError
+  - [x] 1.2 AnthropicClient and ProviderError
     - Subsystem: providers. Files (3): `providers/errors.py`, `providers/anthropic_client.py`, `tests/providers/test_anthropic_client.py`.
     - `ProviderError`. `AnthropicClient` per design §2.1: default SDK is `AsyncAnthropic(api_key, timeout=timeout_s, max_retries=0)`; `from_env` is the only env read; injected `sdk` for tests. `complete` makes exactly one `messages.create` call and wraps SDK errors as `ProviderError(f"{type(exc).__name__} status={status}")`, never `str(exc)`. `CancelledError` is not caught.
     - Tests: MP1 (one SDK call per `complete`; constructor kwargs include `max_retries=0` and a timeout); MP3 (a fake SDK error embedding the key, the system prompt and the response text yields a `ProviderError` containing none of them); timeout becomes `ProviderError`; `from_env` with no variable raises a message naming the variable and containing no value; satisfies `LLMClient` structurally (`isinstance`-free check by calling it through `ToolLoopGenerator` with a fake SDK, one tool round).
