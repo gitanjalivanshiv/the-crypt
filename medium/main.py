@@ -10,7 +10,7 @@ from medium.api import create_medium_app
 from providers.anthropic_client import AnthropicClient
 from skeleton.personas.llm import LLMClient
 
-DEFAULT_MODEL = "claude-haiku-4-5"
+DEFAULT_MODEL = "claude-haiku-5-5"
 DEFAULT_STORE = "crypt-store"
 
 ClientFactory = Callable[[str], LLMClient]

@@ -35,7 +35,7 @@ DEFAULT_RUNS_DIR = Path(__file__).resolve().parent / "runs"
 PATIENT_JSON = ROOT / "demo" / "patient.json"
 PERSONA = "ghost"
 MAX_CONSECUTIVE_PROVIDER_ERRORS = 3
-DEFAULT_MODEL = "claude-sonnet-4-5"
+DEFAULT_MODEL = "claude-sonnet-5-5"
 
 EXIT_OK, EXIT_BREACH, EXIT_ABORT = 0, 1, 2
 
