@@ -98,7 +98,7 @@ flowchart TD
     - Model: Haiku.
     - _Requirements: 3.8, 3.14, 9.1, 9.2, 10.7_
 - [ ] 4. Medium API (not cuttable)
-  - [ ] 4.1 Plan route and app factory
+  - [x] 4.1 Plan route and app factory
     - Subsystem: medium-api. Files (2): `medium/api.py`, `tests/medium/test_plan_route.py`.
     - `create_medium_app(store, llm, cfg=None)`: calls `skeleton.api.app.create_app(..., persona_dir=<medium/personas>)` and includes a router with `POST /medium/snapshots/{ref}/plan` per design §4. Sections run sequentially through `httpx.AsyncClient(transport=ASGITransport(app))`. A non-200 section response is returned unchanged and stops the loop.  `httpx` is already a runtime dependency in `pyproject.toml`.
     - Tests: MP4 (each section equals a direct `/ask`); MP5 (a fabricated citation shows as banished or declined, never verified); a declined section leaves the others intact; `snapshot_not_found` is returned unchanged with no partial plan; the route source contains no `AnswerResult(`, `VerifiedClaim(` or `Citation(` construction (grep).
