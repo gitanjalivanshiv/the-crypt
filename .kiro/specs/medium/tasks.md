@@ -77,7 +77,7 @@ flowchart TD
     - Done when: `uv run pytest tests/medium/test_questions.py` is green.
     - Model: Auto.
     - _Requirements: 3.1, 3.2, 3.3_
-  - [ ] 3.3 Metrics and bands
+  - [x] 3.3 Metrics and bands
     - Subsystem: eval. Files (2): `medium/eval/metrics.py`, `tests/medium/test_metrics.py`.
     - Pure functions per design §5.2 and the band constants of §5.3, each with its reasoning in a comment. `compute(results) -> Report` (overall and per category), `breaches(report) -> list[Breach]`, `render(report) -> str` (counts beside shares). Zero denominators yield `None`, rendered `n/a`.
     - Tests: hand-built `AnswerResult`s for all-fact, all-guess, declined, answered-after-regeneration and mixed turns, with the exact expected shares; MP6 (Hypothesis partition); MP7; a breach is reported for each band when forced; `empty_answers` counted separately.
