@@ -154,6 +154,8 @@ export interface components {
         AttemptRecord: {
             /** Attempt */
             attempt: number;
+            /** Failure Detail */
+            failure_detail?: string | null;
             /** Failure Kind */
             failure_kind?: ("generator_error" | "unparseable") | null;
             /**

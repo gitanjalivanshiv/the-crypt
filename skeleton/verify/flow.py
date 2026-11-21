@@ -15,6 +15,8 @@ from skeleton.verify.models import (
 )
 from skeleton.verify.parse import ParseFailure, parse_answer
 
+_DETAIL_MAX = 300
+
 
 @dataclass(frozen=True)
 class AttemptFailure:
@@ -48,7 +50,12 @@ def classify_attempt(attempt: _Attempt) -> bool:
 
 def _record(n: int, attempt: _Attempt) -> AttemptRecord:
     if attempt.failure is not None:
-        return AttemptRecord(attempt=n, outcome="failed", failure_kind=attempt.failure.kind)
+        return AttemptRecord(
+            attempt=n,
+            outcome="failed",
+            failure_kind=attempt.failure.kind,
+            failure_detail=attempt.failure.detail,
+        )
     outcome = "banished" if attempt.banishments else "accepted"
     return AttemptRecord(attempt=n, outcome=outcome)
 
@@ -63,7 +70,8 @@ async def _attempt(
     try:
         text = await generate(n, feedback)
     except Exception as exc:  # noqa: BLE001 - generator is untrusted; any failure fails the attempt
-        return _Attempt((), (), AttemptFailure("generator_error", type(exc).__name__))
+        detail = f"{type(exc).__name__}: {exc}"[:_DETAIL_MAX]
+        return _Attempt((), (), AttemptFailure("generator_error", detail))
     items = parse_answer(text if isinstance(text, str) else "")
     if isinstance(items, ParseFailure):
         return _Attempt((), (), AttemptFailure("unparseable", items.reason))

@@ -259,6 +259,94 @@ Record in `docs/KIRO-USAGE.md` under "Skeleton change requests" that SCR-5 was f
 harness rather than by review — the harness earning its place before the UI was built is
 exactly the argument for ordering it first, and it is worth saying so in the write-up.
 
+## Prompt 2d — A Gemini provider, so the demo costs nothing
+
+Why: the Anthropic API is prepaid and separate from a Claude subscription, and that account
+has no balance, so every call 400s. Google's Gemini API has a free tier. The `LLMClient`
+seam exists for exactly this, and the Anthropic adapter is only 129 lines across three
+files, so a second provider is small.
+
+This amends the Medium spec's R1, which scoped other providers out.
+
+> Create a feature spec named `provider-gemini`.
+>
+> Add a second `LLMClient` implementation for the Google Gemini API, alongside the existing
+> Anthropic one. Mirror the existing structure exactly: `providers/gemini_client.py` and
+> `providers/gemini_mapping.py` beside `providers/anthropic_client.py` and
+> `providers/mapping.py`, with tests mirroring `tests/providers/test_anthropic_client.py`
+> and `test_mapping.py`.
+>
+> The contract is unchanged: `async def complete(self, request: LLMRequest) -> LLMResponse`,
+> raising `providers.errors.ProviderError` on any failure. Nothing under `skeleton/` changes.
+>
+> **Four real differences from the Anthropic shape. Each one breaks the adapter if missed.**
+>
+> 1. **Role names.** Gemini uses `user` and **`model`**, not `user` and `assistant`. The
+>    system prompt is not a message: it goes in the request config as `system_instruction`.
+> 2. **No tool-call ids.** Anthropic returns a `tool_use` id that the result echoes back.
+>    Gemini matches a `function_response` to its `function_call` **by name**. The skeleton's
+>    `ToolCall` requires an `id` and `Message.tool_call_id` carries it, so the adapter must
+>    synthesise a stable id on the way out (name plus call index) and resolve back to the
+>    name on the way in. A round-trip test must cover two calls to the **same** tool in one
+>    turn, which is where a name-only match goes wrong.
+> 3. **Schemas need sanitising.** Tool schemas come from `INPUT_MODELS[name].model_json_schema()`
+>    and carry `additionalProperties`, `title` at both object and property level, and
+>    possibly `$defs`/`$ref`. Gemini's `function_declarations` accept only a subset of
+>    OpenAPI. Strip the unsupported keys and inline any `$ref`. Keep `type`, `properties`,
+>    `required`, `description`, `enum`, `items`.
+> 4. **Truncation.** The Anthropic mapping raises on `stop_reason == "max_tokens"`. The
+>    Gemini equivalent is `finish_reason` of `MAX_TOKENS` on the candidate. Raise
+>    `ProviderError` the same way — Medium R1.8, and the defect SCR-5 fixed.
+>
+> **Rate limiting — a deliberate, narrow exception to R1.6.**
+>
+> Medium R1.6 forbids retry logic so that the flow's one-regeneration rule is the only
+> retry. A free tier makes `429` routine, and a `429` is not a failed generation: it is a
+> deferred one. Retrying it is transport behaviour, not a second opinion from the model.
+>
+> So: retry **only** on `429` and `503`, with exponential backoff, at most 4 attempts and
+> at most ~60 s total, then raise `ProviderError`. Every other status raises immediately
+> with no retry. State this carve-out in the module docstring, and amend Medium R1.6 to
+> record it. Do not add retries to the Anthropic adapter.
+>
+> **Selection and config**
+>
+> - `MEDIUM_PROVIDER` picks the client: `gemini` (default) or `anthropic`. Update
+>   `medium/main.py` and `medium/eval/__main__.py`, the only two files outside `providers/`
+>   that name a provider.
+> - Key from `GEMINI_API_KEY`, via a `from_env` classmethod, mirroring the Anthropic one.
+> - `MEDIUM_MODEL` keeps overriding the model. **Check the current free-tier model id in
+>   Google AI Studio and use that** — do not trust a model name from this prompt or from
+>   training data.
+> - The SDK client must be injectable, so tests need no key and no network.
+> - `ProviderError` text carries the error class and status only. No key, prompt or model
+>   output, and the existing redaction tests must cover the new adapter too.
+>
+> **Constraints**
+>
+> - Add `google` and `google.genai` to the import-linter `forbidden_modules` for `skeleton`,
+>   alongside `anthropic`, `openai` and `boto3`. All contracts keep passing.
+> - Nothing under `skeleton/` changes. If something seems to need it, stop and file a
+>   skeleton change request, as Medium R9 requires.
+> - The full suite stays green and `./scripts/check-verify.sh` stays at 100%.
+> - One live test marked `live`, excluded from the default run, mirroring
+>   `tests/providers/test_live.py`.
+>
+> **Five or six tasks.** Longer means the scope drifted.
+
+After it lands, prove it cheaply before a full run:
+
+```
+GEMINI_API_KEY=... MEDIUM_PROVIDER=gemini uv run pytest tests/providers -m live -q
+GEMINI_API_KEY=... MEDIUM_PROVIDER=gemini uv run python -m medium.eval --runs 1 --max-turns 5
+```
+
+Five turns tells you whether the grounding rules hold on this model. **Expect a higher
+declined share than the bands assume.** The rules are strict — structured JSON, figures as
+references, verbatim quotes, no bare digits — and the bands in `metrics.py` were set as
+hypotheses before any model had been measured. If the five turns mostly decline, that is
+data about the model, not a reason to loosen the verifier. Record it and decide then.
+
 ## Prompt 3 — The Debt Collector
 
 > Create a feature spec named `debt-collector` for app 2, per `.kiro/steering/`.

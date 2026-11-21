@@ -91,7 +91,23 @@ def test_generator_raises_both_times_declines():
     assert r.status == "declined" and r.banishments == () and r.claims == ()
     assert r.snapshot_id == "snap-1"
     assert [a.failure_kind for a in r.attempts] == ["generator_error"] * 2
-    assert gen.calls[1][1] == AttemptFailure("generator_error", "RuntimeError")
+    assert gen.calls[1][1] == AttemptFailure("generator_error", "RuntimeError: boom")
+    assert [a.failure_detail for a in r.attempts] == ["RuntimeError: boom"] * 2
+
+
+def test_generator_error_detail_is_truncated_to_300():
+    r = run(Script(RuntimeError("x" * 1000)))
+    for a in r.attempts:
+        assert a.failure_detail is not None and len(a.failure_detail) == 300
+        assert a.failure_detail.startswith("RuntimeError: xxx")
+
+
+def test_failure_detail_only_on_failed_attempts():
+    r = run(Script(answer(BAD), answer(GOOD)))
+    assert r.attempts[0].outcome == "banished" and r.attempts[0].failure_detail is None
+    assert r.attempts[1].outcome == "accepted" and r.attempts[1].failure_detail is None
+    j = run(Script("not json at all"))
+    assert [a.failure_detail for a in j.attempts] == ["not valid JSON"] * 2
 
 
 def test_generator_raises_then_succeeds():

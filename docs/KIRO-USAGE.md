@@ -97,6 +97,7 @@ them. SCR-1 is a nice-to-have. Evidence is "none yet" for all four until a harne
 | SCR-2 | `allowed_numbers` per app (lever) | `VerifyConfig()` built inline in `ask` | `ApiConfig.verify: VerifyConfig`, passed to `ask` | Only if the harness shows `unbacked_number` over-rejection | None yet (taken pre-emptively, see below) |
 | SCR-3 | Grounding wording (lever) | `GROUNDING` is a constant | Optional persona-level addendum field, or a documented edit to the constant | Only if persona wording cannot fix the guess share | None yet |
 | SCR-4 | Acceptance rule (lever) | `classify_attempt` not injectable | Accept `classify` as an argument to `run_grounded_turn`, current function as default | Only if all-guess turns breach their band | None yet |
+| SCR-5 | Output budget and failure diagnosis (defects) | `LLMRequest.max_tokens` is 1024; `generator_error` detail is the class name only | Default 4096, `ToolLoopGenerator(max_tokens=)`, `AttemptRecord.failure_detail` | Every live harness run | Harness run 1 (see below) |
 
 ### SCR-2: `allowed_numbers` per app. Taken pre-emptively, before Medium task 1.1.
 Spec: `.kiro/specs/skeleton-amendment-scr2/`. Change: `ApiConfig.verify: VerifyConfig`
@@ -116,5 +117,32 @@ skeleton, and the request then went through its own spec (three tasks, one sourc
 test file). SCR-1, SCR-3 and SCR-4 stay reactive.
 
 Checks after the change: 599 Python tests and 74 UI tests pass, `./scripts/check-verify.sh`
-holds 100% line and branch coverage, import-linter is green (3 contracts exist in
-`.importlinter`, not 4).
+holds 100% line and branch coverage, import-linter is green (4 contracts kept).
+
+### SCR-5: output budget and failure diagnosis. Found by the harness, not by review.
+Spec: `.kiro/specs/skeleton-amendment-scr5/`. Nobody found this by reading the code. The
+first live harness run aborted after 3 consecutive provider errors and reported a 66.7%
+declined share. Neither number measured the grounding rule. Instrumenting the adapter showed
+`ProviderError: response truncated: stop_reason=max_tokens (max_tokens=1024)`. A grounded
+answer quotes the source verbatim in every citation, so three or four claims exceed 1024
+tokens, the adapter raises (Medium R1.8, correctly), both attempts fail the same way and the
+turn declines.
+Two defects: the 1024 default, and `flow.py` recording only the exception class name, so the
+message that named the cause never reached `AttemptRecord`, `AnswerResult` or the run files.
+The second cost a full diagnostic session. Fixes: default 4096 plus a
+`ToolLoopGenerator(max_tokens=)` argument; a message of up to 300 characters in a new
+`AttemptRecord.failure_detail`, kept out of the retry prompt and out of logs.
+Run 1's numbers were an artefact. They were discarded, not tuned against, and the harness was
+re-run from scratch.
+Re-run after the fix (`--runs 2`, run 1 of 2 only): the first five turns all answered, with
+no truncation, then todo-2, todo-3 and file-dist failed and the run aborted again on 3
+consecutive provider errors. A follow-up diagnostic showed `failure_detail` working, but the
+adapter reports only `ProviderError: BadRequestError status=400`, and the harness drops the
+attempt detail for provider-failed turns. The harness gap was then closed in its own spec (`.kiro/specs/harness-failure-detail/`), but
+the adapter still redacts the 400 body. A direct SDK call showed the cause: `invalid_request_error:
+Your credit balance is too low`, for the account behind `ANTHROPIC_API_KEY`. The numbers from
+these runs are not a measurement of the bands.
+This is the argument for ordering the harness before the UI. Had the UI come first, the same
+fault would have appeared as a ghost that mostly declines, with the UI as the suspect. The
+harness found it in minutes on a CLI, and it cost one amendment spec, not a UI debugging
+session.

@@ -67,6 +67,7 @@ class AttemptRecord(_Model):
     attempt: int
     outcome: Literal["accepted", "banished", "failed"]
     failure_kind: Literal["generator_error", "unparseable"] | None = None
+    failure_detail: str | None = None
 
 
 class AnswerResult(_Model):

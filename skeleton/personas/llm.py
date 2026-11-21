@@ -33,7 +33,7 @@ class LLMRequest(_Model):
     system: str
     messages: tuple[Message, ...]
     tools: tuple[ToolSpec, ...] = ()
-    max_tokens: int = 1024
+    max_tokens: int = 4096
 
 
 class LLMResponse(_Model):

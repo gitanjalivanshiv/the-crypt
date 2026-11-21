@@ -22,9 +22,11 @@ MAX_TOOL_ROUNDS = 4
 def render_feedback(feedback: Sequence[Banishment] | AttemptFailure) -> str:
     """Render the previous attempt's rejections for the model."""
     if isinstance(feedback, AttemptFailure):
+        # A generator_error detail is untrusted provider text; keep it out of the prompt.
+        what = feedback.kind if feedback.kind == "generator_error" else f"{feedback.kind}: {feedback.detail}"
         return (
-            "Your previous answer could not be used "
-            f"({feedback.kind}: {feedback.detail}). Answer again in the required JSON format."
+            f"Your previous answer could not be used ({what}). "
+            "Answer again in the required JSON format."
         )
     lines = [f"- {b.reason.value}: {b.message}" for b in feedback]
     return "These claims were rejected:\n" + "\n".join(lines)
@@ -40,12 +42,14 @@ class ToolLoopGenerator:
         router: ToolRouter,
         system_prompt: str,
         question: str,
+        max_tokens: int = 4096,
     ) -> None:
         self._llm = llm
         self._allowed = frozenset(persona.allowed_tools)
         self._router = router
         self._system = system_prompt
         self._question = question
+        self._max_tokens = max_tokens
         self._specs = tuple(
             ToolSpec(
                 name=name,
@@ -80,7 +84,12 @@ class ToolLoopGenerator:
         for round_no in range(MAX_TOOL_ROUNDS + 1):
             offered = self._specs if round_no < MAX_TOOL_ROUNDS else ()
             response = await self._llm.complete(
-                LLMRequest(system=self._system, messages=tuple(messages), tools=offered)
+                LLMRequest(
+                    system=self._system,
+                    messages=tuple(messages),
+                    tools=offered,
+                    max_tokens=self._max_tokens,
+                )
             )
             if not response.tool_calls or round_no == MAX_TOOL_ROUNDS:
                 return response.text

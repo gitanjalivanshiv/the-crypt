@@ -52,6 +52,7 @@ export interface AttemptRecord {
   attempt: number;
   outcome: "accepted" | "banished" | "failed";
   failure_kind?: "generator_error" | "unparseable" | null;
+  failure_detail?: string | null;
 }
 
 export interface AnswerResult {

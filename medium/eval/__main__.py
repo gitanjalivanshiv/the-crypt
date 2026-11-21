@@ -164,7 +164,10 @@ def _one_run(
                 continue
             answer = AnswerResult.model_validate(resp.json())
             if _provider_failed(answer):
-                failure = "ProviderError: every attempt failed with generator_error"
+                causes = dict.fromkeys(a.failure_detail or "" for a in answer.attempts)
+                failure = "ProviderError: every attempt failed with generator_error: " + "; ".join(
+                    causes
+                )
         if failure is None:
             consecutive = 0
             assert answer is not None
@@ -202,6 +205,8 @@ def _one_run(
         out(f"BREACH {b.scope} {b.metric} = {b.value:.3f} (band {b.band})")
     if errors:
         out(f"{len(errors)} turn(s) failed: " + ", ".join(e["id"] for e in errors))
+        for e in errors:
+            out(f"  {e['id']}: {e['error']}")
     if aborted:
         out(f"ABORTED: {aborted}")
         return EXIT_ABORT

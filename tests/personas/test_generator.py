@@ -128,3 +128,30 @@ def test_attempt_two_after_failure_renders_failure() -> None:
     fake = FakeLLMClient([LLMResponse(text="b")])
     asyncio.run(_gen(fake, [])(2, AttemptFailure("unparseable", "bad json")))
     assert "unparseable" in fake.requests[0].messages[-1].content
+
+
+def test_generator_error_feedback_omits_untrusted_detail() -> None:
+    fake = FakeLLMClient([LLMResponse(text="b")])
+    fb = AttemptFailure("generator_error", "ProviderError: req_123 leaked text")
+    asyncio.run(_gen(fake, [])(2, fb))
+    sent = fake.requests[0].messages[-1].content
+    assert "generator_error" in sent
+    assert "req_123" not in sent and "leaked" not in sent
+
+
+def test_max_tokens_default_and_override_on_every_request() -> None:
+    fake = FakeLLMClient([LLMResponse(tool_calls=(_call(1),)), LLMResponse(text="ok")])
+    asyncio.run(_gen(fake, ["get_snapshot"])(1, None))
+    assert [r.max_tokens for r in fake.requests] == [4096, 4096]
+    fake = FakeLLMClient([LLMResponse(tool_calls=(_call(1),)), LLMResponse(text="ok")])
+    gen = ToolLoopGenerator(
+        fake, _persona(["get_snapshot"]), _router(), "SYS", "Q?", max_tokens=8192
+    )
+    asyncio.run(gen(1, None))
+    assert [r.max_tokens for r in fake.requests] == [8192, 8192]
+
+
+def test_llm_request_default_max_tokens_is_4096() -> None:
+    from skeleton.personas.llm import LLMRequest
+
+    assert LLMRequest(system="s", messages=()).max_tokens == 4096

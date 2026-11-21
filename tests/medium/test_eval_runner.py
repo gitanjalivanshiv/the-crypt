@@ -130,3 +130,14 @@ def test_module_imports_no_verifier_internals() -> None:
     src = Path(runner.__file__).read_text()
     for name in ("run_grounded_turn", "verify_claim", "ToolLoopGenerator"):
         assert name not in src, name
+
+
+def test_provider_failed_turn_records_attempt_cause(env) -> None:
+    code, lines = _run(env, _AlwaysFails(), "--runs", "1")
+    assert code != 0
+    (f,) = env["out_dir"].glob("*.json")
+    error = json.loads(f.read_text())["errors"][0]["error"]
+    assert error.startswith("ProviderError: every attempt failed with generator_error")
+    assert error.endswith("ProviderError: boom")
+    assert error.count("boom") == 1  # two identical attempts are listed once
+    assert any(line.startswith("  ") and "boom" in line for line in lines)

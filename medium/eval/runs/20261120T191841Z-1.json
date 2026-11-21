@@ -1,0 +1,757 @@
+{
+  "run": 1,
+  "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+  "questions_file": "questions.toml",
+  "aborted": "3 consecutive provider errors",
+  "errors": [
+    {
+      "id": "todo-2",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "todo-3",
+      "error": "ProviderError: every attempt failed with generator_error"
+    },
+    {
+      "id": "file-dist",
+      "error": "ProviderError: every attempt failed with generator_error"
+    }
+  ],
+  "results": [
+    {
+      "id": "churn-1",
+      "category": "churn",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "answered",
+        "claims": [
+          {
+            "kind": "fact",
+            "text": "From beyond the build directory, I report that setup.py is the most-touched bone in the crypt. It is a short file, yet its history is long. The class at its heart installs a .pth file for distutils patching, and that is a lot of visits for so small a haunt.",
+            "citations": [
+              {
+                "file": "setup.py",
+                "line_start": 12,
+                "line_end": 14,
+                "quote": "class install_with_pth(install):\n    \"\"\"\n    Custom install command to install a .pth file for distutils patching."
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "churn:setup.py:12-14",
+                "key": "commit_count",
+                "value": 562
+              },
+              {
+                "finding_id": "churn:setup.py:12-14",
+                "key": "author_count",
+                "value": 43
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Second in the ranks is setuptools/command/easy_install.py. Today it is only a stub kept for temporary pbr compatibility, a ghost of a command that once did real work, and the history still rattles its chains. Many hands have passed through it.",
+            "citations": [
+              {
+                "file": "setuptools/command/easy_install.py",
+                "line_start": 10,
+                "line_end": 11,
+                "quote": "class easy_install(Command):\n    \"\"\"Stubbed command for temporary pbr compatibility.\"\"\""
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "churn:setuptools/command/easy_install.py:10-11",
+                "key": "commit_count",
+                "value": 492
+              },
+              {
+                "finding_id": "churn:setuptools/command/easy_install.py:10-11",
+                "key": "author_count",
+                "value": 64
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Next comes setuptools/dist.py. Its module-level `__getattr__` emits a deprecation warning for an old name, the sort of cobweb that forms where compatibility is being gently retired. This is the third heaviest churn I can see.",
+            "citations": [
+              {
+                "file": "setuptools/dist.py",
+                "line_start": 73,
+                "line_end": 75,
+                "quote": "def __getattr__(name: str) -> Any:  # pragma: no cover\n    if name == \"sequence\":\n        SetuptoolsDeprecationWarning.emit("
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "churn:setuptools/dist.py:73-75",
+                "key": "commit_count",
+                "value": 375
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The release bookkeeping also stirs often. .bumpversion.cfg holds the current version and is rewritten at every release, as it must be, so its churn is the rhythm of shipping rather than a wound.",
+            "citations": [
+              {
+                "file": ".bumpversion.cfg",
+                "line_start": 1,
+                "line_end": 3,
+                "quote": "[bumpversion]\ncurrent_version = 84.2.1\ncommit = True"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "churn:.bumpversion.cfg:1-3",
+                "key": "commit_count",
+                "value": 305
+              }
+            ]
+          },
+          {
+            "kind": "guess",
+            "text": "I suspect the strain lies where setuptools meets its past and its neighbours: the compatibility shims, the deprecation paths, the install and egg-info commands, and the packaging and CI configuration. The churn counts show the files are touched often, but they cannot say why each edit was made.",
+            "citations": [],
+            "figures": []
+          }
+        ],
+        "banishments": [],
+        "decline_line": null,
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "accepted",
+            "failure_kind": null,
+            "failure_detail": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "churn-2",
+      "category": "churn",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "answered",
+        "claims": [
+          {
+            "kind": "fact",
+            "text": "The longest untouched file I can find is a small HTML fixture, external.html, which was last modified a very long time ago. Its single link is labelled 'bad old link', a label that has aged well. I can't tell from the tools whether anything still loads it.",
+            "citations": [
+              {
+                "file": "setuptools/tests/indexes/test_links_priority/external.html",
+                "line_start": 1,
+                "line_end": 3,
+                "quote": "<html><body>\n<a href=\"/foobar-0.1.tar.gz#md5=1__bad_md5___\">bad old link</a>\n</body></html>"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/tests/indexes/test_links_priority/external.html:1-3",
+                "key": "days_since_modified",
+                "value": 6007
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Its sibling, the foobar index page, has stood just as still for the same number of days. It points at external.html with a relative link, so the two fixtures have been haunting each other since the same era.",
+            "citations": [
+              {
+                "file": "setuptools/tests/indexes/test_links_priority/simple/foobar/index.html",
+                "line_start": 1,
+                "line_end": 3,
+                "quote": "<html><body>\n<a href=\"/foobar-0.1.tar.gz#md5=0_correct_md5\">foobar-0.1.tar.gz</a><br/>\n<a href=\"../../external.html\" rel=\"homepage\">external homepage</a><br/>"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/tests/indexes/test_links_priority/simple/foobar/index.html:1-3",
+                "key": "days_since_modified",
+                "value": 6007
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The next sleeper is the script template. It still carries the easy-install banner and calls into pkg_resources, a relic of an older ritual. It has been quiet for this many days.",
+            "citations": [
+              {
+                "file": "setuptools/script.tmpl",
+                "line_start": 1,
+                "line_end": 3,
+                "quote": "# EASY-INSTALL-SCRIPT: %(spec)r,%(script_name)r\n__requires__ = %(spec)r\n__import__('pkg_resources').run_script(%(spec)r, %(script_name)r)"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/script.tmpl:1-3",
+                "key": "days_since_modified",
+                "value": 4504
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The unicode utilities test is old but still wired in. It imports the live unicode_utils module from setuptools and exercises it with a patched filesystem encoding. It has been untouched for this many days, and it has only one commit to its name.",
+            "citations": [
+              {
+                "file": "setuptools/tests/test_unicode_utils.py",
+                "line_start": 1,
+                "line_end": 1,
+                "quote": "from setuptools import unicode_utils"
+              },
+              {
+                "file": "setuptools/tests/test_unicode_utils.py",
+                "line_start": 4,
+                "line_end": 7,
+                "quote": "def test_filesys_decode_fs_encoding_is_None(monkeypatch):\n    \"\"\"\n    Test filesys_decode does not raise TypeError when\n    getfilesystemencoding returns None."
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/tests/test_unicode_utils.py:4-6",
+                "key": "days_since_modified",
+                "value": 3931
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The tiny constant module mod_with_constant is another long sleeper. It holds one line and one commit, and it has outlasted many a refactor.",
+            "citations": [
+              {
+                "file": "setuptools/tests/mod_with_constant.py",
+                "line_start": 1,
+                "line_end": 1,
+                "quote": "value = 'three, sir!'"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/tests/mod_with_constant.py:1-1",
+                "key": "days_since_modified",
+                "value": 3591
+              }
+            ]
+          },
+          {
+            "kind": "guess",
+            "text": "I suspect the old HTML fixtures and the constant module are still used by the test suite as data. The tools did not show me who loads them, so I cannot confirm it, and the script template may be just as alive.",
+            "citations": [],
+            "figures": []
+          }
+        ],
+        "banishments": [],
+        "decline_line": null,
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "accepted",
+            "failure_kind": null,
+            "failure_detail": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "stale-1",
+      "category": "staleness",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "answered",
+        "claims": [
+          {
+            "kind": "fact",
+            "text": "The oldest bones lie in the vendored-in distutils, in the C compiler abstraction. Here a marker about what the compiler model cannot handle has waited longer than almost anything else the tools found. It still asks, in its own words, for options the client cannot provide.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/compilers/C/base.py",
+                "line_start": 77,
+                "line_end": 78,
+                "quote": "    # XXX things not handled by this compiler abstraction model:\n    #   * client can't provide additional options for a compiler,"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/compilers/C/base.py:77-77",
+                "key": "age_days",
+                "value": 9973
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Its neighbour, the unix compiler module, carries a twin of that marker, the same age in days, still wondering whether living with the Makefile is adequate. The question has been left hanging in the air like cold breath.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/compilers/C/unix.py",
+                "line_start": 57,
+                "line_end": 59,
+                "quote": "# XXX Things not currently handled:\n#   * optimization/debug/warning flags; we just use whatever's in Python's\n#     Makefile and live with it.  Is this adequate?  If not, we might"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/compilers/C/unix.py:57-57",
+                "key": "age_days",
+                "value": 9973
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "In the build_ext command of distutils, a note muses about how to make fancy_getopt suck complex options off the command line. It has been muttering to itself for a very long time.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/build_ext.py",
+                "line_start": 43,
+                "line_end": 45,
+                "quote": "    # XXX thoughts on how to deal with complex command-line options like\n    # these, i.e. how to make it so fancy_getopt can suck them off the\n    # command line and make it look like setup.py defined the appropriate"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/build_ext.py:43-43",
+                "key": "age_days",
+                "value": 9937
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The bdist_rpm command is crowded: many such markers share one file, each of them a note that nobody ever quite came back for.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/bdist_rpm.py",
+                "line_start": 276,
+                "line_end": 276,
+                "quote": null
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/bdist_rpm.py:276-276",
+                "key": "todo_count_in_file",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "A small ghost in the install_headers command declares that a parameter is never used. The comment has outlived many a release, and the class still stands beneath it.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/install_headers.py",
+                "line_start": 11,
+                "line_end": 12,
+                "quote": "# XXX force is never used\nclass install_headers(Command):"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/install_headers.py:11-11",
+                "key": "age_days",
+                "value": 6420
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Outside the vendored distutils, the setuptools build_ext command holds the most markers I found. One of them cries out for help, admitting it has no idea whether these values are right.",
+            "citations": [
+              {
+                "file": "setuptools/command/build_ext.py",
+                "line_start": 49,
+                "line_end": 49,
+                "quote": "            # XXX Help!  I don't have any idea whether these are right..."
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/command/build_ext.py:49-49",
+                "key": "age_days",
+                "value": 3816
+              },
+              {
+                "finding_id": "todo_age:setuptools/command/build_ext.py:49-49",
+                "key": "todo_count_in_file",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "kind": "guess",
+            "text": "I suspect the abandonment is mostly a matter of inheritance rather than neglect. These old markers sit in code that was carried in from elsewhere and kept working, so they were never meant to be the loudest voices in the house.",
+            "citations": [],
+            "figures": []
+          }
+        ],
+        "banishments": [],
+        "decline_line": null,
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "accepted",
+            "failure_kind": null,
+            "failure_detail": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "stale-2",
+      "category": "staleness",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "answered",
+        "claims": [
+          {
+            "kind": "fact",
+            "text": "Here is a ghost in the corner: the script template has barely been touched while the project around it moved on. It still calls out to `pkg_resources` in its last line, a relic of an older way of launching scripts. It has sat unmodified for a very long time and has only a couple of commits to its name.",
+            "citations": [
+              {
+                "file": "setuptools/script.tmpl",
+                "line_start": 1,
+                "line_end": 3,
+                "quote": "# EASY-INSTALL-SCRIPT: %(spec)r,%(script_name)r\n__requires__ = %(spec)r\n__import__('pkg_resources').run_script(%(spec)r, %(script_name)r)"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "staleness:setuptools/script.tmpl:1-3",
+                "key": "days_since_modified",
+                "value": 4504
+              },
+              {
+                "finding_id": "staleness:setuptools/script.tmpl:1-3",
+                "key": "commit_count",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "In the build_ext command a variable waits in the dark, labelled as outdated and kept only in case third-party code still wants it. The comment has been standing guard for a long time. Its age in days is given in the figure.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/build_ext.py",
+                "line_start": 595,
+                "line_end": 596,
+                "quote": "        # XXX outdated variable, kept here in case third-part code\n        # needs it."
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/build_ext.py:595-595",
+                "key": "age_days",
+                "value": 4412
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The install_headers command carries a note that `force` is never used, and the note has outlasted many seasons. The marker's age in days is in the figure.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/install_headers.py",
+                "line_start": 11,
+                "line_end": 11,
+                "quote": "# XXX force is never used"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/install_headers.py:11-11",
+                "key": "age_days",
+                "value": 6420
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Some of the oldest whispers come from the vendored distutils copy. In the compiler abstraction there is a marker listing things the model does not handle. It is among the oldest markers the tools found, and it has watched the files around it change for ages.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/compilers/C/base.py",
+                "line_start": 77,
+                "line_end": 77,
+                "quote": "    # XXX things not handled by this compiler abstraction model:"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/compilers/C/base.py:77-77",
+                "key": "age_days",
+                "value": 9973
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "For contrast, setup.py is the restless living neighbour. It has been changed again and again by many hands, while the quiet files above have barely stirred.",
+            "citations": [
+              {
+                "file": "setup.py",
+                "line_start": 12,
+                "line_end": 14,
+                "quote": null
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "churn:setup.py:12-14",
+                "key": "commit_count",
+                "value": 562
+              }
+            ]
+          }
+        ],
+        "banishments": [],
+        "decline_line": null,
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "accepted",
+            "failure_kind": null,
+            "failure_detail": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "todo-1",
+      "category": "todo",
+      "result": {
+        "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+        "status": "answered",
+        "claims": [
+          {
+            "kind": "fact",
+            "text": "The markers cluster in the vendored-in distutils tree. Its compiler abstraction file still carries a note about things the model does not handle, and the analyzer counts a handful of such markers in that one file. The age on that note is enough to make a ghost feel young.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/compilers/C/base.py",
+                "line_start": 77,
+                "line_end": 77,
+                "quote": "    # XXX things not handled by this compiler abstraction model:"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/compilers/C/base.py:77-77",
+                "key": "todo_count_in_file",
+                "value": 5
+              },
+              {
+                "finding_id": "todo_age:setuptools/_distutils/compilers/C/base.py:77-77",
+                "key": "age_days",
+                "value": 9973
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The RPM builder in the same tree is another crowded spot. Here a marker reminds the reader about summaries and descriptions that were punted on, and the file holds several more of its kind.",
+            "citations": [
+              {
+                "file": "setuptools/_distutils/command/bdist_rpm.py",
+                "line_start": 276,
+                "line_end": 276,
+                "quote": "        # XXX don't forget we punted on summaries and descriptions -- they"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/_distutils/command/bdist_rpm.py:276-276",
+                "key": "todo_count_in_file",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "Outside the distutils tree, the setuptools build_ext command holds the most markers I can see. Three consecutive comment lines there form one unfinished thought about checking that a library is really built as dynamic.",
+            "citations": [
+              {
+                "file": "setuptools/command/build_ext.py",
+                "line_start": 282,
+                "line_end": 284,
+                "quote": "        # XXX this should check to ensure the lib is actually being built\n        # XXX as dynamic, and not just using a locally-found version or a\n        # XXX static-compiled version"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/command/build_ext.py:282-282",
+                "key": "todo_count_in_file",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The editable wheel command is also densely marked. One marker promises removal of `compat` after a month that has long since passed, and it sits among several siblings in the file.",
+            "citations": [
+              {
+                "file": "setuptools/command/editable_wheel.py",
+                "line_start": 63,
+                "line_end": 63,
+                "quote": "    COMPAT = \"compat\"  # TODO: Remove `compat` after Dec/2022."
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/command/editable_wheel.py:63-63",
+                "key": "todo_count_in_file",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The pyproject application module carries a cluster of newer markers. One of them wonders whether a check should be removed someday.",
+            "citations": [
+              {
+                "file": "setuptools/config/_apply_pyprojecttoml.py",
+                "line_start": 529,
+                "line_end": 529,
+                "quote": "    # TODO: Consider removing this check in the future?"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/config/_apply_pyprojecttoml.py:529-529",
+                "key": "todo_count_in_file",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "kind": "fact",
+            "text": "The main distribution module also holds a group of markers. One asks for a due date on a deprecation, a date that has not yet arrived.",
+            "citations": [
+              {
+                "file": "setuptools/dist.py",
+                "line_start": 129,
+                "line_end": 129,
+                "quote": "            # TODO: define due_date, it may break old packages that are no longer"
+              }
+            ],
+            "figures": [
+              {
+                "finding_id": "todo_age:setuptools/dist.py:129-129",
+                "key": "todo_count_in_file",
+                "value": 5
+              }
+            ]
+          },
+          {
+            "kind": "guess",
+            "text": "I suspect the list I was handed is only the top slice of the full set, so smaller clusters may be resting in corners I have not been shown.",
+            "citations": [],
+            "figures": []
+          }
+        ],
+        "banishments": [],
+        "decline_line": null,
+        "attempts": [
+          {
+            "attempt": 1,
+            "outcome": "accepted",
+            "failure_kind": null,
+            "failure_detail": null
+          }
+        ]
+      }
+    }
+  ],
+  "report": {
+    "overall": {
+      "turns": 5,
+      "answered": 5,
+      "declined": 0,
+      "judged": 30,
+      "verified": 26,
+      "guess": 4,
+      "banished": 0,
+      "banished_by_reason": {},
+      "banished_turns": 0,
+      "all_guess_turns": 0,
+      "empty_answers": 0,
+      "first_attempt_accepted": 5
+    },
+    "by_category": {
+      "churn": {
+        "turns": 2,
+        "answered": 2,
+        "declined": 0,
+        "judged": 11,
+        "verified": 9,
+        "guess": 2,
+        "banished": 0,
+        "banished_by_reason": {},
+        "banished_turns": 0,
+        "all_guess_turns": 0,
+        "empty_answers": 0,
+        "first_attempt_accepted": 2
+      },
+      "staleness": {
+        "turns": 2,
+        "answered": 2,
+        "declined": 0,
+        "judged": 12,
+        "verified": 11,
+        "guess": 1,
+        "banished": 0,
+        "banished_by_reason": {},
+        "banished_turns": 0,
+        "all_guess_turns": 0,
+        "empty_answers": 0,
+        "first_attempt_accepted": 2
+      },
+      "todo": {
+        "turns": 1,
+        "answered": 1,
+        "declined": 0,
+        "judged": 7,
+        "verified": 6,
+        "guess": 1,
+        "banished": 0,
+        "banished_by_reason": {},
+        "banished_turns": 0,
+        "all_guess_turns": 0,
+        "empty_answers": 0,
+        "first_attempt_accepted": 1
+      }
+    }
+  },
+  "breaches": [
+    {
+      "scope": "overall",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    },
+    {
+      "scope": "churn",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    },
+    {
+      "scope": "staleness",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    },
+    {
+      "scope": "todo",
+      "metric": "banished_turns",
+      "value": 0.0,
+      "band": "0.1..0.5"
+    }
+  ]
+}
