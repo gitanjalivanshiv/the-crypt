@@ -205,7 +205,7 @@ flowchart TD
     - Model: Haiku.
     - _Requirements: 7.6_
 - [ ] 7. Independence and CI (not cuttable)
-  - [ ] 7.1 Medium independence tests
+  - [x] 7.1 Medium independence tests
     - Subsystem: independence. Files (1): `tests/independence/test_medium.py`.
     - MP9 (skeleton manifest unchanged by a full turn and a full plan through `create_medium_app` with `FakeLLMClient`); `skeleton/` contains none of `medium`, `ghost`, `providers`, `anthropic` outside the documented allow-list; `medium/` imports no `anthropic`, `openai`, `boto3` or `debt_collector`; `medium/` imports nothing from `skeleton.verify` except `skeleton.verify.models`, and nothing from `skeleton.personas.generator`, `.prompt` or `skeleton.mcp.router`; `medium/` and `providers/` exist at the repo root.
     - Done when: `uv run pytest tests/independence` is green.
