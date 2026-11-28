@@ -126,6 +126,8 @@ one metric band that was breached and deliberately not tuned.
 | [`docs/CREDIT-BUDGET.md`](docs/CREDIT-BUDGET.md) | Kiro credit budget and model routing |
 | [`docs/EXECUTION-PLAN.md`](docs/EXECUTION-PLAN.md) | Day plan to 2026-12-04 |
 | [`docs/SUBMISSION-CHECKLIST.md`](docs/SUBMISSION-CHECKLIST.md) | Rules compliance |
+| [`docs/VIDEO-PLAN.md`](docs/VIDEO-PLAN.md) | Shot list and narration for the demo video |
+| [`docs/DEPLOY-PLAN.md`](docs/DEPLOY-PLAN.md) | How the public demo URL is hosted, and why it runs no provider |
 | [`kickoff-prompts.md`](kickoff-prompts.md) | The prompts that drive the build |
 | `demo/` | Cached runs and the pinned patient repo |
 

@@ -24,7 +24,7 @@ actually opened and looked at.
 
 - [ ] README explains what it is, how to install it, and how to run it.
 - [ ] The repo contains **all** source, assets, and instructions needed to make it function.
-- [ ] `.kiro/specs/` holds the three specs with requirements, design, and tasks.
+- [ ] `.kiro/specs/` holds the seven specs, each with requirements, design, and tasks.
 - [ ] `.kiro/hooks/` holds the hooks, and every one is a `command` hook.
 - [ ] `.kiro/steering/` holds the five always-on files plus `demo-patient.md`.
 - [ ] `.kiro/settings/mcp.json` configures the signals MCP server.
@@ -37,9 +37,13 @@ actually opened and looked at.
 - [ ] Free of charge and unrestricted for judges **until 2027-01-29 13:00 PT**.
 - [ ] No login required. If one is unavoidable, credentials and instructions go in the
       Devpost form (judge-visible only, not public).
-- [ ] Cached patient runs are the default path, so the demo works with zero live spend.
-- [ ] Provider spend cap set, rate limits on, and a calendar reminder for 2027-01-20 to
-      confirm it is still up.
+- [ ] The deployed build runs **no provider at all** — the same scripted path the video
+      records, so it "must function as depicted in the video" holds and there is no quota
+      for a judge, or anyone else, to exhaust. See [DEPLOY-PLAN.md](DEPLOY-PLAN.md).
+- [ ] Neither UI shows `missing_ref` on the bare URL; a default snapshot is baked in.
+- [ ] If the API is hosted rather than static, `ApiConfig.allowed_hosts` is set so the
+      ingest route cannot be told to clone arbitrary repositories.
+- [ ] Calendar reminder for 2027-01-20 to confirm the URL still answers.
 
 ## Video
 
