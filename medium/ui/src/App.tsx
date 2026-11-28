@@ -13,9 +13,14 @@ import { seance } from "./theme/seance";
 import { ApiError } from "./types";
 import { useSweep } from "./useSweep";
 
-/** Reads the snapshot ref from the URL query: `?ref=<snapshot id>`. */
+/**
+ * Reads the snapshot ref from the URL query: `?ref=<snapshot id>`, falling back to the
+ * pinned demo snapshot baked in at build time. A bare URL must work: the deployed demo is
+ * reached by a link with no query string, and an error page is a wasted first impression.
+ * `||` rather than `??` so `?ref=` with an empty value also falls back.
+ */
 export function refFromLocation(search: string = window.location.search): string {
-  return new URLSearchParams(search).get("ref") ?? "";
+  return new URLSearchParams(search).get("ref") || __DEFAULT_REF__;
 }
 
 function describe(err: unknown): string {

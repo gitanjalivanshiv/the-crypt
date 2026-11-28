@@ -7,6 +7,10 @@ import { formatNumber, initialState, meterValue, outstanding, reducer, submitNot
 import type { CollectorAction, CollectorState } from "./state";
 import { ledger as ledgerTheme } from "./theme/ledger";
 import { useDrain } from "./useDrain";
+// The shell's component styles, which read the theme's CSS variables. Without this the
+// whole app renders as unstyled HTML: ThemeProvider sets the variables but nothing
+// consumes them. medium/ui loads it in main.tsx; this package has no main.tsx.
+import "@kiroween/ui-shell/dist/style.css";
 import "./boss.css";
 
 // Units of the figures the ledger shows (mirrors FIGURES and METRIC_UNITS in interest.py).
@@ -20,8 +24,13 @@ const METRIC_UNITS: Record<string, string> = {
   todo_count_in_file: "markers in the file",
 };
 
+/**
+ * Reads the snapshot from the URL query: `?snapshot=<snapshot id>`, falling back to the
+ * pinned demo snapshot baked in at build time, so a bare URL serves a real ledger instead
+ * of requesting an empty ref. `||` rather than `??` so `?snapshot=` also falls back.
+ */
 function snapshotFromUrl(): string {
-  return new URLSearchParams(window.location.search).get("snapshot") ?? "";
+  return new URLSearchParams(window.location.search).get("snapshot") || __DEFAULT_REF__;
 }
 
 function range(l: LedgerLine): string {
