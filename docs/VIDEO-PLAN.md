@@ -21,7 +21,7 @@ Not "a spooky chatbot". This:
 Everything else — the themes, the interest calculation, the boss fights — is dressing on
 that. Lead with it and close on it.
 
-## Pre-flight: one thing to build first
+## The staged banishment
 
 The banishment is the signature moment and **no live run has ever produced one.** Across
 ten recorded runs and 46 judged claims, the model fabricated nothing: 87.0% verified, 13.0%
@@ -41,11 +41,25 @@ That is the full arc in one turn: it lied, the verifier caught it, it was told w
 retry was grounded. `tests/api/test_ask.py::test_banished_then_answered` is the same path
 under test, so it is a property of the system, not a stunt.
 
-**To build:** a `demo/banishment.py` that serves the Medium on :8000 with a scripted client
-instead of a provider, so `medium/ui` shows it with the real strike-through and the real
-110 Hz banish cue. One caveat: `FakeLLMClient` replays a fixed list and raises once
-exhausted, so a UI session dies after one turn. The harness needs a small client that
-returns the fabricate→grounded pair *per turn*, not once.
+**This is built.** `demo/banishment.py` serves the Medium on :8000 with a scripted ghost
+instead of a provider:
+
+```bash
+uv run python -m demo.banishment
+```
+
+It clones the pinned patient (about 20s), then prints the UI URL with the ref already in
+it. Open that, ask anything, and every turn is banished once and then answered. Confirmed
+on screen: the fabricated claim struck through, a bold `BANISHED`, the reason
+`File not found: setuptools/midnight.py`, the grounded claim with
+`[setuptools/discovery.py:1-20]`, the snapshot ID and `Licence: MIT` beneath — and the file
+tree auto-expanding to possess `discovery.py`.
+
+It is keyed on the request rather than a call counter, because `FakeLLMClient` replays a
+fixed list and raises once exhausted, which would kill a UI session after one turn.
+`tests/demo/test_banishment.py` pins its retry markers to the real
+`generator.render_feedback`; without that, a reworded prompt would make the harness
+fabricate forever, declining every turn with no error and no banishment to film.
 
 **Say this on camera:** "I'm feeding it a citation that doesn't exist on purpose." Framing
 it as a deliberate probe of the guard is stronger than implying the model misbehaved, and
@@ -71,6 +85,16 @@ about 20 seconds and you do not want it on camera.
 
 ```bash
 cd skeleton/ui-shell && pnpm install && pnpm build
+```
+
+The scripted Medium, for shots 2 to 4 (no key needed):
+
+```bash
+uv run python -m demo.banishment
+```
+
+```bash
+cd medium/ui && pnpm dev
 ```
 
 ```bash

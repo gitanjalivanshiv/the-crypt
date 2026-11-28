@@ -17,3 +17,7 @@ build/
 
 # Cloned patient repos are working data; the cached runs under demo/ are committed.
 .cache/patients/
+
+# Snapshot stores. Immutable clones of analysed repos, written read-only.
+# Both apps default to ./crypt-store and demo/banishment.py to demo/crypt-store.
+crypt-store/
