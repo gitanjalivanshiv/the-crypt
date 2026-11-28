@@ -239,6 +239,18 @@
         "chatSessionId": "sess_fa9d4f1c-2002-44ad-8d9e-e46b50337572",
         "timestamp": 1795882979994
       }
+    ],
+    "6.5 Interview screen": [
+      {
+        "executionId": "496e708c-424f-4654-8879-d44c80781242",
+        "chatSessionId": "sess_edb30414-292b-4255-a9e0-3d864018e4ca",
+        "timestamp": 1795883051159
+      },
+      {
+        "executionId": "496e708c-424f-4654-8879-d44c80781242",
+        "chatSessionId": "sess_edb30414-292b-4255-a9e0-3d864018e4ca",
+        "timestamp": 1795883155482
+      }
     ]
   }
 }

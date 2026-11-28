@@ -176,7 +176,7 @@ flowchart TD
     - Done when: `pnpm test state` is green.
     - Model: Auto.
     - _Requirements: 4.2, 4.4, 5.1, 5.2, 5.3, 5.5_
-  - [ ] 6.5 Interview screen
+  - [x] 6.5 Interview screen
     - Subsystem: medium-ui. Files (3): `src/App.tsx`, `src/main.tsx`, `test/App.test.tsx`.
     - `ThemeProvider(seance)` > `SoundProvider` > `CrtFrame` containing `FileTree` (`files`, `cited`, `active`, `onSelect`), one `ChatPanel` per turn (`result` unmodified, `licence` from the snapshot), a labelled question field submitting on Enter, a pending state and an `aria-live` error region. The snapshot `ref` comes from the URL query. No shell component is forked.
     - Tests: a fixture `AnswerResult` with a verified claim, a guess, a banishment and a decline renders through the shell with the banishment visibly struck; the cited file's ancestors are expanded; the licence is shown; Enter submits; a structured API error shows its code; axe reports no violations.
