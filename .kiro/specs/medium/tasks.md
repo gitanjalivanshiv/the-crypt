@@ -150,7 +150,7 @@ flowchart TD
   > accepted and recorded, with the consequence that the demo must show a banishment
   > deliberately rather than wait for one. Group 6 is unblocked.
 
-  - [ ] 6.1 Package scaffold
+  - [x] 6.1 Package scaffold
     - Subsystem: medium-ui. Files (3): `medium/ui/package.json`, `medium/ui/vite.config.ts`, `medium/ui/tsconfig.json`.
     - React 18, Vite, TypeScript, `@kiroween/ui-shell` as `link:../../skeleton/ui-shell`, vitest, jsdom, testing-library, `vitest-axe`. Dev proxy for `/snapshots` and `/medium` to the API. Mirror the shell's versions.
     - Done when: `pnpm install && pnpm build` is green on an empty entry.
