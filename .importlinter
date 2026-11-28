@@ -2,6 +2,8 @@
 root_packages =
     skeleton
     providers
+    debt-collector
+    medium
 include_external_packages = True
 
 [importlinter:contract:no-sibling-projects]
@@ -44,4 +46,43 @@ source_modules =
     skeleton
 forbidden_modules =
     providers
+allow_indirect_imports = True
+[importlinter:contract:collector-no-medium]
+name = debt-collector must not import medium
+type = forbidden
+source_modules =
+    debt-collector
+forbidden_modules =
+    medium
+[importlinter:contract:collector-no-model-sdks]
+name = debt-collector must not import a model SDK
+type = forbidden
+source_modules =
+    debt-collector
+forbidden_modules =
+    anthropic
+    openai
+    boto3
+    google
+allow_indirect_imports = True
+[importlinter:contract:collector-public-surface]
+name = debt-collector uses only the skeleton public surface
+type = forbidden
+source_modules =
+    debt-collector
+forbidden_modules =
+    skeleton.verify.citation
+    skeleton.verify.claim
+    skeleton.verify.parse
+    skeleton.verify.textnorm
+    skeleton.verify.flow
+    skeleton.verify.codes
+    skeleton.personas.generator
+    skeleton.personas.prompt
+    skeleton.personas.grounding
+    skeleton.mcp.router
+    skeleton.mcp.tools
+    skeleton.signals.store
+    skeleton.ingest
+    skeleton.api.retention
 allow_indirect_imports = True

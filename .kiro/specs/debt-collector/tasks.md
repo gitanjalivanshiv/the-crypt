@@ -47,7 +47,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `uv run pytest tests/debt_collector` is green.
   - Model: Auto.
   - _Requirements: 3.1 to 3.7, 4.1, 4.2, 4.4 to 4.8, 5.1, 5.2, 5.4, 5.5_
-- [ ] 4. Independence tests and import contracts (not cuttable)
+- [x] 4. Independence tests and import contracts (not cuttable)
   - Subsystem: independence. Files (3): `.importlinter`, `tests/independence/test_contracts.py`, `tests/independence/test_debt_collector.py`.
   - Run the existing contracts first and note they pass. Then edit `.importlinter` per design §8: add `debt-collector` and `medium` to `root_packages`; add the three contracts (no `medium`, no model SDK, only the skeleton's public surface). Confirm the existing four give the same result. If `medium` as a root package changes an existing result, stop and record why.
   - `test_contracts.py`: a planted-violation test for each new contract (`debt-collector/_planted_<name>.py`, deleted in `finally`), asserting `lint-imports` fails and names the contract.

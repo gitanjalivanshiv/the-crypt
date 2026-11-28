@@ -28,7 +28,7 @@ def _lint() -> subprocess.CompletedProcess[str]:
 def test_import_contracts_hold() -> None:
     result = _lint()
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "4 kept, 0 broken" in result.stdout
+    assert "7 kept, 0 broken" in result.stdout
 
 
 @pytest.mark.parametrize(
@@ -55,6 +55,44 @@ def test_planted_violation_fails_lint(source: str) -> None:
     assert result.returncode != 0, result.stdout
     assert "BROKEN" in result.stdout
     assert not PLANTED.exists()
+
+
+COLLECTOR = ROOT / "debt-collector"
+
+
+@pytest.mark.parametrize(
+    ("name", "source", "contract"),
+    [
+        ("medium", "import medium\n", "debt-collector must not import medium"),
+        ("sdk_anthropic", "import anthropic\n", "debt-collector must not import a model SDK"),
+        ("sdk_google", "from google import genai\n", "debt-collector must not import a model SDK"),
+        (
+            "surface_citation",
+            "import skeleton.verify.citation\n",
+            "debt-collector uses only the skeleton public surface",
+        ),
+        (
+            "surface_ingest",
+            "from skeleton.ingest import snapshot\n",
+            "debt-collector uses only the skeleton public surface",
+        ),
+        (
+            "surface_store",
+            "from skeleton.signals import store\n",
+            "debt-collector uses only the skeleton public surface",
+        ),
+    ],
+)
+def test_planted_collector_violation_names_contract(name: str, source: str, contract: str) -> None:
+    planted = COLLECTOR / f"_planted_{name}.py"
+    planted.write_text(source)
+    try:
+        result = _lint()
+    finally:
+        planted.unlink(missing_ok=True)
+    assert result.returncode != 0, result.stdout
+    assert f"{contract} BROKEN" in result.stdout, result.stdout
+    assert not planted.exists()
 
 
 # --- secret guard -----------------------------------------------------------
