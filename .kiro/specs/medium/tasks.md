@@ -169,7 +169,7 @@ flowchart TD
     - Done when: `pnpm test api` is green.
     - Model: Auto.
     - _Requirements: 4.1, 4.5_
-  - [ ] 6.4 Interview state and possession derivation
+  - [x] 6.4 Interview state and possession derivation
     - Subsystem: medium-ui. Files (2): `src/state.ts`, `test/state.test.ts`.
     - Pure reducer and selectors per design §6: `cited(result)` (verified claims only, first-appearance order), `files` (findings files union cited, sorted), `active` (first cited or user selection), pending flag blocking a second submission. Turns store the unmodified `AnswerResult`.
     - Tests: MP8 (property: banished citations never appear in `cited`); union guarantees every cited file is in `files`; selecting a file sets `active` and issues no request action; a second submit while pending is ignored; stored result is referentially equal to the input.
