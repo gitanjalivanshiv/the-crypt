@@ -137,7 +137,7 @@ flowchart TD
     - Done when: `git diff --stat -- skeleton/` is empty and the record above exists.
     - Model: Auto.
     - _Requirements: 3.16, 10.3, 9.1_
-- [ ] 6. UI (starts only after 5.3)
+- [x] 6. UI (starts only after 5.3)
   > **Gate 5.3 closed 2026-11-28.** Two runs recorded in `docs/KIRO-USAGE.md`: 9 turns,
   > 46 judged claims, 87.0% verified, 13.0% guesses, **0 declined and 0 banished**, on two
   > different providers. Four of five bands pass comfortably. The fifth, turns-with-a-
@@ -197,7 +197,7 @@ flowchart TD
     - Done when: `pnpm test PlanPanel` is green.
     - Model: Auto.
     - _Requirements: 6.5, 6.6, 6.7_
-  - [ ] 6.8 Theme sound cues (CUTTABLE 1)
+  - [x] 6.8 Theme sound cues (CUTTABLE 1)
     - Subsystem: medium-ui. Files (2): `src/theme/seance.ts`, `test/theme.test.ts`.
     - Add `sounds` entries for the event names the shell emits (read them from `skeleton/ui-shell/src/sound/`). Tests: every event the shell emits has a spec; contrast and grep tests stay green.
     - Cut: the Medium is silent.

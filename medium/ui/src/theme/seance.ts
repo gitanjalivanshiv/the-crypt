@@ -17,6 +17,10 @@ export const seance: Theme = {
     sizeBase: "18px",
   },
   effects: { glow: 0.7, scanlines: 0.35, flicker: 0.15 },
-  // Sound cues are added in task 6.8.
-  sounds: {},
+  // Event names match the shell's vocabulary (send, receive, banish).
+  sounds: {
+    send: { kind: "tone", freq: 330, ms: 70, wave: "triangle" },
+    receive: { kind: "tone", freq: 247, ms: 110, wave: "sine" },
+    banish: { kind: "tone", freq: 110, ms: 300, wave: "sawtooth" },
+  },
 };

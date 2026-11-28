@@ -63,8 +63,22 @@ describe("seance theme", () => {
     }
   });
 
-  it("declares no sounds yet", () => {
-    expect(seance.sounds).toEqual({});
+  it("has a valid sound spec for every event the shell themes emit", () => {
+    const events = new Set([
+      ...Object.keys(phosphor.sounds),
+      ...Object.keys(ledger.sounds),
+    ]);
+    expect(events.size).toBeGreaterThan(0);
+    for (const name of events) {
+      const spec = seance.sounds[name];
+      expect(spec, `missing sound for ${name}`).toBeDefined();
+      if (spec.kind === "tone") {
+        expect(spec.freq).toBeGreaterThan(0);
+        expect(spec.ms).toBeGreaterThan(0);
+      } else {
+        expect(spec.src.length).toBeGreaterThan(0);
+      }
+    }
   });
 
   it("no source under the shell or medium UI branches on theme identity", () => {
