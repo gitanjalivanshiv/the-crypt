@@ -349,92 +349,76 @@ data about the model, not a reason to loosen the verifier. Record it and decide 
 
 ## Prompt 3 — The Debt Collector
 
+**Written for speed.** Six days to the deadline, two of them working days, and this is the
+app that makes the submission valid: Skeleton Crew requires two separate application
+folders and `debt-collector/` does not exist. If anything slips, slip Medium polish, not
+this. This app is also the one that *proves* the category claim — if the skeleton is real,
+a second persona is a config file, a theme and a thin UI.
+
+Mirror `medium/`, which is already built server-side: `api.py`, `main.py`, `plan.py`,
+`personas/ghost.toml`. The Debt Collector is the same shape with different content.
+
 > Create a feature spec named `debt-collector` for app 2, per `.kiro/steering/`.
 >
-> Same constraint: consumes `skeleton/`, adds nothing under it.
+> It consumes `skeleton/` and adds **no code under `skeleton/`**, and it must not import
+> from `medium/` either. If something seems to need a skeleton change, stop and file a
+> change request as the Medium spec's R9 requires. `import-linter` enforces both.
 >
-> Scope:
-> - A persona TOML for the collector.
-> - Debt itemisation: each finding becomes a line item with principal and **interest**
->   (estimated cost of leaving it). The interest formula lives in code, not in the prompt,
->   and its inputs come from `Finding.metrics` — the model never does arithmetic.
-> - Escalating notices: tone and urgency rise with total severity.
-> - A debt meter that falls as the user accepts refactors; the largest debts render as
->   boss fights.
-> - A ranked repayment plan, ordered by interest per unit of effort.
-> - The collector theme, from the same shared UI shell.
+> **The app folder is top-level `debt-collector/`.** This is a submission requirement, not
+> a preference.
+>
+> Scope, in build order:
+>
+> 1. **Interest, computed in code.** `debt-collector/interest.py`. Each `Finding` becomes a
+>    ledger line with a **principal** and an **interest** figure, derived only from
+>    `Finding.metrics` and the snapshot. The formula lives in code and is deterministic. The
+>    model never does arithmetic — `grounding-rule.md` rule 4, and the verifier rejects any
+>    prose digit that is not a declared figure. Every number the collector says must be
+>    reachable as `metrics[key]` or as a value this module computes and exposes as a figure.
+>    Document each metric's units. Property test: interest is monotone in severity, finite,
+>    never negative, and identical across two runs on one snapshot.
+> 2. **Persona TOML**, `debt-collector/personas/collector.toml`. Same loader, same required
+>    fields. **No digit in any text field** — `voice`, `goals`, `example_lines`,
+>    `decline_line` — because models copy persona text and the digit scan banishes it. A
+>    test asserts the loader's `warnings` list is empty.
+> 3. **The ledger route.** `GET /collector/snapshots/{ref}/ledger`: the itemised debts,
+>    ranked, each with principal, interest, severity and the finding id that backs it. Reads
+>    findings through the skeleton API. No model call: this route is pure arithmetic over
+>    verified findings, and it must work with no provider configured at all.
+> 4. **The notice route.** `POST /collector/snapshots/{ref}/notice`: one call to the
+>    skeleton's `/ask` for persona `collector`, returning `AnswerResult` unchanged. Escalation
+>    level is chosen in code from total severity and passed to the question text; the model
+>    does not decide how angry to be. Same rule as the Medium's plan route: this route never
+>    builds a prompt, parses model output, or constructs a claim.
+> 5. **The repayment plan.** Ranked by interest per unit of effort, computed in code. Each
+>    entry cites the finding it came from.
+> 6. **UI.** A `ledger` theme and a thin screen composing the shell's existing components:
+>    `CrtFrame`, `ChatPanel` for the collector's prose, `Meter` for the debt meter, and the
+>    ledger list. **Do not fork, copy or wrap-and-modify a shell component**; composition
+>    only. No component may branch on `theme.id`.
+> 7. **Independence test.** A SHA-256 manifest of `skeleton/` unchanged by a full ledger,
+>    notice and plan; no import of `medium` or a provider SDK; `debt-collector/` at the
+>    repository root.
+>
+> Cut order, marked on the tasks, cut in this order and never out of it:
+>   1. Boss fights (visual treatment for the largest debts)
+>   2. Meter animation
+>   3. Sound cues
+>   4. The repayment-plan screen (the route stays and is testable)
+>
+> Not cuttable: items 1 to 4 above, the independence test, and the `ledger` theme's contrast
+> test.
+>
+> **Twelve tasks at most.** One subsystem and at most three files each. Everything except the
+> notice route must be testable with no provider key, so a model outage cannot block the
+> build. Default to Auto, Haiku for boilerplate, no Opus.
 
----
+### Why the ledger route matters more than it looks
 
-## Hooks — command, never agent
+It is the whole demo's insurance. Findings, interest, ranking, citations and the file tree
+are computed from git and tree-sitter with **no model involved**. If the provider is down,
+rate-limited or unfunded on the day a judge opens it, the ledger still renders real,
+verified, cited numbers. Only the collector's prose needs a model.
 
-Agent hooks bill **at least one credit every time they fire**. A `PostFileSave` agent hook
-over 18 days of normal editing can exceed the entire 4,000-credit allotment. Command hooks
-run a shell command and cost **nothing**.
+Build it before the notice route, and make sure it works with no key configured.
 
-No hook in this project needs to write code, so no hook in this project is an agent hook.
-
-Create these in `.kiro/hooks/` as JSON files — do **not** ask Kiro to generate them, that
-is a credit spent on four lines of config:
-
-`.kiro/hooks/test-signals-on-save.json`
-```json
-{
-  "version": "v1",
-  "hooks": [{
-    "name": "Test signals on save",
-    "trigger": "PostFileSave",
-    "matcher": "^skeleton/signals/.*\\.py$",
-    "action": { "type": "command", "command": "./scripts/run-tests.sh tests/signals" }
-  }]
-}
-```
-
-`.kiro/hooks/verify-on-persona-change.json`
-```json
-{
-  "version": "v1",
-  "hooks": [{
-    "name": "Verify citations when a persona changes",
-    "trigger": "PostFileSave",
-    "matcher": "personas/.*\\.toml$",
-    "action": { "type": "command", "command": "./scripts/run-tests.sh tests/verify" }
-  }]
-}
-```
-
-`.kiro/hooks/guard-kiro-committed.json`
-```json
-{
-  "version": "v1",
-  "hooks": [{
-    "name": "Guard: .kiro must never be gitignored",
-    "trigger": "PostFileSave",
-    "matcher": "^\\.gitignore$",
-    "action": { "type": "command", "command": "./scripts/check-kiro-committed.sh" }
-  }]
-}
-```
-
-The `.kiro` guard also runs as a real git `pre-commit` hook and in CI, because a Kiro hook
-only fires while Kiro is open and this one is a disqualification risk. Install it with
-`./scripts/install-git-hooks.sh`.
-
-Verify the trigger names and JSON shape against Kiro's current hooks documentation before
-relying on them — hook schemas have changed between CLI versions.
-
----
-
-## Order of work
-
-1. Create the repo and push `.kiro/`, `LICENSE`, `README.md`. **Confirm MIT shows in the
-   GitHub About panel.**
-2. Open the repo in Kiro; confirm the steering files are loading.
-3. Run **Prompt 1**. Review and edit the requirements by hand. Approve. Review the design.
-   Approve. Review the tasks.
-4. Execute skeleton tasks **one at a time** with the Start task control. Read each diff.
-   Commit after each. Never run all tasks.
-5. Record actual credit usage in `docs/CREDIT-BUDGET.md` after the first three tasks and
-   recompute the plan against measured numbers.
-6. Repeat for **Prompt 2**, then **Prompt 3**.
-7. Fill `docs/KIRO-USAGE.md` as you go, not on Dec 2.
