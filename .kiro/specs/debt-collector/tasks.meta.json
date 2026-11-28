@@ -53,6 +53,18 @@
         "chatSessionId": "sess_51426539-f180-49f3-acc7-6896a3ea8e68",
         "timestamp": 1795880272934
       }
+    ],
+    "5. UI scaffold (not cuttable)": [
+      {
+        "executionId": "6be89fb4-2213-4e3c-a533-797e4796dba5",
+        "chatSessionId": "sess_1814ee4f-8832-40ba-8dbd-ab3430723c0b",
+        "timestamp": 1795880551544
+      },
+      {
+        "executionId": "6be89fb4-2213-4e3c-a533-797e4796dba5",
+        "chatSessionId": "sess_1814ee4f-8832-40ba-8dbd-ab3430723c0b",
+        "timestamp": 1795880660754
+      }
     ]
   }
 }

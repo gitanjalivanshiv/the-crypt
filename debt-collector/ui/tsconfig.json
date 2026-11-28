@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@kiroween/ui-shell": ["./node_modules/@kiroween/ui-shell/dist/src/index.d.ts"]
+    }
+  },
+  "include": ["src", "test", "vite.config.ts"]
+}

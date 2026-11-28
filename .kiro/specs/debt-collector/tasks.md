@@ -55,7 +55,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `uv run pytest tests/independence` and `uv run lint-imports` are green, with seven contracts kept.
   - Model: Auto.
   - _Requirements: 7.1 to 7.7_
-- [ ] 5. UI scaffold (not cuttable)
+- [x] 5. UI scaffold (not cuttable)
   - Subsystem: collector-ui. Files (3): `debt-collector/ui/package.json`, `debt-collector/ui/vite.config.ts`, `debt-collector/ui/tsconfig.json`.
   - React 18, Vite, TypeScript, `@kiroween/ui-shell` as `link:../../skeleton/ui-shell`, vitest, jsdom, testing-library, `vitest-axe`. Mirror the shell's versions and scripts (`test`, `build`, `lint`). Dev proxy for `/snapshots` and `/collector` to the API. The `@vitejs/plugin-react` plugin and the jsdom test environment are set in `vite.config.ts`.
   - Done when: `pnpm install && pnpm build` is green on a stub entry that imports one shell export.
