@@ -65,6 +65,35 @@ fabricate forever, declining every turn with no error and no banishment to film.
 it as a deliberate probe of the guard is stronger than implying the model misbehaved, and
 it is the truth.
 
+## What the camera sees
+
+**You are not filming the servers.** The four terminals in
+[DEMO-RUNBOOK.md](DEMO-RUNBOOK.md) are backstage: start them, minimise them, forget them.
+Nothing in this video shows a running server.
+
+You record **two windows**:
+
+| | Shots | Time | What |
+|---|---|---|---|
+| **Browser** | 1, 2, 3, 4, 5, and the last beat of 8 | ~1:36 | Both apps. Two tabs: the Medium on :5173, the Debt Collector on the port vite printed. |
+| **Editor** | 6, 7, 8 | ~1:12 | `.kiro/specs/`, a tasks.md with its boxes ticked, `docs/KIRO-USAGE.md`, and the two app folders side by side. |
+
+Plus **one** terminal, on purpose, for about five seconds inside shot 6. That is Kiro
+evidence, not a server — use a clean terminal, not one of the four running a server. This
+is the shot:
+
+```bash
+git log --oneline | grep -E "^[0-9a-f]+ Task" | head -40
+```
+
+A wall of `Task md-6.5: Interview screen`, `Task dc-12: Boss fights`. There are **104** of
+them, which is the number the narration says; a judge can run the same command. Do not say
+"one commit per task" — 125 spec tasks produced 104 task commits, because some commits
+close more than one.
+
+So: a little over half the video is the apps in a browser, most of the rest is your editor,
+and the servers never appear.
+
 ## Shot list
 
 Tone: a séance held over a dying codebase, run by someone who does not trust the dead. Dry,
@@ -73,14 +102,14 @@ way round. Say "banished" like it is a technical term, because it is.
 
 | # | Time | On screen | Narration |
 |---|---|---|---|
-| 1 | 0:00–0:14 | Terminal, then the struck-through claim | Ask a machine about a codebase no living developer understands, and it will lie to you beautifully. It will name files that were never written. Watch what happens to one here. |
-| 2 | 0:14–0:42 | The banishment, held still. Zoom the reason line. | The Crypt holds a séance over a real repository. Every claim the ghost makes drags a citation behind it — file, lines, quote — checked against the corpse before you ever see it. I have just fed it a file that does not exist. The verifier catches the lie in mid-air and strikes it down. We call that a banishment. Then it tries again, grounded. |
-| 3 | 0:42–1:08 | Ask a question; citations resolve; the tree sweeps | Meet the Medium, the ghost of a legacy system, possessing one file at a time as it cites. It cannot invent a number. Commit counts, decay, severity — all computed in cold code and handed to the dead, who may quote them but never conjure them. |
-| 4 | 1:08–1:16 | The resurrection plan panel | Keep asking and it writes you a resurrection plan. Every step cited. |
-| 5 | 1:16–1:44 | The ledger, scrolling. Stop on a boss fight. | Second app, same skeleton. The Debt Collector reads your technical debt as a ledger, with interest. Three hundred debts ranked out of four hundred and ninety-five findings in real setuptools. The worst are boss fights. It needs no key and no model: the arithmetic of decay is entirely ours. |
-| 6 | 1:44–2:18 | `.kiro/specs/`, a ticked tasks.md, then `git log` | All of it raised with Kiro, spec first. Seven specs — requirements, design, tasks — a hundred and thirty-nine of them, and one commit per task, so the git history is the grimoire. Hooks run the tests and guard the dot-kiro folder. Steering keeps the grounding rule in every request. Signals served over MCP. |
-| 7 | 2:18–2:34 | `docs/KIRO-USAGE.md`, the measured section | I measured the haunting. Forty-six claims, eighty-seven per cent verified. One metric failed outright: the ghost never lied often enough to get banished. I left the failure in the report rather than teach it to lie. |
-| 8 | 2:34–2:48 | Two folders side by side, then the strike-through again | Two apps. One skeleton. A test suite that screams if either reaches into the bones. A third haunting needs a config, a theme and a thin UI — and nothing underneath moves. |
+| 1 | 0:00–0:14 | **Browser.** Type the question, let the answer land | Ask a machine about a codebase no living developer understands, and it will lie to you beautifully. It will name files that were never written. Watch what happens to one here. |
+| 2 | 0:14–0:42 | **Browser.** The banishment, held still. Zoom the reason line. | The Crypt holds a séance over a real repository. Every claim the ghost makes drags a citation behind it — file, lines, quote — checked against the corpse before you ever see it. I have just fed it a file that does not exist. The verifier catches the lie in mid-air and strikes it down. We call that a banishment. Then it tries again, grounded. |
+| 3 | 0:42–1:08 | **Browser.** Ask again; citations resolve; the tree sweeps | Meet the Medium, the ghost of a legacy system, possessing one file at a time as it cites. It cannot invent a number. Commit counts, decay, severity — all computed in cold code and handed to the dead, who may quote them but never conjure them. |
+| 4 | 1:08–1:16 | **Browser.** The resurrection plan panel | Keep asking and it writes you a resurrection plan. Every step cited. |
+| 5 | 1:16–1:44 | **Browser**, other tab. The ledger, scrolling. Stop on a boss fight. | Second app, same skeleton. The Debt Collector reads your technical debt as a ledger, with interest. Three hundred debts ranked out of four hundred and ninety-five findings in real setuptools. The worst are boss fights. It needs no key and no model: the arithmetic of decay is entirely ours. |
+| 6 | 1:44–2:18 | **Editor**: `.kiro/specs/`, a ticked tasks.md. Then **one terminal** for `git log --oneline` | All of it raised with Kiro, spec first. Seven specs — requirements, design, tasks — and a hundred and four commits that each name the task they close, so the git history is the grimoire. Hooks run the tests and guard the dot-kiro folder. Steering keeps the grounding rule in every request. Signals served over MCP. |
+| 7 | 2:18–2:34 | **Editor**: `docs/KIRO-USAGE.md`, the measured section | I measured the haunting. Forty-six claims, eighty-seven per cent verified. One metric failed outright: the ghost never lied often enough to get banished. I left the failure in the report rather than teach it to lie. |
+| 8 | 2:34–2:48 | **Editor**: the two app folders. Then back to **Browser** for the strike-through | Two apps. One skeleton. A test suite that screams if either reaches into the bones. A third haunting needs a config, a theme and a thin UI — and nothing underneath moves. |
 
 ## The script, to read aloud
 
@@ -105,8 +134,8 @@ Record this as one pass if you can; the pauses between shots are where you breat
 > setuptools. The worst are boss fights. It needs no key and no model: the arithmetic of
 > decay is entirely ours.
 >
-> All of it raised with Kiro, spec first. Seven specs — requirements, design, tasks — a
-> hundred and thirty-nine of them, and one commit per task, so the git history is the
+> All of it raised with Kiro, spec first. Seven specs — requirements, design, tasks — and
+> a hundred and four commits that each name the task they close, so the git history is the
 > grimoire. Hooks run the tests and guard the dot-kiro folder. Steering keeps the grounding
 > rule in every request. Signals served over MCP.
 >
