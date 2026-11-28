@@ -61,7 +61,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm install && pnpm build` is green on a stub entry that imports one shell export.
   - Model: Haiku.
   - _Requirements: 6.1_
-- [ ] 6. Ledger theme and its tests (not cuttable)
+- [x] 6. Ledger theme and its tests (not cuttable)
   - Subsystem: collector-ui. Files (3): `src/theme/ledger.ts`, `test/theme.test.ts`, `test/lint.test.ts`.
   - `ledger.ts`: a `Theme` data object, `id = "ledger"`, from the shell's reference palette, with its own `effects` (visible bezel, faint scanlines, flicker 0) and `sounds: {}`. Data only, no component.
   - `theme.test.ts`: every pair in `REQUIRED_PAIRS` meets `MIN_CONTRAST_RATIO`; effects in 0..1. This test is not cuttable.
