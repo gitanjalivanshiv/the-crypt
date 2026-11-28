@@ -99,7 +99,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm test sound theme lint` is green.
   - Model: Haiku.
   - _Requirements: 6.2, 6.9_
-- [ ] 11. Meter animation (CUTTABLE 2)
+- [x] 11. Meter animation (CUTTABLE 2)
   - Subsystem: collector-ui. Files (3): `src/useDrain.ts`, `src/App.tsx`, `test/drain.test.tsx`.
   - `useDrain(target)` returns the displayed outstanding-interest readout, counting down to the target in steps over a fixed short time. With `useReducedMotion` true it returns the target at once and starts no timer. The `Meter` bar keeps the shell's own transition. The readout is arithmetic over ledger numbers, not model output.
   - Tests with fake timers: the readout steps down and ends exactly on the target; a new target mid-drain restarts from the current value; reduced motion returns the target with no timer.

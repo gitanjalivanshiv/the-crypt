@@ -6,6 +6,7 @@ import { PlanPanel } from "./PlanPanel";
 import { formatNumber, initialState, meterValue, outstanding, reducer, submitNotice } from "./state";
 import type { CollectorAction, CollectorState } from "./state";
 import { ledger as ledgerTheme } from "./theme/ledger";
+import { useDrain } from "./useDrain";
 
 // Units of the figures the ledger shows (mirrors FIGURES and METRIC_UNITS in interest.py).
 const PRINCIPAL_UNIT = "lines";
@@ -48,6 +49,11 @@ function LedgerRow({ line, settled, onSettle }: { line: LedgerLine; settled: boo
       </button>
     </li>
   );
+}
+
+// Mounted only once the ledger exists, so the first render starts on the target.
+function DrainReadout({ target }: { target: number }) {
+  return <span data-testid="readout">{formatNumber(useDrain(target))}</span>;
 }
 
 function CoverageNote({ ledger }: { ledger: Ledger }) {
@@ -129,7 +135,7 @@ function Screen({ snapshotRef }: { snapshotRef?: string }) {
                   value={meterValue(ledger, state.settled)}
                 />
                 <p>
-                  Outstanding: {formatNumber(outstanding(ledger, state.settled))} of{" "}
+                  Outstanding: <DrainReadout target={outstanding(ledger, state.settled)} /> of{" "}
                   {formatNumber(ledger.totals.interest)} {INTEREST_UNIT}. Total principal{" "}
                   {formatNumber(ledger.totals.principal)} {PRINCIPAL_UNIT}.
                 </p>
