@@ -162,7 +162,7 @@ flowchart TD
     - Done when: `pnpm test theme` is green.
     - Model: Auto.
     - _Requirements: 7.1, 7.2, 7.3, 7.5_
-  - [ ] 6.3 API client and types
+  - [x] 6.3 API client and types
     - Subsystem: medium-ui. Files (3): `src/api.ts`, `src/types.ts`, `test/api.test.ts`.
     - Wrappers for `GET /snapshots/{ref}`, `GET /snapshots/{ref}/findings`, `POST /snapshots/{ref}/ask` (persona fixed to `ghost`) and `POST /medium/snapshots/{ref}/plan`. `types.ts` re-exports `AnswerResult` from the shell and defines `PlanResult` and `ApiError`. Structured errors are surfaced as `ApiError` with `code` and `message`, never flattened.
     - Tests: mocked fetch; the request bodies; a structured error becomes an `ApiError`.
