@@ -69,7 +69,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm test theme lint` is green.
   - Model: Auto.
   - _Requirements: 6.2, 6.3, 6.4_
-- [ ] 7. UI data layer (not cuttable)
+- [x] 7. UI data layer (not cuttable)
   - Subsystem: collector-ui. Files (3): `src/api.ts`, `src/state.ts`, `test/data.test.ts`.
   - `api.ts`: wrappers for `GET /snapshots/{ref}`, `GET /collector/snapshots/{ref}/ledger`, `POST …/notice` and `GET …/plan`. Types for the ledger and plan mirror `interest.py`'s models by hand (the shell's `AnswerResult` is re-exported, not redefined). A structured error becomes an `ApiError` with code and message.
   - `state.ts`: pure `outstanding`, `meterValue`, `settle`, and number formatting that never rounds beyond the payload's six places. The reducer holds `settled` as a set of finding IDs, the pending flag, and the notice result as the unmodified object.
