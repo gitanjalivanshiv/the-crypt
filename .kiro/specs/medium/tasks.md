@@ -183,7 +183,7 @@ flowchart TD
     - Done when: `pnpm test App && pnpm build` is green.
     - Model: Auto.
     - _Requirements: 4.1 to 4.6, 5.2, 7.4_
-  - [ ] 6.6 Possession sweep (CUTTABLE 2)
+  - [x] 6.6 Possession sweep (CUTTABLE 2)
     - Subsystem: medium-ui. Files (3): `src/useSweep.ts`, `src/App.tsx`, `test/sweep.test.tsx`.
     - Hook stepping `active` through `cited` in claim order on a timer. With `useReducedMotion` true it sets `active` to the first cited file and starts no timer. App uses it.
     - Cut: `active` stays the first cited file. The tree still shows every cited file.

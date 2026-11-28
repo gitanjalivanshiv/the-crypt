@@ -10,6 +10,7 @@ import { ask, getFindings, getSnapshot } from "./api";
 import { active, cited, files, initialState, reducer } from "./state";
 import { seance } from "./theme/seance";
 import { ApiError } from "./types";
+import { useSweep } from "./useSweep";
 
 /** Reads the snapshot ref from the URL query: `?ref=<snapshot id>`. */
 export function refFromLocation(search: string = window.location.search): string {
@@ -80,6 +81,9 @@ export function App({ snapshotRef }: AppProps) {
   const latest = state.turns[state.turns.length - 1];
   const citedFiles = useMemo(() => (latest ? cited(latest.result) : []), [latest]);
   const treeFiles = useMemo(() => files(state), [state]);
+  const swept = useSweep(citedFiles, state.selected !== null);
+  // A user selection (R5.5) wins; otherwise the sweep drives `active`.
+  const activeFile = state.selected ?? swept ?? active(state);
 
   return (
     <ThemeProvider theme={seance}>
@@ -90,7 +94,7 @@ export function App({ snapshotRef }: AppProps) {
               <FileTree
                 files={treeFiles}
                 cited={citedFiles}
-                active={active(state) ?? undefined}
+                active={activeFile ?? undefined}
                 onSelect={(file) => dispatch({ type: "select", file })}
               />
             </nav>
