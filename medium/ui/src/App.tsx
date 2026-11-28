@@ -8,6 +8,7 @@ import {
 import { useEffect, useMemo, useReducer, useState, type FormEvent, type KeyboardEvent } from "react";
 import { ask, getFindings, getSnapshot } from "./api";
 import { active, cited, files, initialState, reducer } from "./state";
+import { PlanPanel } from "./PlanPanel";
 import { seance } from "./theme/seance";
 import { ApiError } from "./types";
 import { useSweep } from "./useSweep";
@@ -126,6 +127,7 @@ export function App({ snapshotRef }: AppProps) {
               <div role="alert" aria-live="assertive" data-testid="error-region">
                 {state.error}
               </div>
+              <PlanPanel snapshotRef={ref} licence={state.licence} />
             </section>
           </main>
         </CrtFrame>

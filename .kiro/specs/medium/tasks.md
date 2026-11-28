@@ -190,7 +190,7 @@ flowchart TD
     - Done when: `pnpm test sweep` is green (fake timers; reduced-motion case).
     - Model: Auto.
     - _Requirements: 5.4, 7.5_
-  - [ ] 6.7 Plan panel (CUTTABLE 3)
+  - [x] 6.7 Plan panel (CUTTABLE 3)
     - Subsystem: medium-ui. Files (3): `src/PlanPanel.tsx`, `src/App.tsx`, `test/PlanPanel.test.tsx`.
     - A "Resurrect" control calls the plan route and renders the three sections, each with `ChatPanel` and its section heading. A declined section shows its decline; a plan error shows the structured error and no partial plan.
     - Cut: the route stays and is measured; the plan is not shown in the UI.
