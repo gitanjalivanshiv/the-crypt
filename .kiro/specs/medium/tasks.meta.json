@@ -203,6 +203,18 @@
         "chatSessionId": "sess_b101fa10-d56d-455a-8baa-fbc5a44df395",
         "timestamp": 1795882513070
       }
+    ],
+    "6.2 The seance theme": [
+      {
+        "executionId": "891b74e0-dcbd-4b4d-810d-1508fb0b7f8c",
+        "chatSessionId": "sess_a29926f2-63c1-4d9b-8a47-b657cbd1833c",
+        "timestamp": 1795882591893
+      },
+      {
+        "executionId": "891b74e0-dcbd-4b4d-810d-1508fb0b7f8c",
+        "chatSessionId": "sess_a29926f2-63c1-4d9b-8a47-b657cbd1833c",
+        "timestamp": 1795882652920
+      }
     ]
   }
 }

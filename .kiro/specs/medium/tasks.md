@@ -156,7 +156,7 @@ flowchart TD
     - Done when: `pnpm install && pnpm build` is green on an empty entry.
     - Model: Haiku.
     - _Requirements: 7.4_
-  - [ ] 6.2 The seance theme
+  - [x] 6.2 The seance theme
     - Subsystem: medium-ui. Files (2): `src/theme/seance.ts`, `test/theme.test.ts`.
     - `Theme` data object `id = "seance"`: amber or phosphor-on-black palette distinct from the shell's `phosphor` and `ledger`, font, effects, no sounds yet. Tests: every `REQUIRED_PAIRS` pair meets `MIN_CONTRAST_RATIO`; effects in 0..1; a grep fails if any file under `skeleton/ui-shell/src/` or `medium/ui/src/` contains `theme.id` or a theme-name comparison.
     - Done when: `pnpm test theme` is green.
