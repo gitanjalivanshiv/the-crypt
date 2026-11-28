@@ -84,7 +84,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm test App && pnpm build` is green.
   - Model: Auto.
   - _Requirements: 6.4 to 6.10_
-- [ ] 9. Repayment-plan screen (CUTTABLE 4, built first of the cuttable tasks)
+- [x] 9. Repayment-plan screen (CUTTABLE 4, built first of the cuttable tasks)
   - Subsystem: collector-ui. Files (3): `src/PlanPanel.tsx`, `src/App.tsx`, `test/PlanPanel.test.tsx`.
   - A "Show repayment plan" control calls the plan route and renders the entries in the order received: rank, `file:line_start-line_end`, effort, interest, interest per effort, and the finding ID it came from. A plan error shows the structured error and no partial plan. The panel reorders nothing.
   - Cut: the plan route and its tests stay. The plan is not shown in the UI.

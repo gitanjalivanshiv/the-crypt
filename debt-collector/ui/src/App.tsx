@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatPanel, CrtFrame, Meter, SoundProvider, ThemeProvider } from "@kiroween/ui-shell";
 import { getLedger, getSnapshot, postNotice } from "./api";
 import type { Ledger, LedgerLine } from "./api";
+import { PlanPanel } from "./PlanPanel";
 import { formatNumber, initialState, meterValue, outstanding, reducer, submitNotice } from "./state";
 import type { CollectorAction, CollectorState } from "./state";
 import { ledger as ledgerTheme } from "./theme/ledger";
@@ -120,6 +121,7 @@ export function App({ snapshotRef }: { snapshotRef?: string }) {
                 <button type="button" onClick={serve} disabled={state.pending} aria-busy={state.pending}>
                   {state.pending ? "Serving notice…" : "Serve notice"}
                 </button>
+                <PlanPanel snapshotRef={ref} />
                 <ol aria-label="Ledger">
                   {ledger.lines.map((line) => (
                     <LedgerRow
