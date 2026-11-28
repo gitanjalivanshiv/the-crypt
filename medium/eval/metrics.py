@@ -174,8 +174,10 @@ def _fmt(num: int, den: int) -> str:
 
 def _render_stats(s: Stats) -> list[str]:
     lines = [
-        f"  turns: {s.turns} (answered {s.answered}, declined {s.declined}, "
-        f"empty answers {s.empty_answers})",
+        (
+            f"  turns: {s.turns} (answered {s.answered}, declined {s.declined}, "
+            f"empty answers {s.empty_answers})"
+        ),
         f"  verified share: {_fmt(s.verified, s.judged)}",
         f"  guess share: {_fmt(s.guess, s.judged)}",
         f"  banished share: {_fmt(s.banished, s.judged)}",

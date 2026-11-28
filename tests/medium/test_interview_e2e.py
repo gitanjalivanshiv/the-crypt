@@ -19,7 +19,7 @@ QUESTION = "What lives in a.py?"
 GHOST_DECLINE = tomllib.loads((PERSONA_DIR / "ghost.toml").read_text())["decline_line"]
 
 
-def _ask(factory, make, tmp_path_factory, script) -> dict:
+def _ask(factory, make, tmp_path_factory, script) -> dict:  # noqa: F811  (pytest fixture shadows the import)
     ingest, repo = make
     llm = FakeLLMClient(script)
     app = factory(tmp_path_factory.mktemp("store"), llm, ingest)
@@ -35,7 +35,7 @@ def _ask(factory, make, tmp_path_factory, script) -> dict:
 
 def _medium(store: Path, llm, ingest, monkeypatch=None):
     # create_medium_app has no ingest seam; give it the fixture ingest via its create_app.
-    import medium.api as api
+    from medium import api
 
     original = api.create_app
     api.create_app = functools.partial(create_app, ingest_fn=ingest)

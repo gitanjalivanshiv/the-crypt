@@ -1,9 +1,15 @@
 """Tests for medium.eval.metrics (R3.6 to R3.9)."""
-from hypothesis import given, strategies as st
+from hypothesis import given
+from hypothesis import strategies as st
 
 from medium.eval.metrics import Question, breaches, compute, render
 from skeleton.verify.codes import ReasonCode
-from skeleton.verify.models import AnswerResult, AttemptRecord, Banishment, VerifiedClaim
+from skeleton.verify.models import (
+    AnswerResult,
+    AttemptRecord,
+    Banishment,
+    VerifiedClaim,
+)
 
 
 def claim(kind: str) -> VerifiedClaim:

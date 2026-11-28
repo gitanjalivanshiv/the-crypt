@@ -51,7 +51,7 @@ _MAX_ATTEMPTS = 4
 # cancels the last wait.
 _RETRY_DELAYS_S = (5.0, 15.0, 30.0)
 _BUDGET_S = 150.0
-_RETRY_DELAY_RE = re.compile(r"retry(?:_|-)?delay[\"\':\s]+(\d+(?:\.\d+)?)s?", re.I)
+_RETRY_DELAY_RE = re.compile(r"retry(?:_|-)?delay[\"\':\s]+(\d+(?:\.\d+)?)s?", re.IGNORECASE)
 
 
 def _server_retry_delay(exc: object) -> float | None:

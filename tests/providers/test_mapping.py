@@ -1,7 +1,8 @@
 from types import SimpleNamespace as NS
 
 import pytest
-from hypothesis import given, strategies as st
+from hypothesis import given
+from hypothesis import strategies as st
 
 from providers.errors import ProviderError
 from providers.mapping import from_sdk_response, to_sdk_kwargs
