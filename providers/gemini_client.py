@@ -27,6 +27,7 @@ Error text carries the class name and status only and is raised ``from None``:
 
 import asyncio
 import os
+import re
 import time
 from collections import OrderedDict
 from collections.abc import Awaitable, Callable
@@ -44,8 +45,33 @@ from skeleton.personas.llm import LLMRequest, LLMResponse
 ENV_VAR = "GEMINI_API_KEY"
 _RETRY_STATUSES = frozenset({429, 503})
 _MAX_ATTEMPTS = 4
-_BASE_DELAY_S = 2.0
-_BUDGET_S = 60.0
+# Free-tier quotas are per MINUTE, so the old 2/4/8 s ladder (14 s total) always expired
+# inside the same window it was waiting out, and every retry hit the same 429. These
+# delays cover a 60 s window; the budget has to exceed their sum or the guard below
+# cancels the last wait.
+_RETRY_DELAYS_S = (5.0, 15.0, 30.0)
+_BUDGET_S = 150.0
+_RETRY_DELAY_RE = re.compile(r"retry(?:_|-)?delay[\"\':\s]+(\d+(?:\.\d+)?)s?", re.I)
+
+
+def _server_retry_delay(exc: object) -> float | None:
+    """Seconds the server asked us to wait, if it said. Google returns RetryInfo on a 429.
+
+    Preferred over any ladder we invent: the server knows when the window resets.
+    """
+    for attr in ("retry_delay", "retryDelay"):
+        value = getattr(exc, attr, None)
+        if isinstance(value, (int, float)) and value > 0:
+            return float(value)
+    match = _RETRY_DELAY_RE.search(str(exc))
+    if match:
+        try:
+            seconds = float(match.group(1))
+        except ValueError:
+            return None
+        if 0 < seconds <= _BUDGET_S:
+            return seconds
+    return None
 
 
 class GeminiClient:
@@ -124,7 +150,9 @@ class GeminiClient:
                     self._thinking_budget = None
                     continue
                 status = getattr(exc, "code", None)
-                delay = _BASE_DELAY_S * 2**attempt
+                delay = _server_retry_delay(exc) or _RETRY_DELAYS_S[
+                    min(attempt, len(_RETRY_DELAYS_S) - 1)
+                ]
                 if (
                     status not in _RETRY_STATUSES
                     or attempt == _MAX_ATTEMPTS - 1

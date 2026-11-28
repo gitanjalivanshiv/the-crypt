@@ -22,7 +22,7 @@ echo
 echo "2/3  one live call"
 MEDIUM_PROVIDER=gemini uv run python - <<'PY' || exit 1
 import asyncio, os, re, sys
-from providers.select import client_from_env, model_from_env
+from providers.select import client_from_env, provider_from_env
 from skeleton.personas.llm import LLMRequest, Message
 def red(s): return re.sub(r'AIza[A-Za-z0-9_\-]+','REDACTED',str(s))
 async def main():
@@ -30,7 +30,7 @@ async def main():
         c = client_from_env()
         r = await c.complete(LLMRequest(system="Reply with exactly: ok",
               messages=(Message(role="user", content="say ok"),), max_tokens=32))
-        print(f"   model={model_from_env()}  reply={r.text.strip()[:40]!r}")
+        print(f"   provider={provider_from_env()}  reply={r.text.strip()[:40]!r}")
     except Exception as e:
         print(f"   FAILED {type(e).__name__}: {red(e)[:300]}"); sys.exit(1)
 asyncio.run(main())

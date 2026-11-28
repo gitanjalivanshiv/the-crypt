@@ -12,6 +12,7 @@ import dataclasses
 import json
 import sys
 import tempfile
+import time
 import tomllib
 from collections.abc import Callable, Sequence
 from datetime import UTC, datetime
@@ -80,6 +81,17 @@ def _parse_args(argv: Sequence[str] | None) -> argparse.Namespace:
     p.add_argument("--runs", type=int, default=2)
     p.add_argument("--max-turns", type=int, default=None)
     p.add_argument("--questions", type=Path, default=DEFAULT_QUESTIONS)
+    p.add_argument(
+        "--delay-s",
+        type=float,
+        default=None,
+        help=(
+            "Seconds to wait between turns. A free-tier quota is per minute and one turn "
+            "makes several calls, so an unpaced run bursts straight through the limit. "
+            "Retrying afterwards is the fallback; not tripping it is the fix. Use 0 for a "
+            "paid key."
+        ),
+    )
     return p.parse_args(argv)
 
 
@@ -124,9 +136,15 @@ def main(
             ref = r.json()["ref"]
             snapshot_id = r.json()["snapshot_id"]
 
+            # A real run paces itself against the per-minute quota; an injected client
+            # is a test and must not sleep. The flag overrides either.
+            delay_s = args.delay_s if args.delay_s is not None else (
+                0.0 if client is not None else 15.0
+            )
             for n in range(1, args.runs + 1):
                 run_code = _one_run(
-                    http, ref, snapshot_id, questions, n, stamp, out_dir, args.questions, out
+                    http, ref, snapshot_id, questions, n, stamp, out_dir, args.questions, out,
+                    delay_s=delay_s,
                 )
                 exit_code = max(exit_code, run_code)
                 if run_code == EXIT_ABORT:
@@ -144,12 +162,16 @@ def _one_run(
     out_dir: Path,
     questions_path: Path,
     out: Callable[[str], None],
+    delay_s: float = 0.0,
+    sleep: Callable[[float], None] = time.sleep,
 ) -> int:
     results: list[tuple[Question, AnswerResult]] = []
     errors: list[dict[str, str]] = []
     consecutive = 0
     aborted: str | None = None
-    for q, text in questions:
+    for index, (q, text) in enumerate(questions):
+        if index and delay_s > 0:
+            sleep(delay_s)
         failure: str | None = None
         answer: AnswerResult | None = None
         try:

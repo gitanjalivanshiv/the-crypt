@@ -151,7 +151,7 @@ def test_429_then_success_sleeps_once():
     client, clock = _client(sdk)
     assert _run(client).text == "ok"
     assert len(sdk.calls) == 2
-    assert clock.sleeps == [2.0]
+    assert clock.sleeps == [5.0]
 
 
 @pytest.mark.parametrize("code", [429, 503])
@@ -162,7 +162,7 @@ def test_transient_exhausts_four_attempts(code):
         _run(client)
     assert str(ei.value) == f"{'ClientError' if code == 429 else 'ServerError'} status={code}"
     assert len(sdk.calls) == 4
-    assert clock.sleeps == [2.0, 4.0, 8.0]
+    assert clock.sleeps == [5.0, 15.0, 30.0]
 
 
 @pytest.mark.parametrize(
@@ -187,27 +187,27 @@ def test_other_failures_make_one_call(error):
 def test_slow_attempts_exhaust_the_budget():
     clock = Clock()
     sdk = FakeSDK(
-        [_api_error(429) for _ in range(4)], on_call=lambda kw: setattr(clock, "now", clock.now + 25)
+        [_api_error(429) for _ in range(4)], on_call=lambda kw: setattr(clock, "now", clock.now + 60)
     )
     client, _ = _client(sdk, clock)
     with pytest.raises(ProviderError, match="status=429"):
         _run(client)
-    # t=25 fail, sleep 2, t=52 fail, sleep 4 (t=56), attempt 3 capped at 4 s,
-    # fails at t=81: an 8 s wait would pass 60 s, so attempt 4 never starts.
+    # Budget 150 s, each call burns 60 s. t=60 fail, sleep 5; t=125 fail, sleep 15;
+    # t=200 fail and a 30 s wait is already past the budget, so attempt 4 never starts.
     assert len(sdk.calls) == 3
-    assert clock.sleeps == [2.0, 4.0]
+    assert clock.sleeps == [5.0, 15.0]
 
 
 def test_attempt_timeout_is_capped_by_remaining_budget():
     clock = Clock()
     sdk = FakeSDK(
-        [_api_error(429), _resp("ok")], on_call=lambda kw: setattr(clock, "now", clock.now + 50)
+        [_api_error(429), _resp("ok")], on_call=lambda kw: setattr(clock, "now", clock.now + 100)
     )
     client, _ = _client(sdk, clock)
     _run(client)
     first, second = (c["config"]["http_options"]["timeout"] for c in sdk.calls)
-    assert first == 60000
-    assert second == 8000  # 60 - (50 + 2)
+    assert first == 60000  # the per-attempt timeout, below the 150 s budget
+    assert second == 45000  # 150 - (100 + 5)
 
 
 def test_cancelled_during_sleep_propagates():
