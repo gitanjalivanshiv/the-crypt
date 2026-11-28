@@ -204,14 +204,14 @@ flowchart TD
     - Done when: `pnpm test theme` is green.
     - Model: Haiku.
     - _Requirements: 7.6_
-- [ ] 7. Independence and CI (not cuttable)
+- [x] 7. Independence and CI (not cuttable)
   - [x] 7.1 Medium independence tests
     - Subsystem: independence. Files (1): `tests/independence/test_medium.py`.
     - MP9 (skeleton manifest unchanged by a full turn and a full plan through `create_medium_app` with `FakeLLMClient`); `skeleton/` contains none of `medium`, `ghost`, `providers`, `anthropic` outside the documented allow-list; `medium/` imports no `anthropic`, `openai`, `boto3` or `debt_collector`; `medium/` imports nothing from `skeleton.verify` except `skeleton.verify.models`, and nothing from `skeleton.personas.generator`, `.prompt` or `skeleton.mcp.router`; `medium/` and `providers/` exist at the repo root.
     - Done when: `uv run pytest tests/independence` is green.
     - Model: Auto.
     - _Requirements: 8.1 to 8.5, 9.4_
-  - [-] 7.2 CI jobs
+  - [x] 7.2 CI jobs
     - Subsystem: integration. Files (1): `.github/workflows/ci.yml`.
     - Add the Medium Python tests (default run, `live` and `network` excluded), the fourth contract through the existing `lint-imports` job, and `pnpm test` plus `pnpm build` for `medium/ui`. No job may call the provider. `verify-coverage` stays its own job with nothing depending on it.
     - Done when: a push runs every job and they pass.

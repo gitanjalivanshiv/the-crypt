@@ -72,6 +72,7 @@ describe("seance theme", () => {
     for (const name of events) {
       const spec = seance.sounds[name];
       expect(spec, `missing sound for ${name}`).toBeDefined();
+      if (spec === undefined) continue;
       if (spec.kind === "tone") {
         expect(spec.freq).toBeGreaterThan(0);
         expect(spec.ms).toBeGreaterThan(0);

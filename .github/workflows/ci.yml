@@ -4,6 +4,15 @@ on:
   pull_request:
 
 jobs:
+  # Disqualification guard. `.kiro` must be committed and not ignored: the hackathon
+  # judges Kiro usage from it. This also runs as a Kiro hook and a git pre-commit hook,
+  # but `--no-verify` skips those, and CI is the one check nobody can bypass.
+  kiro-committed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/check-kiro-committed.sh
+
   # R4.24a: no deploy job may list `verify-coverage` under `needs:`.
   # The coverage gate must never block a deploy. Keep it as its own job.
   verify-coverage:
@@ -69,11 +78,13 @@ jobs:
       - run: pnpm lint
       - run: pnpm test
 
+  # Both app UIs consume the shell as `@kiroween/ui-shell: link:../../skeleton/ui-shell`,
+  # and the shell's package.json resolves to ./dist, which .gitignore excludes. A fresh
+  # checkout therefore has no dist, so the shell MUST be built before either app's
+  # `pnpm test` or `tsc --noEmit` can resolve the module. Verified by deleting dist
+  # locally: 4 of 6 medium/ui test files failed and the build died on TS2307.
   medium-ui:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: medium/ui
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -83,10 +94,46 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: medium/ui/pnpm-lock.yaml
+          cache-dependency-path: |
+            skeleton/ui-shell/pnpm-lock.yaml
+            medium/ui/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test
+        working-directory: skeleton/ui-shell
       - run: pnpm build
+        working-directory: skeleton/ui-shell
+      - run: pnpm install --frozen-lockfile
+        working-directory: medium/ui
+      - run: pnpm test
+        working-directory: medium/ui
+      - run: pnpm build
+        working-directory: medium/ui
+
+  # The Debt Collector's Python tests already run in the root `pytest` job; its UI
+  # suite had no job at all, so its tests never ran on a push.
+  debt-collector-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            skeleton/ui-shell/pnpm-lock.yaml
+            debt-collector/ui/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: skeleton/ui-shell
+      - run: pnpm build
+        working-directory: skeleton/ui-shell
+      - run: pnpm install --frozen-lockfile
+        working-directory: debt-collector/ui
+      - run: pnpm test
+        working-directory: debt-collector/ui
+      - run: pnpm build
+        working-directory: debt-collector/ui
 
   # Deferred from task 7.16: fail if generated TS types drift from the API schema.
   ts-types-drift:
