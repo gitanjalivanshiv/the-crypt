@@ -1,0 +1,30 @@
+/* Boss fights: the largest debts. The hook is the data-boss attribute; this file is only paint.
+   Colours come from the theme's --crypt-* custom properties (themeToCssVars). */
+li[data-boss="true"] {
+  border-left: 0.5rem solid var(--crypt-colour-danger);
+  border-top: 3px double var(--crypt-colour-danger);
+  padding-left: 0.5rem;
+}
+
+li[data-boss="true"] > .boss-label {
+  display: inline-block;
+  color: var(--crypt-colour-danger);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 2px solid var(--crypt-colour-danger);
+  padding: 0 0.4em;
+  animation: boss-pulse 2s ease-in-out infinite;
+}
+
+@keyframes boss-pulse {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  li[data-boss="true"] > .boss-label {
+    animation: none;
+  }
+}

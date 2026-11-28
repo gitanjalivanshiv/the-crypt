@@ -107,7 +107,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm test drain` is green.
   - Model: Auto.
   - _Requirements: 6.6, 6.9_
-- [ ] 12. Boss fights (CUTTABLE 1)
+- [x] 12. Boss fights (CUTTABLE 1)
   - Subsystem: collector-ui. Files (3): `src/boss.css`, `src/App.tsx`, `test/boss.test.tsx`.
   - Visual treatment for rows with `data-boss="true"`: a heavy rule, a "largest debt" label, colours from the theme's CSS variables (`themeToCssVars`), any pulse disabled under reduced motion by media query. `App` imports the stylesheet. No `theme.id` branch.
   - Tests: boss rows carry the label and the others do not; the label text is in the accessibility tree; with the stylesheet removed the rows still render (the hook is `data-boss`, not the styling); axe reports no violation.

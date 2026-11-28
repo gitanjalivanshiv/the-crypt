@@ -7,6 +7,7 @@ import { formatNumber, initialState, meterValue, outstanding, reducer, submitNot
 import type { CollectorAction, CollectorState } from "./state";
 import { ledger as ledgerTheme } from "./theme/ledger";
 import { useDrain } from "./useDrain";
+import "./boss.css";
 
 // Units of the figures the ledger shows (mirrors FIGURES and METRIC_UNITS in interest.py).
 const PRINCIPAL_UNIT = "lines";
@@ -30,6 +31,7 @@ function range(l: LedgerLine): string {
 function LedgerRow({ line, settled, onSettle }: { line: LedgerLine; settled: boolean; onSettle: () => void }) {
   return (
     <li data-boss={line.boss ? "true" : undefined} data-settled={settled ? "true" : undefined}>
+      {line.boss && <span className="boss-label">Largest debt</span>}
       <p>
         <strong>#{line.rank}</strong> <code>{range(line)}</code> <small>({line.finding_id})</small>
       </p>
