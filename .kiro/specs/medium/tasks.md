@@ -211,7 +211,7 @@ flowchart TD
     - Done when: `uv run pytest tests/independence` is green.
     - Model: Auto.
     - _Requirements: 8.1 to 8.5, 9.4_
-  - [ ] 7.2 CI jobs
+  - [-] 7.2 CI jobs
     - Subsystem: integration. Files (1): `.github/workflows/ci.yml`.
     - Add the Medium Python tests (default run, `live` and `network` excluded), the fourth contract through the existing `lint-imports` job, and `pnpm test` plus `pnpm build` for `medium/ui`. No job may call the provider. `verify-coverage` stays its own job with nothing depending on it.
     - Done when: a push runs every job and they pass.

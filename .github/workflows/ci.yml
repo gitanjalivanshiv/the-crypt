@@ -22,7 +22,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
       - run: uv sync
-      - run: uv run pytest -m "not network"
+      - run: uv run pytest -m "not network and not live"
+
+  # Medium app: provider, app and independence tests. `live` (real provider,
+  # needs ANTHROPIC_API_KEY) and `network` are excluded; no secret is passed.
+  medium-pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run pytest tests/providers tests/medium tests/independence -m "not network and not live"
 
   ruff:
     runs-on: ubuntu-latest
@@ -58,6 +68,25 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm test
+
+  medium-ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: medium/ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: medium/ui/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm build
 
   # Deferred from task 7.16: fail if generated TS types drift from the API schema.
   ts-types-drift:
