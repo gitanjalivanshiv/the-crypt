@@ -77,7 +77,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm test data` is green.
   - Model: Auto.
   - _Requirements: 6.5, 6.6, 6.7, 6.8_
-- [ ] 8. The screen (not cuttable)
+- [x] 8. The screen (not cuttable)
   - Subsystem: collector-ui. Files (3): `index.html`, `src/App.tsx`, `test/App.test.tsx`.
   - `index.html` mounts `App` from an inline module script. `App.tsx`: `ThemeProvider(ledger)` > `SoundProvider` > `CrtFrame` containing `Meter` (the debt meter), the ledger list (own markup: rank, `file:lines`, severity, principal, interest, `finding_id`, units, a "Mark settled" control, `data-boss` on boss rows, the escalation level and the coverage note), a "Serve notice" control, and `ChatPanel` for the notice (`result` unmodified, `licence` from the snapshot). Pending state, an `aria-live` error region, labelled keyboard-operable controls. No theme branching.
   - Tests: a fixture ledger renders every line with its numbers and units; settling lowers the meter and sends no request; the notice fixture with a verified claim, a guess, a banishment and a decline renders through `ChatPanel` with the banishment visibly struck; a failed notice shows its error code and leaves the ledger on screen; with the notice route rejecting, the ledger and meter still render (model down); `truncated` shows the coverage note; axe reports no violation.
