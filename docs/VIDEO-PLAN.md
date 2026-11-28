@@ -4,9 +4,9 @@ Hard constraints from the Official Rules: **under 3:00**, shows the project work
 device it was built for, uploaded to **YouTube and set to public**, no copyrighted music, in
 English. Submission closes **2026-12-04 14:00 PT**.
 
-Budget: **2:48 of content**, leaving 12s of margin. The script below is **335 words** of
-narration, which paces at 118 words per minute overall — comfortable, with the fastest shot
-(the close) at 150. Do not improvise past it; every second spent explaining is a second not
+Budget: **2:48 of content**, leaving 12s of margin. The script below is **319 words** of
+narration, pacing at 114 words per minute overall, with every shot between 90 and 135 —
+unhurried enough to sound deliberate rather than breathless, which matters for this tone. Do not improvise past it; every second spent explaining is a second not
 spent showing. Each shot's own pacing is checked, so if you cut words, cut time with them.
 
 ---
@@ -67,55 +67,75 @@ it is the truth.
 
 ## Shot list
 
+Tone: a séance held over a dying codebase, run by someone who does not trust the dead. Dry,
+not camp. The jokes land because the engineering underneath is serious — never the other
+way round. Say "banished" like it is a technical term, because it is.
+
 | # | Time | On screen | Narration |
 |---|---|---|---|
-| 1 | 0:00–0:12 | A terminal, then the struck-through claim with its reason | Ask any model about a codebase nobody understands and it will name files that don't exist. Confident, fluent, wrong. **This** is what my project does with that. |
-| 2 | 0:12–0:40 | The banishment, held still. Zoom the reason line. | The Crypt is a skeleton that reads a real repository and lets a haunted persona talk about it — truthfully. Every factual claim carries a citation: file, lines, quote. It's checked against the snapshot before it reaches the screen. I just fed it a citation that doesn't exist, on purpose. It's struck down, with the reason, and the retry is grounded. |
-| 3 | 0:40–1:06 | The Medium: ask a question, citations resolve, file tree sweeps | This is The Medium — the ghost of a legacy system. It answers from the code and possesses each file as it cites it. Numbers never come from the model: commit counts, staleness, severity are all computed in code and handed over as facts it may quote but not invent. |
-| 4 | 1:06–1:16 | The resurrection plan panel | Interview it long enough and it writes you a modernisation plan, every step cited. |
-| 5 | 1:16–1:44 | The Debt Collector ledger, scrolling. Highlight a boss fight. | Second app, same skeleton. A collector who itemises technical debt with interest. Three hundred lines ranked out of four hundred and ninety-five findings on real setuptools. The worst are boss fights. And this one needs no API key at all — with no provider configured it still ingests, analyses and ranks. Only the prose declines. |
-| 6 | 1:44–2:18 | `.kiro/specs/` tree, then a tasks.md with ticked boxes, then `git log` | All of it was built with Kiro, spec-first. Seven specs — requirements, design, tasks — a hundred and thirty-nine tasks, and a commit per task, so the history is the spec. Hooks run the tests and guard the `.kiro` folder. Five always-on steering files keep the grounding rule in every request. Signals are exposed over MCP. |
-| 7 | 2:18–2:34 | `docs/KIRO-USAGE.md` on the banishment-rate section | I also measured it. Forty-six claims, eighty-seven per cent verified. One metric band failed: it never fabricated enough to banish. I left the breach in rather than make the ghost worse so a number would read better. |
-| 8 | 2:34–2:48 | Two folders side by side, then the strike-through again | Two apps, one skeleton, and a test suite that fails if either app reaches inside it. A third persona needs a config, a theme, and a thin UI — and no change to the bones. |
+| 1 | 0:00–0:14 | Terminal, then the struck-through claim | Ask a machine about a codebase no living developer understands, and it will lie to you beautifully. It will name files that were never written. Watch what happens to one here. |
+| 2 | 0:14–0:42 | The banishment, held still. Zoom the reason line. | The Crypt holds a séance over a real repository. Every claim the ghost makes drags a citation behind it — file, lines, quote — checked against the corpse before you ever see it. I have just fed it a file that does not exist. The verifier catches the lie in mid-air and strikes it down. We call that a banishment. Then it tries again, grounded. |
+| 3 | 0:42–1:08 | Ask a question; citations resolve; the tree sweeps | Meet the Medium, the ghost of a legacy system, possessing one file at a time as it cites. It cannot invent a number. Commit counts, decay, severity — all computed in cold code and handed to the dead, who may quote them but never conjure them. |
+| 4 | 1:08–1:16 | The resurrection plan panel | Keep asking and it writes you a resurrection plan. Every step cited. |
+| 5 | 1:16–1:44 | The ledger, scrolling. Stop on a boss fight. | Second app, same skeleton. The Debt Collector reads your technical debt as a ledger, with interest. Three hundred debts ranked out of four hundred and ninety-five findings in real setuptools. The worst are boss fights. It needs no key and no model: the arithmetic of decay is entirely ours. |
+| 6 | 1:44–2:18 | `.kiro/specs/`, a ticked tasks.md, then `git log` | All of it raised with Kiro, spec first. Seven specs — requirements, design, tasks — a hundred and thirty-nine of them, and one commit per task, so the git history is the grimoire. Hooks run the tests and guard the dot-kiro folder. Steering keeps the grounding rule in every request. Signals served over MCP. |
+| 7 | 2:18–2:34 | `docs/KIRO-USAGE.md`, the measured section | I measured the haunting. Forty-six claims, eighty-seven per cent verified. One metric failed outright: the ghost never lied often enough to get banished. I left the failure in the report rather than teach it to lie. |
+| 8 | 2:34–2:48 | Two folders side by side, then the strike-through again | Two apps. One skeleton. A test suite that screams if either reaches into the bones. A third haunting needs a config, a theme and a thin UI — and nothing underneath moves. |
 
-## Commands, in recording order
+## The script, to read aloud
 
-Have all of this running and warm **before** you hit record. The setuptools clone takes
-about 20 seconds and you do not want it on camera.
+Record this as one pass if you can; the pauses between shots are where you breathe.
 
-```bash
-cd skeleton/ui-shell && pnpm install && pnpm build
-```
+> Ask a machine about a codebase no living developer understands, and it will lie to you
+> beautifully. It will name files that were never written. Watch what happens to one here.
+>
+> The Crypt holds a séance over a real repository. Every claim the ghost makes drags a
+> citation behind it — file, lines, quote — checked against the corpse before you ever see
+> it. **I have just fed it a file that does not exist.** The verifier catches the lie in
+> mid-air and strikes it down. We call that a banishment. Then it tries again, grounded.
+>
+> Meet the Medium, the ghost of a legacy system, possessing one file at a time as it cites.
+> It cannot invent a number. Commit counts, decay, severity — all computed in cold code and
+> handed to the dead, who may quote them but never conjure them.
+>
+> Keep asking and it writes you a resurrection plan. Every step cited.
+>
+> Second app, same skeleton. The Debt Collector reads your technical debt as a ledger, with
+> interest. Three hundred debts ranked out of four hundred and ninety-five findings in real
+> setuptools. The worst are boss fights. It needs no key and no model: the arithmetic of
+> decay is entirely ours.
+>
+> All of it raised with Kiro, spec first. Seven specs — requirements, design, tasks — a
+> hundred and thirty-nine of them, and one commit per task, so the git history is the
+> grimoire. Hooks run the tests and guard the dot-kiro folder. Steering keeps the grounding
+> rule in every request. Signals served over MCP.
+>
+> I measured the haunting. Forty-six claims, eighty-seven per cent verified. One metric
+> failed outright: the ghost never lied often enough to get banished. I left the failure in
+> the report rather than teach it to lie.
+>
+> Two apps. One skeleton. A test suite that screams if either reaches into the bones. A
+> third haunting needs a config, a theme and a thin UI — and nothing underneath moves.
 
-The scripted Medium, for shots 2 to 4 (no key needed):
+**The bolded line is not decoration.** It is the disclosure, and it has to be audible. Also
+put `scripted reply · live verifier` on screen during shot 2. Saying it plainly costs you
+nothing and buys the rest of the video its credibility; a judge who works out that the
+reply was scripted *after* you implied otherwise discounts everything else.
 
-```bash
-uv run python -m demo.banishment
-```
+Two lines carry the whole video, so land them: *"checked against the corpse before you ever
+see it"* and *"I left the failure in the report rather than teach it to lie."* The second is
+the one that distinguishes this from every other hackathon submission — it is an admission,
+and nobody else will make one.
 
-```bash
-cd medium/ui && pnpm dev
-```
+## Bringing it up
 
-```bash
-CRYPT_STORE=crypt-store uv run python -m debt-collector.main
-```
+Every command, with the output each one actually prints, is in
+[DEMO-RUNBOOK.md](DEMO-RUNBOOK.md) — including the pre-record checks that are easy to
+forget, chiefly turning reduced motion OFF, without which the possession sweep does not
+animate at all.
 
-```bash
-cd debt-collector/ui && pnpm dev
-```
-
-The Medium, if quota is alive:
-
-```bash
-GEMINI_API_KEY=... CRYPT_STORE=crypt-store uv run python -m medium.main
-```
-
-Check quota before you plan on it:
-
-```bash
-./scripts/gemini-quota.sh
-```
+Have all four terminals up and warm **before** you hit record. `demo.banishment` re-clones
+setuptools on every start, so bring it up once and leave it.
 
 ## Fallbacks
 
@@ -123,7 +143,7 @@ Check quota before you plan on it:
 |---|---|
 | Quota is alive | Record shots 3 and 4 live. Do the interview once off-camera first so you know the answers resolve; a 429 mid-take costs you a retake. |
 | Quota is dead | Shots 3 and 4 run on the scripted harness, same as shot 2. Say "scripted reply, real verifier" once, on camera. Do not hide it — a judge who spots it unannounced discounts everything else. |
-| Short on time | Cut shot 4 (the plan panel, 10s) and tighten shot 5 to 20s. Never cut shot 2 or shot 6: one is the thesis, the other is the category. |
+| Short on time | Cut shot 4 (the plan panel, 8s) and tighten shot 5 to 20s. Never cut shot 2 or shot 6: one is the thesis, the other is the category. |
 | A take runs long | Shot 6's narration compresses to "Seven specs, a commit per task, hooks, steering, MCP." Saves 12s. |
 
 ## Recording notes
