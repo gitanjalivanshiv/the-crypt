@@ -22,7 +22,7 @@ flowchart TD
 ```
 The limit of twelve forced one compromise (design D10). The three routes and the process entry share task 3, and the persona and the notice wording share task 2. Both stay inside three files each. Task 3 is the largest task here, and the order inside it is fixed: ledger, then plan, then entry, then notice.
 ## Tasks
-- [ ] 1. Interest and the figures registry (not cuttable)
+- [x] 1. Interest and the figures registry (not cuttable)
   - Subsystem: collector-core. Files (3): `debt-collector/interest.py`, `tests/debt_collector/test_interest.py`, `docs/KIRO-USAGE.md`.
   - `interest.py` per design §2: the frozen models (`LedgerLine`, `Coverage`, `Totals`, `Ledger`, `PlanSource`, `PlanEntry`, `PlanResult`), `price`, `build_ledger`, `build_plan`, `escalation_level`, `LEVELS`, `ESCALATION_CUTOFFS`, `BOSS_COUNT`, `METRIC_UNITS` and `FIGURES`. Constants carry their reasoning in comments. No clock, no random source, no I/O, no `skeleton` import except `skeleton.signals.models.Finding`. Relative imports only inside the folder.
   - `docs/KIRO-USAGE.md`: add SCR-6 and SCR-7 rows to the "Skeleton change requests" table, worded as in R8.3, with evidence "none yet" and blocked task "none (workaround in place)".
