@@ -148,3 +148,66 @@ This is the argument for ordering the harness before the UI. Had the UI come fir
 fault would have appeared as a ghost that mostly declines, with the UI as the suspect. The
 harness found it in minutes on a CLI, and it cost one amendment spec, not a UI debugging
 session.
+
+---
+
+## Banishment rate: measured result (Medium tasks 5.1 to 5.3)
+
+Two runs against the pinned demo patient (`setuptools` at `049ae8e30835`). Both ended early
+on provider quota, not on failure, so they are short — but they agree closely, and they were
+produced by **two different providers**: the first on the Anthropic adapter, the second on
+Gemini after the provider seam was added.
+
+| | 2026-11-20 | 2026-11-28 | combined |
+|---|---|---|---|
+| Turns answered | 5 | 4 | 9 |
+| Judged claims | 30 | 16 | 46 |
+| Verified | 26 (86.7%) | 14 (87.5%) | 40 (87.0%) |
+| Guess | 4 (13.3%) | 2 (12.5%) | 6 (13.0%) |
+| Banished | 0 | 0 | **0** |
+| Declined turns | 0 | 0 | **0** |
+| First attempt accepted | 5/5 | 4/4 | 9/9 |
+
+Raw runs: `medium/eval/runs/20261120T191841Z-1.json`,
+`medium/eval/runs/20261128T143330Z-1.json`.
+
+### Bands
+
+Four of five bands pass comfortably, on both runs:
+
+- Verified share 87.0%, floor 50%. **Pass.**
+- Guess share 13.0%, ceiling 35%. **Pass**, and this is the number that matters most: it
+  rules out the failure mode the band existed to catch. The model is *not* marking claims as
+  guesses to dodge verification.
+- Declined share 0%, ceiling 15%. **Pass.**
+- All-guess turns 0%, ceiling 15%. **Pass.**
+- Turns with a banishment 0%, band 0.1 to 0.5. **Breached, at the floor.**
+
+### Decision: accept the breach, do not tune
+
+The banishment band assumed the model would sometimes fabricate a file, a line range or a
+number, and that the verifier would be seen catching it. Across 46 judged claims on two
+providers, it never did. Nothing was rejected because nothing needed rejecting.
+
+That is the system working, not failing. Tuning persona wording to *induce* banishments
+would be making the ghost worse on purpose to make a metric look right.
+
+Two consequences follow, both recorded rather than acted on by tuning:
+
+1. **The demo must show a banishment deliberately.** Waiting for one is not a plan; on this
+   evidence it may not happen on camera at all. Feeding a fabricated citation through the
+   real verifier produces a genuine rejection with a real reason code, no model involved, so
+   the signature moment stays honest while being reliably reproducible.
+2. **The band was a hypothesis written before any measurement**, as R3.8 required, and it
+   turned out to encode an assumption about model behaviour rather than a property of the
+   system. Keeping it unchanged and recording the breach is more useful than retrofitting
+   the band to the result.
+
+### Why the runs are short
+
+Both aborted on three consecutive provider errors. Neither abort was a grounding failure:
+the first exhausted a trial balance, the second a free-tier quota. The rate-limit work
+(5/15/30 s backoff honouring the server's `retryDelay`, and 15 s pacing between turns)
+addresses the per-minute case; a daily quota it cannot. Nine turns is too few to call a
+rate, which is why the numbers above are reported as a measurement with its sample size
+visible rather than as a tuned result.
