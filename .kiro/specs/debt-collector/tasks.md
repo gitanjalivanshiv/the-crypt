@@ -38,7 +38,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `uv run pytest tests/debt_collector/test_voice.py` is green.
   - Model: Auto.
   - _Requirements: 2.1 to 2.8, 4.3_
-- [ ] 3. Ledger, plan and notice routes, and the process entry (not cuttable)
+- [x] 3. Ledger, plan and notice routes, and the process entry (not cuttable)
   - Subsystem: collector-api. Files (3): `debt-collector/api.py`, `debt-collector/main.py`, `tests/debt_collector/test_routes.py`.
   - `api.py`: `create_collector_app(store, llm, cfg=None)` and a router, per design §4 and §5.1. One helper opens `httpx.AsyncClient(transport=ASGITransport(app=request.app))`. `_read_findings` follows §4.1: detail, then unfiltered `limit=100`, then per-analyzer calls only when the first response was clamped. Order inside the task: ledger route, plan route, then notice route. A non-200 from the skeleton is returned with its status and body, and nothing partial. The notice returns the `/ask` bytes unchanged. `api.py` constructs no `AnswerResult`, `VerifiedClaim` or `Citation`.
   - `main.py`: `build_app(env, client_factory)` and `main()` per design §6, with `OfflineClient` and the `COLLECTOR_*` to `providers.select` translation. The only provider import is `providers.select`.
