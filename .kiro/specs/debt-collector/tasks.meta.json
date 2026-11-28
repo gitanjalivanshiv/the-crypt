@@ -12,6 +12,18 @@
         "chatSessionId": "sess_9717e02a-93b6-4b9d-b5f0-d7e82cf26076",
         "timestamp": 1795879273388
       }
+    ],
+    "2. Persona and notice wording (not cuttable)": [
+      {
+        "executionId": "d930125e-ba16-4385-877a-4b0f331f37d1",
+        "chatSessionId": "sess_75a0b61f-4f38-4e39-8170-bbdadd184ac8",
+        "timestamp": 1795879339013
+      },
+      {
+        "executionId": "d930125e-ba16-4385-877a-4b0f331f37d1",
+        "chatSessionId": "sess_75a0b61f-4f38-4e39-8170-bbdadd184ac8",
+        "timestamp": 1795879404922
+      }
     ]
   }
 }

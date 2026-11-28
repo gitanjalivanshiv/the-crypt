@@ -30,7 +30,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `uv run pytest tests/debt_collector/test_interest.py` is green and `uv run ruff check debt-collector tests/debt_collector` is clean.
   - Model: Auto.
   - _Requirements: 1.1 to 1.10, 5.2, 5.3, 8.3_
-- [ ] 2. Persona and notice wording (not cuttable)
+- [x] 2. Persona and notice wording (not cuttable)
   - Subsystem: collector-voice. Files (3): `debt-collector/personas/collector.toml`, `debt-collector/notice.py`, `tests/debt_collector/test_voice.py`.
   - The collector per design §3. Read `TOOL_NAMES` from `skeleton.mcp.contract` and choose `allowed_tools` from it. Wording must: tell the collector never to state a principal, an interest or a total (they are in the ledger); put every figure only in the `figures` list; say "I suspect" only when no tool result supports a statement; describe the register of `courtesy`, `reminder`, `demand` and `final` in words; aim menace at the code and time, never at maintainers. No digit in any text field.
   - `notice.py`: `NOTICE_TEMPLATE` and `notice_question(level)` per design §5.2. It raises `ValueError` for a word not in `LEVELS`.
