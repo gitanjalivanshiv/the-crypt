@@ -476,7 +476,7 @@ Groups 2 and 3 may be built before or after group 1 in calendar terms, but the p
     - Model: Auto.
     - _Requirements: 4.12, 4.13, 4.19, 3.7_
 
-- [ ] 6. API
+- [x] 6. API
 
   - [x] 6.1 API errors and models
     - Subsystem: api. Files (3): `skeleton/api/errors.py`, `skeleton/api/models.py`, `tests/api/test_errors.py`.
