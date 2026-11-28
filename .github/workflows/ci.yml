@@ -3,6 +3,11 @@ on:
   push:
   pull_request:
 
+# pnpm is pinned to 12 to match the version that generated and verified the three
+# lockfiles. Under 9, `allowBuilds` in each pnpm-workspace.yaml is an unknown key and
+# the file is read as a workspace manifest with no `packages`, which aborts every
+# `pnpm install` with "packages field missing or empty".
+
 jobs:
   # Disqualification guard. `.kiro` must be committed and not ignored: the hackathon
   # judges Kiro usage from it. This also runs as a Kiro hook and a git pre-commit hook,
@@ -68,7 +73,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 12
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -89,7 +94,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 12
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -116,7 +121,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 12
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -143,7 +148,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 12
       - uses: actions/setup-node@v4
         with:
           node-version: 22
