@@ -26,7 +26,7 @@ describe("ledger theme", () => {
     expect(ledger.effects.scanlines).toBeGreaterThan(0);
   });
 
-  it("declares no sounds yet", () => {
-    expect(ledger.sounds).toEqual({});
+  it("declares the settle, notice and banish cues", () => {
+    expect(Object.keys(ledger.sounds).sort()).toEqual(["banish", "notice", "settle"]);
   });
 });

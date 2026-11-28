@@ -4,7 +4,7 @@ import type { Theme } from "@kiroween/ui-shell";
  * The Debt Collector's theme: ink on paper, with a visible bezel and faint
  * scanlines so the ledger still reads as a screen. Data only, no component.
  * Palette is the shell's reference ledger palette (contrast-checked in
- * test/theme.test.ts). `sounds` is empty until the cuttable sound task.
+ * test/theme.test.ts). `sounds` holds the cues App names: settle, notice, banish.
  */
 export const ledger: Theme = {
   id: "ledger",
@@ -23,5 +23,12 @@ export const ledger: Theme = {
   },
   // glow drives the visible bezel; flicker stays 0 so figures hold still.
   effects: { glow: 0.4, scanlines: 0.15, flicker: 0 },
-  sounds: {},
+  sounds: {
+    settle: { kind: "tone", freq: 600, ms: 70, wave: "sine" },
+    notice: { kind: "tone", freq: 330, ms: 160, wave: "square" },
+    banish: { kind: "tone", freq: 200, ms: 200, wave: "triangle" },
+  },
 };
+
+/** The events App plays. Each must have a spec in `sounds` (checked in test/sound.test.tsx). */
+export const SOUND_EVENTS = ["settle", "notice", "banish"] as const;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChatPanel, CrtFrame, Meter, SoundProvider, ThemeProvider } from "@kiroween/ui-shell";
+import { ChatPanel, CrtFrame, Meter, SoundProvider, ThemeProvider, useSound } from "@kiroween/ui-shell";
 import { getLedger, getSnapshot, postNotice } from "./api";
 import type { Ledger, LedgerLine } from "./api";
 import { PlanPanel } from "./PlanPanel";
@@ -61,6 +61,19 @@ function CoverageNote({ ledger }: { ledger: Ledger }) {
 }
 
 export function App({ snapshotRef }: { snapshotRef?: string }) {
+  return (
+    <ThemeProvider theme={ledgerTheme}>
+      <SoundProvider sounds={ledgerTheme.sounds}>
+        <CrtFrame>
+          <Screen snapshotRef={snapshotRef} />
+        </CrtFrame>
+      </SoundProvider>
+    </ThemeProvider>
+  );
+}
+
+function Screen({ snapshotRef }: { snapshotRef?: string }) {
+  const { play } = useSound();
   const ref = snapshotRef ?? snapshotFromUrl();
   const [ledger, setLedger] = useState<Ledger | null>(null);
   const [licence, setLicence] = useState<string | null>(null);
@@ -88,6 +101,15 @@ export function App({ snapshotRef }: { snapshotRef?: string }) {
     };
   }, [ref]);
 
+  // The shell emits no sound by itself; name the events here.
+  const lastNotice = useRef<CollectorState["notice"]>(null);
+  useEffect(() => {
+    if (!state.notice || state.notice === lastNotice.current) return;
+    lastNotice.current = state.notice;
+    play("notice");
+    for (let i = 0; i < state.notice.banishments.length; i++) play("banish");
+  }, [state.notice, play]);
+
   const serve = () => {
     void submitNotice(() => stateRef.current, dispatch, () => postNotice(ref));
   };
@@ -95,9 +117,6 @@ export function App({ snapshotRef }: { snapshotRef?: string }) {
   const errorText = state.error ? `${state.error.code}: ${state.error.message}` : loadError;
 
   return (
-    <ThemeProvider theme={ledgerTheme}>
-      <SoundProvider sounds={ledgerTheme.sounds}>
-        <CrtFrame>
           <main>
             <h1>The Debt Collector</h1>
             <div role="alert" aria-live="assertive" data-testid="error-region">
@@ -128,7 +147,10 @@ export function App({ snapshotRef }: { snapshotRef?: string }) {
                       key={line.finding_id}
                       line={line}
                       settled={state.settled.has(line.finding_id)}
-                      onSettle={() => dispatch({ type: "settle", id: line.finding_id })}
+                      onSettle={() => {
+                        dispatch({ type: "settle", id: line.finding_id });
+                        play("settle");
+                      }}
                     />
                   ))}
                 </ol>
@@ -138,8 +160,5 @@ export function App({ snapshotRef }: { snapshotRef?: string }) {
             )}
             {state.notice && <ChatPanel result={state.notice} licence={licence} />}
           </main>
-        </CrtFrame>
-      </SoundProvider>
-    </ThemeProvider>
   );
 }

@@ -91,7 +91,7 @@ The limit of twelve forced one compromise (design D10). The three routes and the
   - Done when: `pnpm test PlanPanel` is green.
   - Model: Auto.
   - _Requirements: 5.2, 5.3, 6.8_
-- [ ] 10. Sound cues (CUTTABLE 3)
+- [x] 10. Sound cues (CUTTABLE 3)
   - Subsystem: collector-ui. Files (3): `src/theme/ledger.ts`, `src/App.tsx`, `test/sound.test.tsx`.
   - Read the shell's `SoundSpec` and `useSound` (`skeleton/ui-shell/src/sound/`). Add specs for `settle`, `notice` and `banish` to the theme's `sounds`. `App` calls `useSound().play(...)` on settling, on a received notice, and for each banishment in it. The shell emits no sound by itself, so the app names the events.
   - Tests: every event `App` plays has a spec in the theme; a muted provider plays nothing; the contrast and grep tests stay green.
