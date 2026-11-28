@@ -1,0 +1,70 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Dependency and containment": [
+      {
+        "executionId": "6421a1ad-0fa3-423e-a0c3-64070f2d2d6c",
+        "chatSessionId": "sess_0bb2a0d1-6d52-446e-a57f-e50aff7a7e3a",
+        "timestamp": 1795276867788
+      },
+      {
+        "executionId": "6421a1ad-0fa3-423e-a0c3-64070f2d2d6c",
+        "chatSessionId": "sess_0bb2a0d1-6d52-446e-a57f-e50aff7a7e3a",
+        "timestamp": 1795276934601
+      }
+    ],
+    "2. Schema sanitiser and request mapping": [
+      {
+        "executionId": "dd65635e-cf74-4560-8538-a4c0141abaec",
+        "chatSessionId": "sess_3e5b6261-4555-4f74-9faf-e81ae5087dab",
+        "timestamp": 1795276951190
+      },
+      {
+        "executionId": "dd65635e-cf74-4560-8538-a4c0141abaec",
+        "chatSessionId": "sess_3e5b6261-4555-4f74-9faf-e81ae5087dab",
+        "timestamp": 1795277079628
+      }
+    ],
+    "3. Response mapping and round trip": [
+      {
+        "executionId": "8a5cfa14-c803-46ab-b8cc-f6c7b6fd8ff4",
+        "chatSessionId": "sess_187062f3-c7cc-4e2d-ab82-fe791fac9fcb",
+        "timestamp": 1795277096254
+      },
+      {
+        "executionId": "8a5cfa14-c803-46ab-b8cc-f6c7b6fd8ff4",
+        "chatSessionId": "sess_187062f3-c7cc-4e2d-ab82-fe791fac9fcb",
+        "timestamp": 1795277178892
+      }
+    ],
+    "4. Client, retry carve-out and redaction": [
+      {
+        "executionId": "b2919bd9-4faf-4052-930a-11b1761867b2",
+        "chatSessionId": "sess_26231f78-3c0f-413e-8f7a-48da47221c20",
+        "timestamp": 1795277191160
+      },
+      {
+        "executionId": "b2919bd9-4faf-4052-930a-11b1761867b2",
+        "chatSessionId": "sess_26231f78-3c0f-413e-8f7a-48da47221c20",
+        "timestamp": 1795277370919
+      }
+    ],
+    "5. Selection and entry points": [
+      {
+        "executionId": "d2d58540-a4e9-45be-91c0-c24fc9329b49",
+        "chatSessionId": "sess_5e2d1e75-40eb-4af1-8528-81d439425be1",
+        "timestamp": 1795277545508
+      },
+      {
+        "executionId": "c487230a-2fb5-4a0d-a7be-b13c3ad52d40",
+        "chatSessionId": "sess_ae9ff3e5-aa91-4a56-b7ac-0c2c7a46e4dd",
+        "timestamp": 1795277568767
+      },
+      {
+        "executionId": "c487230a-2fb5-4a0d-a7be-b13c3ad52d40",
+        "chatSessionId": "sess_ae9ff3e5-aa91-4a56-b7ac-0c2c7a46e4dd",
+        "timestamp": 1795277713786
+      }
+    ]
+  }
+}

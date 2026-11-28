@@ -10,7 +10,6 @@ clone), so it is never collected by pytest; only its unit tests run by default.
 import argparse
 import dataclasses
 import json
-import os
 import sys
 import tempfile
 import tomllib
@@ -24,6 +23,7 @@ from fastapi.testclient import TestClient
 from medium.eval.metrics import Question, Report, breaches, compute, render
 from medium.plan import SECTION_QUESTIONS
 from providers.errors import ProviderError
+from providers.select import client_from_env, max_tokens_from_env, with_max_tokens
 from skeleton.api.app import ApiConfig, create_app
 from skeleton.personas.llm import LLMClient
 from skeleton.verify.models import AnswerResult
@@ -35,7 +35,6 @@ DEFAULT_RUNS_DIR = Path(__file__).resolve().parent / "runs"
 PATIENT_JSON = ROOT / "demo" / "patient.json"
 PERSONA = "ghost"
 MAX_CONSECUTIVE_PROVIDER_ERRORS = 3
-DEFAULT_MODEL = "claude-sonnet-5-5"
 
 EXIT_OK, EXIT_BREACH, EXIT_ABORT = 0, 1, 2
 
@@ -59,9 +58,7 @@ def _load_patient() -> dict[str, Any]:
 
 
 def _default_client() -> LLMClient:
-    from providers.anthropic_client import AnthropicClient  # live path only
-
-    return AnthropicClient.from_env(os.environ.get("MEDIUM_MODEL", DEFAULT_MODEL))
+    return client_from_env()
 
 
 def _provider_failed(r: AnswerResult) -> bool:
@@ -101,7 +98,9 @@ def main(
         questions = questions[: args.max_turns]
     patient = patient or _load_patient()
     out_dir = Path(out_dir) if out_dir is not None else DEFAULT_RUNS_DIR
-    llm = client if client is not None else _default_client()
+    llm = with_max_tokens(
+        client if client is not None else _default_client(), max_tokens_from_env()
+    )
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
 
     exit_code = EXIT_OK

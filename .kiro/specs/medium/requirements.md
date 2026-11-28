@@ -40,15 +40,15 @@ Out of scope:
 3. THE adapter SHALL translate `LLMRequest` into one provider call: `system`, `messages`, `tools` (`ToolSpec` to the provider's tool schema) and `max_tokens`.
 4. WHEN a `Message` has `role = "assistant"` and `tool_calls`, THE adapter SHALL emit the provider's tool-use blocks. WHEN consecutive `Message`s have `role = "tool"`, THE adapter SHALL merge them into one provider message of tool results, keyed by `tool_call_id`.
 5. THE adapter SHALL map the provider's response to `LLMResponse`: text blocks joined into `text`, tool-use blocks into `ToolCall` with the provider's call id preserved in `id`.
-6. THE adapter SHALL contain no retry logic. THE provider SDK's own automatic retries SHALL be disabled (zero), so the flow's one-regeneration rule (skeleton R4.12) is the only retry in the system.
+6. THE adapter SHALL contain no retry logic. THE provider SDK's own automatic retries SHALL be disabled (zero), so the flow's one-regeneration rule (skeleton R4.12) is the only retry of a model's output. **Carve-out (provider-gemini R4):** the Gemini adapter SHALL retry a call rejected with HTTP 429 or 503, because that is a deferred generation and not a failed one. It SHALL make at most 4 attempts, with exponential backoff, within 60 s, and no other status, timeout or error SHALL be retried. The Anthropic adapter has no such carve-out.
 7. THE adapter SHALL set an explicit per-call timeout. A call that exceeds it SHALL raise.
 8. WHEN the provider returns an error, a timeout, or a response truncated by `max_tokens`, THE adapter SHALL raise `providers.errors.ProviderError`. The flow already treats any exception from the generator as a failed attempt (skeleton R4.15), so the adapter SHALL NOT catch it further.
 9. THE text of a `ProviderError` SHALL contain the provider's error class name and HTTP status, if any, and SHALL NOT contain the API key, request headers, the prompt or the model's output.
-10. THE adapter SHALL read its API key only from the environment variable `ANTHROPIC_API_KEY`, in one named constructor (`from_env`). Its default constructor SHALL take the key as an argument. Nothing under `skeleton/` reads a key (skeleton R9.7).
+10. THE adapter SHALL read its API key only from its own environment variable (`ANTHROPIC_API_KEY` for the Anthropic adapter, `GEMINI_API_KEY` for the Gemini adapter), in one named constructor (`from_env`). Its default constructor SHALL take the key as an argument. Nothing under `skeleton/` reads a key (skeleton R9.7).
 11. THE adapter SHALL accept an injected SDK client, so tests run with no network and no key.
 12. THE API SHALL still receive the client by argument. Tests under `tests/` SHALL keep using `FakeLLMClient`. No file under `skeleton/` SHALL contain the adapter's module name or the provider's name.
 13. THE repo SHALL gain a **fourth** import-linter contract: `skeleton` must not import `providers`. The three existing contracts SHALL keep passing. A planted violation SHALL fail the lint, as the existing contracts are tested.
-14. ONE live test, marked `live` and excluded from the default run, SHALL make a real call with a one-tool request and assert a well-formed `LLMResponse`.
+14. ONE live test per adapter, marked `live` and excluded from the default run, SHALL make a real call with a one-tool request and assert a well-formed `LLMResponse`.
 
 ---
 

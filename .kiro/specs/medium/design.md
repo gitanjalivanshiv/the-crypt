@@ -61,6 +61,8 @@ class ProviderError(Exception): ...
 ```
 The default `sdk` is `anthropic.AsyncAnthropic(api_key=..., timeout=timeout_s, max_retries=0)`. **`max_retries=0` is load-bearing:** the SDK retries by default (twice), which would add a hidden retry layer under the flow's one regeneration and double the spend on a bad turn (R1.6).
 
+The Gemini adapter has one narrow carve-out for HTTP 429 and 503 (a deferred generation); see `.kiro/specs/provider-gemini/` R4 and the amended R1.6. `AnthropicClient` has no retry logic.
+
 ### 2.2 Mapping (`mapping.py`, pure, unit-tested without an SDK)
 | Skeleton | Anthropic Messages API |
 |---|---|

@@ -34,6 +34,7 @@ forbidden_modules =
     anthropic
     openai
     boto3
+    google
 allow_indirect_imports = True
 
 [importlinter:contract:no-providers]

@@ -75,6 +75,35 @@ def env(tmp_path: Path):
     }
 
 
+@pytest.fixture(autouse=True)
+def _provider(monkeypatch: pytest.MonkeyPatch) -> None:
+    """These tests state their provider: Gemini, the default, selected explicitly."""
+    monkeypatch.setenv("MEDIUM_PROVIDER", "gemini")
+
+
+@pytest.mark.parametrize(("provider", "expected"), [("gemini", 8192), ("anthropic", 4096)])
+def test_generator_requests_carry_per_provider_max_tokens(
+    env, monkeypatch: pytest.MonkeyPatch, provider: str, expected: int
+) -> None:
+    monkeypatch.setenv("MEDIUM_PROVIDER", provider)
+    client = _Repeat(GUESS)
+    _run(env, client, "--runs", "1", "--max-turns", "2")
+    assert client.requests
+    assert {r.max_tokens for r in client.requests} == {expected}
+
+
+def test_default_client_uses_selector(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("GEMINI_API_KEY", "g-key")
+    monkeypatch.setenv("MEDIUM_MODEL", "m-x")
+    client = runner._default_client()
+    assert type(client).__name__ == "GeminiClient"
+    assert client._model == "m-x"  # type: ignore[attr-defined]
+
+
+def test_no_module_level_default_model() -> None:
+    assert not hasattr(runner, "DEFAULT_MODEL")
+
+
 def _run(env, client, *argv, lines=None):
     sink = [] if lines is None else lines
     code = runner.main(list(argv), client=client, out=sink.append, **env)

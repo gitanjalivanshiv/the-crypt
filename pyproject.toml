@@ -12,6 +12,7 @@ dependencies = [
     "pydantic>=2",
     "tree-sitter>=0.26.1",
     "tree-sitter-python>=0.25.0",
+    "google-genai>=3.6.1",
 ]
 
 [dependency-groups]

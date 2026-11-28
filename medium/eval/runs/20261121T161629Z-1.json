@@ -1,0 +1,39 @@
+{
+  "run": 1,
+  "snapshot_id": "049ae8e3083514378aedb352a2017fbc306bd126",
+  "questions_file": "questions.toml",
+  "aborted": "3 consecutive provider errors",
+  "errors": [
+    {
+      "id": "churn-1",
+      "error": "ProviderError: every attempt failed with generator_error: ReadTimeout: ; ProviderError: ServerError status=504"
+    },
+    {
+      "id": "churn-2",
+      "error": "ProviderError: every attempt failed with generator_error: ReadTimeout: ; ProviderError: ServerError status=504"
+    },
+    {
+      "id": "stale-1",
+      "error": "ProviderError: every attempt failed with generator_error: ProviderError: ServerError status=504; ReadTimeout: "
+    }
+  ],
+  "results": [],
+  "report": {
+    "overall": {
+      "turns": 0,
+      "answered": 0,
+      "declined": 0,
+      "judged": 0,
+      "verified": 0,
+      "guess": 0,
+      "banished": 0,
+      "banished_by_reason": {},
+      "banished_turns": 0,
+      "all_guess_turns": 0,
+      "empty_answers": 0,
+      "first_attempt_accepted": 0
+    },
+    "by_category": {}
+  },
+  "breaches": []
+}

@@ -42,6 +42,8 @@ def test_import_contracts_hold() -> None:
         "import anthropic\n",
         "import openai\n",
         "import boto3\n",
+        "from google import genai\n",
+        "import google.genai\n",
     ],
 )
 def test_planted_violation_fails_lint(source: str) -> None:

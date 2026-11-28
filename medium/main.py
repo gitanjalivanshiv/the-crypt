@@ -1,4 +1,5 @@
 """Process entry: env -> client -> app -> uvicorn (medium design section 4)."""
+import functools
 import os
 from collections.abc import Callable, Mapping
 from pathlib import Path
@@ -7,22 +8,25 @@ import uvicorn
 from fastapi import FastAPI
 
 from medium.api import create_medium_app
-from providers.anthropic_client import AnthropicClient
+from providers.select import client_from_env, max_tokens_from_env, with_max_tokens
 from skeleton.personas.llm import LLMClient
 
-DEFAULT_MODEL = "claude-haiku-5-5"
 DEFAULT_STORE = "crypt-store"
 
-ClientFactory = Callable[[str], LLMClient]
+ClientFactory = Callable[[str | None], LLMClient]
 
 
 def build_app(
     env: Mapping[str, str] | None = None,
-    client_factory: ClientFactory = AnthropicClient.from_env,
+    client_factory: ClientFactory | None = None,
 ) -> FastAPI:
-    """Build the app. A missing ANTHROPIC_API_KEY raises ProviderError naming the variable."""
+    """Build the app. Provider and model come from ``env`` (MEDIUM_PROVIDER, MEDIUM_MODEL).
+
+    A missing provider key raises ProviderError naming the variable.
+    """
     env = os.environ if env is None else env
-    llm = client_factory(env.get("MEDIUM_MODEL") or DEFAULT_MODEL)
+    factory = client_factory or functools.partial(client_from_env, env=env)
+    llm = with_max_tokens(factory(env.get("MEDIUM_MODEL") or None), max_tokens_from_env(env))
     store = Path(env.get("CRYPT_STORE") or DEFAULT_STORE)
     return create_medium_app(store=store, llm=llm)
 
